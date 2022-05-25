@@ -1,0 +1,183 @@
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+.fadeInRight {
+  -webkit-animation-name: fadeInRight;
+  animation-name: fadeInRight;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(400px);
+  }
+
+  50% {
+    opacity: .3;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
+@keyframes backgroundImageScale {
+  from {
+    background-size: 100% 100%;
+  }
+
+  to {
+    background-size: 120% 120%;
+  }
+}
+
+.svg-icon {
+  &.heart {
+    color: #CCC;
+  }
+  &.heart-fill {
+    color: #ED5F5F;
+  }
+}
+
+.skeleton {
+  .active {
+    background: linear-gradient(90deg,rgba(190,190,190,.2) 25%,rgba(129,129,129,.24) 37%,rgba(190,190,190,.2) 63%);
+    background-size: 400% 100%;
+    animation: ant-skeleton-loading 1.4s ease infinite;
+  }
+  .cover {
+    width: 100%;
+    padding-bottom:100%;
+    background-color: @skeleton-color
+  }
+  .line {
+    height: 18px;
+    border-radius: 4px;
+    background-color: @skeleton-color
+  }
+  .avatar {
+    display: flex;
+    align-items: center;
+    >.logo {
+      margin-right: 10px;
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: @skeleton-color
+    }
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 2px solid @skeleton-color;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  -webkit-animation: rotation 1s linear infinite;
+  animation: rotation 1s linear infinite;
+  &-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    width: 100%;
+    height: 100%
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-bottom-color: #15ACFB;
+  }
+}
+
+.art-card {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(229, 232, 235);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  &:hover {
+    box-shadow: rgba(4, 17, 29, 0.25) 0px 0px 8px 0px;
+    transition: all 0.1s ease 0s;
+  }
+  .card-img {
+    position: relative;
+    width: 100%; /* The size you want */
+    margin: 0;
+    &:after {
+      content: "";
+      display: block;
+      padding-bottom: 100%; /* The padding depends on the width, not on the height, so with a padding-bottom of 100% you will get a square */
+    }
+    >img {
+      position: absolute; /* Take your picture out of the flow */
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0; /* Make the picture taking the size of it's parent */
+      width: 100%; /* This if for the object-fit */
+      height: 100%; /* This if for the object-fit */
+      object-fit: contain; /* Equivalent of the background-size: cover; of a background-image */
+      object-position: center;
+    }
+  }
+
+  .card-name {
+    background: linear-gradient(rgba(229, 232, 235, 0.392) 0%, rgb(255, 255, 255) 20%);
+    padding: 12px;
+    font-size: 18px;
+  }
+}
