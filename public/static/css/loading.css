@@ -1,0 +1,31 @@
+body {
+    /*background-color: #222;*/
+    /*background-color: rgba(17, 12, 39, 1);*/
+}
+
+.first-loading-wrp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+.first-loading-wrp img {
+    animation: loading-scale 2s infinite alternate;
+}
+/*
+ * Animation keyframes
+ * Use transition opacity instead of keyframes?
+ */
+@keyframes loading-scale {
+    0% {
+        transform: scale(0.3);
+    }
+    50% {
+        transform: scale(0.8);
+    }
+    100% {
+        transform: scale(0.3);
+    }
+}

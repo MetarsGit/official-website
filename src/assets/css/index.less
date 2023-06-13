@@ -1,0 +1,84 @@
+@import '~ant-design-vue/dist/antd.less';
+@import './reset.less';
+@import './antd.less';
+@import './ant.less';
+
+@vab-header-height: 78px;
+@vab-padding: 24px;
+@vab-margin: 0;
+
+.m-b-4 {
+    margin-bottom: 4px;
+}
+.m-b-8 {
+    margin-bottom: 8px;
+}
+.m-b-16 {
+    margin-bottom: 16px;
+}
+.m-b-24 {
+    margin-bottom: 24px;
+}
+
+:root {
+    --vab-sider-width: 250px;
+    --font-sm: 12px;
+    --font-base: 14px;
+    --font-md: 16px;
+    --font-lg: 18px;
+    --font-xl: 24px;
+    --font-xxl: 36px;
+    --font-xxxl: 42px;
+    --font-xxxxl: 54px;
+}
+
+.container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+@media (max-width: 576px) {
+    .container {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    :root {
+        --font-sm: 12px;
+        --font-base: 14px;
+        --font-md: 16px;
+        --font-lg: 18px;
+        --font-xl: 20px;
+        --font-xxl: 24px;
+        --font-xxxl: 30px;
+        --font-xxxxl: 46px;
+    }
+
+}
+@media (min-width: 576px) {
+    .container {
+        width: 540px;
+    }
+}
+@media (min-width: 768px) {
+    .container {
+        width: 740px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+@media (min-width: 1280px) {
+    .container {
+        width: 1220px;
+    }
+}
+@media (min-width: 1660px) {
+    .container {
+        width: 1370px;
+    }
+    :root{
+        --vab-sider-width: 276px;
+    }
+}
