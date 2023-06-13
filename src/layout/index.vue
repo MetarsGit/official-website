@@ -3,7 +3,7 @@
         <a-layout class="vab-layout">
             <a-layout-header class="vab-header" v-if="device === 'mobile'">
                 <a-row>
-                    <a-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+                    <a-col flex="auto">
                         <menu-unfold-outlined
                             v-if="collapse"
                             class="trigger"
@@ -22,7 +22,7 @@
             </a-layout-header>
             <a-layout-header v-if="device === 'desktop'">
                 <a-row class="container" align="middle">
-                    <a-col flex="158px">
+                    <a-col flex="160px">
                         <img
                             src="../assets/logo.png"
                             alt=""
@@ -170,6 +170,7 @@ export default {
         left: 0;
         height: 100vh;
         overflow: auto;
+        background-color: #FFFFFF;
         .vab-menu {
             border-right: none;
         }

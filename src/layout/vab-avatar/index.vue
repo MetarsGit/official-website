@@ -1,13 +1,13 @@
 <template>
     <div class="vab-avatar" :class="tabActive">
-        <div class="avatar-btn" v-if="showMetamaskWarning" @click="addMetamask">
+        <a-button type="primary" shape="round" v-if="showMetamaskWarning" @click="addMetamask">
             Add MetaMask
-        </div>
-        <div class="avatar-btn" v-else-if="!defaultAccount" @click="connect">
+        </a-button>
+        <a-button type="primary" shape="round" v-else-if="!defaultAccount" @click="connect">
             Connect Wallet
-        </div>
+        </a-button>
         <a-dropdown v-else overlayClassName="avatar-dropdown">
-            <div class="avatar-btn">
+            <a-button type="primary" ghost shape="round">
                 <span>
                     {{
                         defaultAccount.slice(0, 6) +
@@ -15,7 +15,7 @@
                         defaultAccount.slice(-5)
                     }}
                 </span>
-            </div>
+            </a-button>
             <template v-slot:overlay>
                 <a-menu>
                     <a-menu-item @click="logout">Disconnect</a-menu-item>
@@ -79,28 +79,13 @@
     .vab-avatar {
         display: flex;
         align-items: center;
-        .avatar-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 168px;
-            height: 38px;
-            line-height: 22px;
-            border: 1px solid #000000;
-            border-radius: 50px;
-            font-family: Inter-Semi Bold;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-            &:hover {
-                background: #efeff1;
+        .ant-btn {
+            width: 184px;
+            height: 48px;
+            font-family: Inter-Semi Bold, Inter;
+            &.ant-btn-background-ghost {
+                border-width: 2px;
             }
-        }
-        &.Statistics .avatar-btn {
-            border-color: #fff;
-        }
-        &.Statistics .avatar-btn:hover {
-            color: #000000;
         }
     }
     .avatar-dropdown {

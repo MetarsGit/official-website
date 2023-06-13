@@ -1,8 +1,5 @@
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
-/* Document
-   ========================================================================== */
-
 /**
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
@@ -13,14 +10,11 @@ html {
     -webkit-text-size-adjust: 100%;
 }
 
-/**
- * Remove the margin in all browsers.
- */
 
-@font-face {
-    font-family: Inter-Semi Bold;
-    src: url('../font/Inter-Bold-4.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
-}
+//@font-face {
+//    font-family: Inter-Semi Bold;
+//    src: url('../font/Inter-Bold-4.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
+//}
 
 @font-face {
     font-family: Inter-Semi Bold;
@@ -40,19 +34,28 @@ html {
 body {
     margin: 0;
     font-family: Inter-Regular, Inter;
-    font-size: var(--font-base);
 }
-
-/**
- * Render the `main` element consistently in IE.
- */
 
 main {
     display: block;
 }
 
-/* Grouping content
-   ========================================================================== */
+/**
+ * Remove the margin in all browsers.
+ */
+button,
+input,
+optgroup,
+ul,
+p,
+select,
+textarea {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+}
 
 /**
  * 1. Add the correct box sizing in Firefox.
@@ -163,25 +166,6 @@ img {
 
 /* Forms
    ========================================================================== */
-
-/**
- * 1. Change the font styles in all browsers.
- * 2. Remove the margin in Firefox and Safari.
- */
-
-button,
-input,
-optgroup,
-ul,
-p,
-select,
-textarea {
-    margin: 0;
-    padding: 0;
-    font-family: inherit;
-    font-size: 100%;
-    line-height: 1.15;
-}
 
 /**
  * Show the overflow in IE.

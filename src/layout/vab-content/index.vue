@@ -44,8 +44,8 @@
     }
 
     .vab-content {
-        min-height: calc(100vh - @vab-header-height - @vab-padding) !important;
-        padding: 0 @vab-padding;
+        min-height: calc(100vh - @vab-header-height) !important;
+        padding: 0;
         padding-bottom: 40px;
         margin: @vab-margin;
         background: #fff;
