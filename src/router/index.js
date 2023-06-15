@@ -21,8 +21,35 @@ export const asyncRoutes = [
         hidden: true
     },
     {
+        path: '/artList',
+        component: Layout,
+        children: [
+            {
+                path: '',
+                name: 'ArtList',
+                component: () => import('@/views/artList'),
+                meta: {
+                    title: 'Collaborative Artworks',
+                }
+            }
+        ]
+    },
+    {
+        path: '/inCreation',
+        component: Layout,
+        children: [
+            {
+                path: '',
+                name: 'InCreation',
+                component: () => import('@/views/inCreation'),
+                meta: {
+                    title: 'In Creation',
+                }
+            }
+        ]
+    },
+    {
         path: '/myArts',
-        name: 'MyArts',
         component: Layout,
         children: [
             {

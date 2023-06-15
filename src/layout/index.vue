@@ -100,8 +100,13 @@ export default {
             routeList: [
                 {
                     type: 'route',
-                    label: 'Home',
-                    key: 'Home'
+                    label: 'Collaborative Artworks',
+                    key: 'ArtList'
+                },
+                {
+                    type: 'route',
+                    label: 'In Creation',
+                    key: 'InCreation'
                 },
                 {
                     type: 'route',
@@ -190,15 +195,16 @@ export default {
             border-bottom: none;
             .ant-menu-item-selected {
                 color: inherit;
-                border-bottom: 2px solid transparent;
+                //border-bottom: 2px solid transparent;
             }
             .ant-menu-item {
-                margin: 0 24px;
+                margin: 0 10px;
                 font-family: Inter-Semi Bold, Inter;
-                &:hover,
                 &.active {
                     color: @primary-color;
-                    //border-bottom: 2px solid @primary-color;
+                    &::after {
+                        border-bottom:  2px solid @primary-color;
+                    }
                 }
             }
         }

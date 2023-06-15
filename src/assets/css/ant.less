@@ -14,13 +14,6 @@
     border-radius: 32px;
 }
 
-.ant-select {
-    &:not(.ant-select-customize-input) .ant-select-selector {
-        height: 36px;
-        border-radius: 8px;
-    }
-}
-
 .ant-modal-content {
     .ant-modal-header {
         .ant-modal-title {
@@ -34,15 +27,6 @@
     }
     .ant-modal-close {
         color: #ADB6C1;
-    }
-}
-
-.ant-form {
-    .ant-form-item {
-        .ant-select-selector {
-            height: 36px;
-            border-radius: 8px;
-        }
     }
 }
 
@@ -167,6 +151,14 @@ div.ant-typography {
     }
 }
 
+.ant-select-item {
+    padding: 10px 16px;
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: rgba(0,0,0,.8);
+    color: #FFFFFF;
+}
+
 .ant-input-affix-wrapper {
     .ant-input {
         background-color: initial;
@@ -187,20 +179,8 @@ div.ant-typography {
     }
 }
 
-.ant-steps-item-icon .ant-steps-icon {
-    .anticon {
-        font-size: 32px;
-    }
-}
-
 .ant-notification-notice-message {
     color: #000000;
-}
-
-.ant-select-dropdown {
-    .ant-select-item-option-content {
-        color: #333;
-    }
 }
 
 .ant-message {
