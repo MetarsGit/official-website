@@ -84,17 +84,14 @@ div.ant-typography {
 .ant-table{
     .ant-table-thead {
         > tr > th {
-            color: @text-color-secondary;
             border-bottom: none;
+            font-family: Inter-Semi Bold, Inter;
             &::before {
                 display: none !important;
             }
         }
     }
     .ant-table-tbody {
-        > tr:last-child > td {
-            border-bottom: none;
-        }
         > tr > td {
             border-bottom: 1px solid #f6f6f6;
         }
@@ -129,18 +126,8 @@ div.ant-typography {
     margin: 0;
 }
 
-.ant-pagination-item-active {
-    background: linear-gradient(142deg, #12B2FF 0%, #796EFA 100%);
-    border: none;
-    > a {
-        color: #FFFFFF;
-    }
-    &:hover {
-        opacity: .7;
-        >a {
-            color: #FFFFFF;
-        }
-    }
+.ant-table-pagination.ant-pagination {
+    margin: 32px 0;
 }
 
 .ant-select {

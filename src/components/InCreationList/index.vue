@@ -2,16 +2,84 @@
     <a-table
         :columns="columns"
         :data-source="list"
-        :pagination="false"
         :loading="loading"
+        :pagination="pagination"
+        @change="handleTableChange"
         class="inCreation-list"
-    ></a-table>
+    >
+        <template #bodyCell="{ column, record }">
+            <template v-if="column.dataIndex === 'creators'">
+                <div class="creators">
+                    <div
+                        v-for="addr in record.creators"
+                        :key="addr"
+                        class="addr"
+                    >
+                        {{ shortString(addr) }}
+                    </div>
+                </div>
+            </template>
+            <template v-if="column.dataIndex === 'retweets'">
+                <span>
+                    {{ converterNum(record.retweets) }}
+                </span>
+            </template>
+            <template v-if="column.dataIndex === 'progress'">
+                <a-progress
+                    type="circle"
+                    :percent="record.progress"
+                    strokeColor="#14171F"
+                    :strokeWidth="2"
+                    :width="54"
+                >
+                    <template #format="percent">
+                        <svg-icon
+                            icon-class="completed"
+                            class-name="completed"
+                            v-if="percent === 100"
+                        ></svg-icon>
+                        <svg-icon
+                            icon-class="progress"
+                            class-name="progress"
+                            v-else
+                        ></svg-icon>
+                    </template>
+                </a-progress>
+            </template>
+            <template v-if="column.dataIndex === 'readyMint'">
+                <div>
+                    <span v-if="record.readyMint">Yes</span>
+                    <span v-else>No</span>
+                </div>
+            </template>
+        </template>
+    </a-table>
 </template>
 
 <script>
     import { inCreationListColumns } from './config'
+    import { converterNum, shortString } from '@/utils'
+    import SvgIcon from '../common/SvgIcon/index.vue'
+
+    const list = []
+    for (let i = 0; i < 100; i++) {
+        list.push({
+            title: 'Name of the artwork',
+            retweets: 132,
+            creators: [
+                '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24',
+                '0x38c96f00d835942Dd72e5CEC3c88bd7Dc2825EA1',
+                '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24',
+                '0x38c96f00d835942Dd72e5CEC3c88bd7Dc2825EA1'
+            ],
+            progress: 100,
+            readyMint: true
+        })
+    }
+
     export default {
         name: 'index',
+        components: { SvgIcon },
         props: {
             // list: {
             //     type: Array,
@@ -30,31 +98,56 @@
         },
         data() {
             return {
-                list: [
-                    {
-                        title: 'Name of the artwork',
-                        retweets: '132',
-                        creators: [
-                            '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24'
-                        ],
-                        progress: 100,
-                        readyMint: true
-                    },
-                    {
-                        title: 'Name of the artwork',
-                        retweets: '132',
-                        creators: [
-                            '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24'
-                        ],
-                        progress: 80,
-                        readyMint: false
-                    }
-                ],
+                converterNum,
+                shortString,
+                page: 0,
+                pagination: {
+                    pageSize: 10,
+                    total: 0
+                },
+                list: list,
                 loading: false,
                 columns: inCreationListColumns
             }
+        },
+        methods: {
+            handleTableChange(pag) {
+                // console.log('======>', pag, filters, sorter)
+                this.page = pag.current - 1
+                this.pagination.pageSize = pag.pageSize
+                this.getArtList()
+            },
+            getArtList() {}
         }
     }
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+    .inCreation-list {
+        .creators {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 120px;
+            .addr {
+                padding: 2px 0;
+                line-height: 26px;
+                font-family: Inter-Regular, Inter;
+                font-weight: 400;
+                color: #6a57e3;
+            }
+        }
+        :deep(.ant-progress) {
+            .ant-progress-text {
+                .svg-icon.completed {
+                    font-size: 24px;
+                    color: #14171f;
+                }
+                .svg-icon.progress {
+                    font-size: 28px;
+                    color: #e5e7eb;
+                }
+            }
+        }
+    }
+</style>

@@ -5,6 +5,11 @@
         </div>
         <div class="list container">
             <in-creation-list></in-creation-list>
+            <div class="desc">
+                Everyday only the top 3 artworks that have the highest retweets
+                get the chance to be minted and claim the rewards. Once the
+                artwork is minted, it will be removed from this list.
+            </div>
         </div>
     </div>
 </template>
@@ -29,12 +34,15 @@
             background-size: 100% 100%;
             .slogan {
                 margin-top: -68px;
-                font-size: 48px;
                 font-family: Inter-Semi Bold, Inter;
+                font-size: 48px;
             }
         }
         .list {
             margin-top: -68px;
+            .desc {
+                color: #515151;
+            }
         }
     }
 </style>
