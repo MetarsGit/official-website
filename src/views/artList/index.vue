@@ -58,7 +58,7 @@
                         v-for="nft in 20"
                         :key="nft"
                     >
-                        <div class="item">
+                        <div class="card-item">
                             <div class="card-img">
                                 <a-image
                                     :preview="false"
@@ -163,49 +163,6 @@
         }
         .list {
             padding-top: 40px;
-            .item {
-                margin-bottom: 28px;
-                .desc {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-top: 12px;
-                    .name {
-                        font-family: Inter-Semi Bold, Inter;
-                    }
-                    .views {
-                        font-size: 14px;
-                        font-family: Inter-Light, Inter;
-                        font-weight: 300;
-                    }
-                }
-                .card-img {
-                    position: relative;
-                    width: 100%;
-                    margin: 0;
-                    &:after {
-                        display: block;
-                        padding-bottom: 100%;
-                        content: '';
-                    }
-                    :deep(.ant-image) {
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        bottom: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        .ant-image-img {
-                            width: 100%;
-                            height: 100%;
-                            object-fit: contain;
-                            object-position: center;
-                            border-radius: 16px;
-                        }
-                    }
-                }
-            }
         }
         .search-wrapper {
             margin: 0 auto;
