@@ -49,9 +49,8 @@ const actions = {
         const { defaultAccount } = rootState.web3
         const timestamp = Date.now()
         const msg =
-            'Welcome to Titan:' +
+            'Welcome:' +
             defaultAccount +
-            '\nThe signature is only used for login verification and modification of personal data.' +
             '\nTimestamp:' +
             timestamp
         const signature = await window.web3.eth.personal.sign(
@@ -65,7 +64,7 @@ const actions = {
         })
         const { token } = res.data
         setAccessToken(token)
-        dispatch('fetchUserInfo')
+        // dispatch('fetchUserInfo')
         return res
     },
     async updateGroupName({ commit }, name) {

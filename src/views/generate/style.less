@@ -1,0 +1,126 @@
+.page-generate {
+    .comp-step {
+        margin-top: 68px;
+    }
+    .section {
+        padding: 32px 0;
+        border-top: 1px solid #e5e7eb;
+        .title {
+            display: flex;
+            align-items: center;
+            height: 48px;
+            .label {
+                flex: 1;
+                font-size: 16px;
+                margin-left: 14px;
+                font-family: Inter-Semi Bold, Inter;
+                color: #14171f;
+            }
+            .icon-arrow {
+                width: 20px;
+                height: 20px;
+                background-size: 100%;
+                background-image: url(./img/icon-arrow.png);
+                transition: transform 0.1s;
+                &-down {
+                    transform: rotate(-180deg);
+                }
+            }
+            .icon {
+                width: 48px;
+                height: 48px;
+                background-size: 100%;
+                &-name {
+                    background-image: url('./img/icon-g-name.png');
+                }
+                &-text {
+                    background-image: url('./img/icon-g-text.png');
+                }
+                &-tweet {
+                    background-image: url('./img/icon-g-tweet.png');
+                }
+                &-signed {
+                    background-image: url('./img/icon-g-message.png');
+                }
+                &-img {
+                    background-image: url('./img/icon-g-img.png');
+                }
+                &-mint {
+                    background-image: url('./img/icon-g-mint.png');
+                }
+            }
+        }
+
+        .content {
+            margin-left: 64px;
+            margin-top: 9px;
+
+            .input {
+                margin-top: 6px;
+                display: block;
+                width: 100%;
+                height: 48px;
+                padding: 0 21px;
+                line-height: 46px;
+                border: 1px solid #d0d4dc;
+                border-radius: 4px;
+                font-size: 16px;
+                &-short {
+                    width: 50%;
+                }
+                &::placeholder {
+                    color: #9ba2b0;
+                }
+            }
+            .detail {
+                margin-top: 24px;
+                display: flex;
+                .note {
+                    flex: 1;
+                    color: #515151;
+                    font-size: 16px;
+                    line-height: 26px;
+                }
+                .share {
+                    flex: 1;
+                    color: #6a57e3;
+                    cursor: pointer;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+
+        .btn {
+            // flex: 0 0 150px;
+            // display: inline-block;
+            margin-left: 98px;
+            width: 150px;
+            height: 48px;
+            line-height: 48px;
+            background: #14171f;
+            border-radius: 60px;
+            text-align: center;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            &-submit {
+                width: 268px;
+                display: block;
+                margin: 0 auto;
+            }
+            &-disable {
+                background: #f2f4f7;
+                color: #9ba2b0;
+            }
+        }
+
+        .center-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+}

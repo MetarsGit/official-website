@@ -62,6 +62,21 @@ export const asyncRoutes = [
             }
         ]
     },
+    {
+        path: '/generate',
+        // name: 'Generate',
+        component: Layout,
+        children: [
+            {
+                path: '',
+                name: 'Generate',
+                component: () => import('@/views/generate'),
+                meta: {
+                    title: 'Generate Now',
+                }
+            }
+        ]
+    },
 ]
 
 export const constantRoutes = []
