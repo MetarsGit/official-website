@@ -1,89 +1,159 @@
 <template>
-    <div class="artList container">
-        <div class="title">Explore collaborative artworks.</div>
-        <div class="list-wrapper">
-            <div class="search-wrapper">
-                <a-row :gutter="12">
-                    <a-col :lg="18">
-                        <debounce-input
-                            placeholder="Search by name or creator address"
-                            @inputChange="inputChange"
-                            @keyup.enter="searchAll"
-                            @blur=""
-                        >
-                            <template v-slot:suffix>
-                                <svg-icon
-                                    icon-class="search"
-                                    class-name="search-icon"
-                                    @click="searchAll"
-                                ></svg-icon>
-                            </template>
-                        </debounce-input>
-                    </a-col>
-                    <a-col :lg="6">
-                        <a-select
-                            ref="select"
-                            v-model:value="selectKey"
-                            :disabled="loading"
-                            @change="selectChange"
-                        >
-                            <a-select-option
-                                v-for="item in selectConfig"
-                                :key="item.key"
-                                :value="item.key"
+    <div>
+        <div class="artList container">
+            <div class="title">Explore collaborative artworks.</div>
+            <div class="list-wrapper">
+                <div class="search-wrapper">
+                    <a-row :gutter="12">
+                        <a-col :lg="18">
+                            <debounce-input
+                                placeholder="Search by name or creator address"
+                                @inputChange="inputChange"
+                                @keyup.enter="searchAll"
+                                @blur=""
                             >
-                                {{ item.title }}
-                            </a-select-option>
-                        </a-select>
-                    </a-col>
-                </a-row>
-            </div>
-            <!--            <div class="search-desc">“Girls” artwork</div>-->
-            <div class="search-addr">
-                <div class="addr">
-                    0xa0aa93ac72d19588485E8E5a2348398fC32143B4
+                                <template v-slot:suffix>
+                                    <svg-icon
+                                        icon-class="search"
+                                        class-name="search-icon"
+                                        @click="searchAll"
+                                    ></svg-icon>
+                                </template>
+                            </debounce-input>
+                        </a-col>
+                        <a-col :lg="6">
+                            <a-select
+                                ref="select"
+                                v-model:value="selectKey"
+                                :disabled="loading"
+                                @change="selectChange"
+                            >
+                                <a-select-option
+                                    v-for="item in selectConfig"
+                                    :key="item.key"
+                                    :value="item.key"
+                                >
+                                    {{ item.title }}
+                                </a-select-option>
+                            </a-select>
+                        </a-col>
+                    </a-row>
                 </div>
-                <div>
-                    Created 19 virtual artworks and recevied a total of
-                    239,238,119 views
+                <!--            <div class="search-desc">“Girls” artwork</div>-->
+                <div class="search-addr">
+                    <div class="addr">
+                        0xa0aa93ac72d19588485E8E5a2348398fC32143B4
+                    </div>
+                    <div>
+                        Created 19 virtual artworks and recevied a total of
+                        239,238,119 views
+                    </div>
                 </div>
-            </div>
-            <div class="list">
-                <a-row :gutter="24">
-                    <a-col
-                        :lg="8"
-                        :md="8"
-                        :sm="12"
-                        :xs="12"
-                        v-for="nft in 20"
-                        :key="nft"
-                    >
-                        <div class="card-item">
-                            <div class="card-img">
-                                <a-image
-                                    :preview="false"
-                                    :src="'@/assets/img/nft.png'"
-                                    :fallback="
-                                        require(`@/assets/img/screenshot.png`)
-                                    "
-                                />
-                            </div>
-                            <div class="desc">
-                                <div class="name">
-                                    Name of the artwork collection
+                <div class="list">
+                    <a-row :gutter="24">
+                        <a-col
+                            :lg="8"
+                            :md="8"
+                            :sm="12"
+                            :xs="12"
+                            v-for="nft in 20"
+                            :key="nft"
+                        >
+                            <div class="card-item" @click="viewCard(nft)">
+                                <div class="card-img">
+                                    <a-image
+                                        :preview="false"
+                                        :src="'@/assets/img/nft.png'"
+                                        :fallback="
+                                            require(`@/assets/img/screenshot.png`)
+                                        "
+                                    />
                                 </div>
-                                <div class="views">938 Views</div>
+                                <div class="desc">
+                                    <div class="name">
+                                        Name of the artwork collection
+                                    </div>
+                                    <div class="views">938 Views</div>
+                                </div>
+                            </div>
+                        </a-col>
+                    </a-row>
+                </div>
+            </div>
+        </div>
+        <a-modal
+            v-model:visible="showDetail"
+            width="100%"
+            :footer="null"
+            wrap-class-name="art-modal"
+        >
+            <template #title>
+                <span>
+                    <img src="../../assets/logo.png" alt="" width="160" />
+                </span>
+            </template>
+            <div class="art-detail container">
+                <div class="header">Name of the artwork collection</div>
+                <a-row :gutter="126">
+                    <a-col :lg="6" :md="8" :sm="24" :xs="24">
+                        <div class="addr-container">
+                            <div class="title">In collaboration with</div>
+                            <a-row>
+                                <a-col
+                                    :lg="24"
+                                    :md="24"
+                                    :sm="12"
+                                    :xs="12"
+                                    class="addr"
+                                    v-for="i in 4"
+                                    :key="i"
+                                >
+                                    0xabcd...abcd
+                                </a-col>
+                            </a-row>
+                        </div>
+                    </a-col>
+                    <a-col :lg="12" :md="12" :sm="24" :xs="24">
+                        <div class="img-container">
+                            <div class="card-wrapper">
+                                <a-row>
+                                    <a-col
+                                        v-for="i in 4"
+                                        :key="i"
+                                        :lg="12"
+                                        :md="12"
+                                        :sm="12"
+                                        :xs="12"
+                                    >
+                                        <img
+                                            src="../../assets/img/nft.png"
+                                            alt=""
+                                            class="card"
+                                        />
+                                    </a-col>
+                                </a-row>
                             </div>
                         </div>
                     </a-col>
+                    <a-col :lg="6" :md="24" :sm="24" :xs="24">
+                        <a-row class="views-container">
+                            <a-col class="title" :lg="24">Views</a-col>
+                            <a-col class="amount" :lg="24">123,128,329</a-col>
+                        </a-row>
+                    </a-col>
                 </a-row>
+                <div class="footer">
+                    Minted at 2023-02-23 by tx
+                    <span style="color: #6a57e3">0x2b2ce...</span>
+                </div>
             </div>
-        </div>
+        </a-modal>
     </div>
 </template>
 
 <script>
     import DebounceInput from '@/components/common/DebounceInput'
+    import { queryArtSortAll } from '@/api'
     const selectConfig = [
         {
             title: 'Recently Created',
@@ -108,10 +178,14 @@
                 searchData: [],
                 searchKey: '',
                 selectConfig: selectConfig,
-                selectKey: selectConfig[0].key
+                selectKey: selectConfig[0].key,
+                showDetail: false
             }
         },
         methods: {
+            viewCard() {
+                this.showDetail = true
+            },
             selectChange(option) {
                 this.selectKey = option.key
                 this.searchArtList()
@@ -126,7 +200,7 @@
                     return
                 }
                 this.loading = true
-                const res = await searchCollections({
+                const res = await queryArtSortAll({
                     collectionName: this.searchKey
                 })
                 console.log(res)

@@ -43,3 +43,66 @@
         }
     }
 }
+
+.art-modal {
+    .ant-modal {
+        max-width: 100%;
+        top: 0;
+        padding-bottom: 0;
+        margin: 0;
+    }
+    .ant-modal-content {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh);
+    }
+    .ant-modal-header {
+        border-bottom: none;
+    }
+    .ant-modal-body {
+        flex: 1;
+    }
+    .ant-modal-close-x {
+        font-size: 22px;
+    }
+    .art-detail {
+        .header {
+            margin-bottom: 32px;
+            text-align: center;
+            font-size: 36px;
+        }
+        .footer {
+            text-align: center;
+        }
+        .addr-container {
+            text-align: right;
+            .title {
+                margin-bottom: 8px;
+                font-family: Inter-Semi Bold, Inter;
+            }
+            .addr {
+                padding: 8px 0;
+                color: #6A57E3;
+            }
+        }
+        .img-container {
+            .card-wrapper {
+                margin-bottom: 32px;
+                .card {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+        .views-container {
+            .title {
+                margin-bottom: 4px;
+                color: #9BA2B0;
+            }
+            .amount {
+                margin-bottom: 24px;
+                font-family: Inter-Semi Bold, Inter;
+            }
+        }
+    }
+}
