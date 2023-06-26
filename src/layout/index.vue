@@ -27,6 +27,7 @@
                             src="../assets/logo.png"
                             alt=""
                             style="width: 100%"
+                            @click="goHome"
                         />
                     </a-col>
                     <a-col flex="auto" class="vab-menu-container">
@@ -160,6 +161,11 @@
                 }
                 this.$router.push({
                     name: route.key
+                })
+            },
+            goHome() {
+                this.$router.push({
+                    name: 'Home'
                 })
             }
         }

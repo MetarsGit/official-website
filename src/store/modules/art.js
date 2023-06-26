@@ -40,13 +40,17 @@ const actions = {
         return signature
     },
 
-    fetchArtDetail({ state, commit }, init = false) {
+    fetchArtDetail({ state, commit, dispatch }, syncStatus = false) {
         let { artId } = state
         if (!artId) return
         return findArtInProgress({ artId }).then((res) => {
             console.log(res)
             if (res.code === 1) {
                 commit('setArtDetail', res.data)
+                // 同步展示状态（进入下一步）
+                if (syncStatus) {
+                    dispatch('synchronizeStatus')
+                }
             } else if (res.code === 112) { // 作品已创作完成
                 // 跳转详情页
             } else {
@@ -56,7 +60,6 @@ const actions = {
             // 报错
             console.log(err)
         })
-
     },
 
     async verifyTwitter({ state }, tweet) {

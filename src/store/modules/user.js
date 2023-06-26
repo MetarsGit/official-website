@@ -45,7 +45,7 @@ const mutations = {
     }
 }
 const actions = {
-    async sign({ rootState, dispatch }) {
+    async login({ rootState, dispatch }) {
         const { defaultAccount } = rootState.web3
         const timestamp = Date.now()
         const msg =

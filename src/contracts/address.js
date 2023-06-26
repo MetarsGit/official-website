@@ -1,7 +1,7 @@
 const CONTRACT_ADDRESS = {
     97: {
-        CyberHarborMembership: '0x40C6C4053200797632e684b2C36f820078390eA9',
-        ERC20: '0xbab3e627f40a03c345abf66dfa481d13784f6a9b'
+        CyberHarborMembership: '0xd5D3A9249bEf141CCA90d984FFf4668FcB2298eE',
+        ERC20: '0x694cE150151e413F840F2990Ce4C8a00AD533a62'
     },
     56: {
         CyberHarborMembership: '0x2C3c95c6cffA61F11De25C4D94e11535aadD0264',

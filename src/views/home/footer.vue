@@ -21,7 +21,7 @@
                 <li class="list-item">
                     <a
                         class="list-item-link"
-                        href="/Titan-Whitepaper.pdf"
+                        href="https://metars.gitbook.io/metars-white-paper/"
                         target="_blank"
                     >
                         Docs
@@ -32,7 +32,7 @@
         <div class="contact">
             <ul class="list">
                 <li class="item">
-                    <a href="">
+                    <a href="https://medium.com/@MetarsGenesis" target="_blank">
                         <img
                             class="img"
                             src="../../assets/img/home/a7-ic-medium@2x.png"
@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="item">
-                    <a href="">
+                    <a href="https://twitter.com/MetarsGenesis" target="_blank">
                         <img
                             class="img"
                             src="../../assets/img/home/a7-ic-tw@2x.png"
@@ -48,7 +48,7 @@
                     </a>
                 </li>
                 <li class="item">
-                    <a href="">
+                    <a href="https://t.me/MetarsGenesisGO" target="_blank">
                         <img
                             class="img"
                             src="../../assets/img/home/a7-ic-telegram@2x.png"
@@ -56,7 +56,7 @@
                     </a>
                 </li>
                 <li class="item">
-                    <a href="">
+                    <a href="mailto:hi@metars.io">
                         <img
                             class="img"
                             src="../../assets/img/home/a7-ic-em@2x.png"
@@ -65,10 +65,9 @@
                 </li>
             </ul>
         </div>
-        <div class="copyright">
-            © METARS. {{ year }}
-        </div>
+        <div class="copyright">© METARS. {{ year }}</div>
     </footer>
+    <a-back-top />
 </template>
 
 <script>
@@ -82,7 +81,7 @@
                     ?.scrollIntoView({ block: 'start', behavior: 'smooth' })
             }
         },
-        data(){
+        data() {
             return {
                 year: new Date().getFullYear()
             }
@@ -97,7 +96,7 @@
             justify-content: space-between;
             padding-top: 100px;
             padding-bottom: 64px;
-            border-bottom: 1px solid #E5E7EB;
+            border-bottom: 1px solid #e5e7eb;
             .logo {
                 width: 160px;
                 height: 40px;
@@ -137,10 +136,10 @@
                     border: 1px solid #14171f;
                     border-radius: 50%;
                     margin-right: 36px;
-                    &:last-child{
+                    &:last-child {
                         margin-right: 0;
                     }
-                    .img{
+                    .img {
                         position: absolute;
                         top: 50%;
                         left: 50%;
@@ -151,7 +150,7 @@
                 }
             }
         }
-        .copyright{
+        .copyright {
             font-size: 15px;
             text-align: center;
             padding-top: 50px;

@@ -66,11 +66,11 @@
             </div>
         </div>
 
-        <div class="a3"> 
+        <div class="a3" id="generative">
             <generative />
         </div>
 
-        <div class="a4">
+        <div class="a4" id="collective">
             <div class="container">
                 <a-row justify="space-between">
                     <a-col :lg="12">
@@ -169,7 +169,7 @@
             </div>
         </div>
 
-        <div class="a5">
+        <div class="a5" id="tokenomics">
             <div class="content container">
                 <p class="title">Tokenomics</p>
                 <p class="p1">
@@ -221,7 +221,7 @@
             </div>
         </div>
 
-        <div class="a6">
+        <div class="a6" id="roadmap">
             <p class="title">Roadmap</p>
             <div class="content container">
                 <ul class="list">
@@ -578,7 +578,7 @@
                         position: relative;
                         width: 390px;
                         line-height: 35px;
-                        &::before{
+                        &::before {
                             position: absolute;
                             left: -20px;
                             top: 16px;
@@ -588,9 +588,8 @@
                             height: 6px;
                             background: #fff;
                             border-radius: 50%;
-
                         }
-                        &-block{
+                        &-block {
                             width: 390px;
                         }
                     }
@@ -601,7 +600,7 @@
                         background-size: 100%;
                         // transform: ;
                     }
-                    &:nth-child(2n){
+                    &:nth-child(2n) {
                         flex-direction: row-reverse;
                     }
                 }

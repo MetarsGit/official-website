@@ -5,7 +5,7 @@ import Axios from './axios'
  * @param params
  * @returns {Promise<unknown>}
  */
-export function queryArtSortAll(params) {
+export function queryArtAll(params) {
     return Axios.get(`/api/collaborativeartwork/sort/all`, params)
 }
 
@@ -31,7 +31,7 @@ export function queryMyArtCompleted(params) {
     return Axios.get(`/api/myartwork/completed`, params)
 }
 
-export function queryMyArtInprogress(params) {
+export function queryMyArtInProgress(params) {
     return Axios.get(`/api/myartwork/inprogress`, params)
 }
 
@@ -52,8 +52,6 @@ export function login(params) {
     return Axios.post('/api/user/login', params)
 }
 
-
-
 // 获取recapture
 export async function getGrecaptchaToken(action) {
     return new Promise((resolve, reject) => {
@@ -62,10 +60,10 @@ export async function getGrecaptchaToken(action) {
                 .execute('6LfdowcbAAAAANHqnTEh2SOEE1PGcR3rTxEp_5r2', {
                     action
                 })
-                .then(token => {
+                .then((token) => {
                     resolve(token)
                 })
-                .catch(error => {
+                .catch((error) => {
                     reject(error)
                 })
         })
@@ -109,5 +107,3 @@ export function findNftImages(params) {
 export function verifyTwitter(params) {
     return Axios.post(`/api/twitter/verify`, params)
 }
-
-

@@ -11,13 +11,29 @@
             </div>
             <div class="navbar-collapse" :class="{ slideDown: navSlideDown }">
                 <ul class="list-inline">
-                    <li class="list-item" @click="scrollTarget('metars')">What is METARS</li>
-                    <li class="list-item" @click="scrollTarget('generative')">Generative AI x NFT</li>
-                    <li class="list-item" @click="scrollTarget('collective')">Collective Creation x Token</li>
-                    <li class="list-item" @click="scrollTarget('tokenomics')">Tokenomics</li>
-                    <li class="list-item" @click="scrollTarget('roadmap')">Roadmap</li>
+                    <li class="list-item" @click="scrollTarget('metars')">
+                        What is METARS
+                    </li>
+                    <li class="list-item" @click="scrollTarget('generative')">
+                        Generative AI x NFT
+                    </li>
+                    <li class="list-item" @click="scrollTarget('collective')">
+                        Collective Creation x Token
+                    </li>
+                    <li class="list-item" @click="scrollTarget('tokenomics')">
+                        Tokenomics
+                    </li>
+                    <li class="list-item" @click="scrollTarget('roadmap')">
+                        Roadmap
+                    </li>
                     <li class="list-item">
-                        <a class="list-item-link" href="/Titan-Whitepaper.pdf" target="_blank" >Docs</a>
+                        <a
+                            class="list-item-link"
+                            href="https://metars.gitbook.io/metars-white-paper/"
+                            target="_blank"
+                        >
+                            Docs
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -47,7 +63,7 @@
             },
             launchApp() {
                 this.$router.push('/generate')
-            },
+            }
         }
     }
 </script>
@@ -65,7 +81,6 @@
             height: 40px;
         }
         .navbar-cont {
-
         }
 
         .navbar-toggle {
@@ -79,7 +94,7 @@
         .list-inline {
             display: flex;
             align-items: center;
-            .list-item  {
+            .list-item {
                 cursor: pointer;
                 margin-right: 32px;
                 font-size: 16px;
@@ -157,7 +172,7 @@
                 .list-inline {
                     display: flex;
                     flex-direction: column;
-                    .list-item{
+                    .list-item {
                         padding: 6px 8px;
                         margin-right: 0;
                     }

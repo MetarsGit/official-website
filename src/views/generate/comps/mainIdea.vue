@@ -16,8 +16,13 @@
                             class="input input-short"
                             v-model="name"
                             type="text"
+                            :disabled="isComplete"
                         />
-                        <span class="btn" @click="updateProgress(1)">
+                        <span
+                            class="btn"
+                            @click="updateProgress(1)"
+                            v-if="!isComplete"
+                        >
                             Continue
                         </span>
                     </div>
@@ -40,6 +45,7 @@
                         v-model="mainIdea"
                         type="text"
                         placeholder="Please describe what the main subject of the art, be specific. (no more than 30 words)"
+                        :disabled="isComplete"
                     />
                     <div class="detail">
                         <div class="note">
@@ -58,7 +64,11 @@
                             and don't be afraid to use adjectives to visualize
                             the subject matter more clearly.
                         </div>
-                        <span class="btn" @click="updateProgress(2)">
+                        <span
+                            class="btn"
+                            @click="updateProgress(2)"
+                            v-if="!isComplete"
+                        >
                             Continue
                         </span>
                     </div>
@@ -78,15 +88,13 @@
                 <div class="content" v-show="show[2]">
                     <input
                         class="input"
-                        v-model="tweet"
+                        v-model="twitterUrl"
                         type="text"
                         placeholder="Tweet URL"
-                        :disabled="isVerifyed"
+                        :disabled="isVerifyed || isComplete"
                     />
-                    <div class="detail">
-                        <span class="share">
-                            Generate a tweet for me and I’ll share!
-                        </span>
+                    <div class="detail" v-if="!isComplete">
+                        <share-confirm />
                         <span
                             v-if="!isVerifyed"
                             class="btn"
@@ -98,7 +106,7 @@
                 </div>
             </div>
 
-            <div class="section" v-if="signedMessage">
+            <div class="section" v-if="isComplete">
                 <div class="title">
                     <i class="icon icon-signed"></i>
                     <span class="label">Signed message</span>
@@ -111,16 +119,13 @@
                 <div class="content" v-show="show[3]">
                     <div class="detail">
                         <div class="note">
-                            I will create a virutal art with prompts “a little
-                            girl with light brown short wavy curly hair and blue
-                            eyes floating in space” on METARS with my wallet
-                            address 994xyz
+                            {{ signedMessage }}
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="section">
+            <div class="section" v-if="!isComplete">
                 <span
                     :class="['btn', 'btn-submit', !canSubmit && 'btn-disable']"
                     @click="submit"
@@ -135,12 +140,16 @@
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
     import { submitArtMainIdea, getGrecaptchaToken } from '@/api'
+    import shareConfirm from './shareConfirm.vue'
     export default {
+        components: {
+            shareConfirm
+        },
         data() {
             return {
                 name: '',
                 mainIdea: '',
-                tweet: '',
+                twitterUrl: '',
                 signedMessage: '',
                 isVerifyed: false,
                 show: [true, false, false, false],
@@ -151,20 +160,37 @@
         computed: {
             ...mapState('art', ['artId']),
             ...mapState('web3', ['defaultAccount']),
-            ...mapGetters('art', ['verifyText']),
+            ...mapGetters('art', ['verifyText', 'displayStep', 'isComplete']),
             canSubmit() {
                 return (
                     this.name !== '' &&
                     this.mainIdea !== '' &&
-                    this.tweet !== '' &&
+                    this.twitterUrl !== '' &&
                     this.isVerifyed
                 )
+            }
+        },
+        watch: {
+            isComplete: {
+                immediate: true,
+                handler: function (newVal) {
+                    if (newVal) {
+                        console.log(this.displayStep)
+                        this.name = this.displayStep.name
+                        this.mainIdea = this.displayStep.mainIdea
+                        this.twitterUrl = this.displayStep.twitterUrl
+                        this.signedMessage = this.displayStep.signedMessage
+
+                        this.currProgress = this.show?.length - 1
+                        this.show = [true, true, true, true]
+                    }
+                }
             }
         },
         methods: {
             ...mapActions('art', ['verifyTwitter', 'sign', 'fetchArtDetail']),
 
-            // 更新创作进度
+            // 展开下一项 进行填写
             updateProgress(index) {
                 if (index === 1 && this.name === '') {
                     this.$message.warn('please input name')
@@ -185,13 +211,12 @@
             },
 
             verifyTweet() {
-                if (!this.tweet) {
+                if (!this.twitterUrl) {
                     this.$message.warn('please input tweet')
                     return
                 }
-                // api verify
                 this.loading = true
-                this.verifyTwitter(this.tweet)
+                this.verifyTwitter(this.twitterUrl)
                     .then((res) => {
                         if (res.code === 1) {
                             this.updateProgress(3)
@@ -218,7 +243,7 @@
                     name: this.name,
                     recaptchaToken,
                     signature,
-                    twitterUrl: this.tweet,
+                    twitterUrl: this.twitterUrl,
                     verifyText: this.verifyText
                 }
 
@@ -226,7 +251,16 @@
 
                 submitArtMainIdea(param)
                     .then((res) => {
+                        if (res.code === 1) {
+                            this.$message.success('submit success')
+                            this.fetchArtDetail()
+                        } else {
+                            this.$message.error('fail.')
+                        }
                         console.log(res)
+                    })
+                    .catch((err) => {
+                        console.log(err)
                     })
                     .finally(() => {
                         this.loading = false

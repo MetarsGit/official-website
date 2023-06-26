@@ -108,7 +108,7 @@
     import { ScrollTrigger } from 'gsap/ScrollTrigger'
     gsap.registerPlugin(ScrollTrigger)
     export default {
-        data(){
+        data() {
             return {
                 t1: null,
                 t2: null
@@ -117,8 +117,8 @@
         mounted() {
             setTimeout(() => {
                 this.setAnimation()
-            }, 1000);
-         
+            }, 1000)
+
             window.addEventListener('resize', this.setAnimation)
         },
 
@@ -133,7 +133,6 @@
                 this.t2?.invalidate()
                 ScrollTrigger.killAll()
 
-
                 const images = gsap.utils.toArray('.img-item')
                 images.forEach((_, index) => {
                     let idx = index + 1
@@ -146,42 +145,46 @@
                             scrub: true
                         }
                     })
-                    this.tl1.fromTo(
-                        `#detail-${idx}`,
-                        {
-                            autoAlpha: index === 0 ? 1 : 0.1
-                        },
-                        {
-                            autoAlpha: 1,
-                            ease: 'power3.out'
-                        }
-                    ).to(`#detail-${idx}`, {
-                        autoAlpha: 0.1,
-                        ease: 'power3.in'
-                    })
+                    this.tl1
+                        .fromTo(
+                            `#detail-${idx}`,
+                            {
+                                autoAlpha: index === 0 ? 1 : 0.1
+                            },
+                            {
+                                autoAlpha: 1,
+                                ease: 'power3.out'
+                            }
+                        )
+                        .to(`#detail-${idx}`, {
+                            autoAlpha: 0.1,
+                            ease: 'power3.in'
+                        })
 
                     // 左侧图片
                     this.tl2 = gsap.timeline({
                         scrollTrigger: {
                             trigger: `#detail-${idx}`,
-                            start: `top 500px`,
-                            end: `bottom 500px`,
+                            start: `top 600px`,
+                            end: `bottom 400px`,
                             scrub: true
                         }
                     })
-                    this.tl2.fromTo(
-                        `#img-${idx}`,
-                        {
-                            xPercent: index === 0 ? -50 : 150
-                        },
-                        {
-                            xPercent: -50,
-                            ease: 'power3.out'
-                        }
-                    ).to(`#img-${idx}`, {
-                        xPercent: index === images.length - 1 ? -50 : -200,
-                        ease: 'power3.in'
-                    })
+                    this.tl2
+                        .fromTo(
+                            `#img-${idx}`,
+                            {
+                                xPercent: index === 0 ? -50 : 150
+                            },
+                            {
+                                xPercent: -50,
+                                ease: 'power3.out'
+                            }
+                        )
+                        .to(`#img-${idx}`, {
+                            xPercent: index === images.length - 1 ? -50 : -200,
+                            ease: 'power3.in'
+                        })
                 })
 
                 // 固定slider

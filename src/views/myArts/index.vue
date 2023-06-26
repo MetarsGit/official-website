@@ -7,15 +7,15 @@
         </div>
         <a-row class="statistics container">
             <a-col class="item" :lg="8">
-                <div>123</div>
+                <div>{{ converterNum(stat.totalArtists) }}</div>
                 <span>My Artworks</span>
             </a-col>
             <a-col class="item" :lg="8">
-                <div>1023</div>
-                <span>Auto Layout Vertical</span>
+                <div>{{ converterNum(stat.totalViews) }}</div>
+                <span>Total Views of My Artworks</span>
             </a-col>
             <a-col class="item" :lg="7">
-                <div>Armed Girl</div>
+                <div>{{ stat.name || '--' }}</div>
                 <span>Most Viewed Artwork</span>
             </a-col>
         </a-row>
@@ -23,40 +23,51 @@
             <div class="title">My Artworks</div>
             <a-tabs v-model:activeKey="activeKey" @change="tabChange">
                 <a-tab-pane key="Completed" tab="Completed" force-render>
-                    <div class="list">
-                        <a-row :gutter="24">
-                            <a-col
-                                :lg="8"
-                                :md="8"
-                                :sm="12"
-                                :xs="12"
-                                v-for="nft in 20"
-                                :key="nft"
-                            >
-                                <div class="card-item">
-                                    <div class="card-img">
-                                        <a-image
-                                            :preview="false"
-                                            :src="'@/assets/img/nft.png'"
-                                            :fallback="
-                                                require(`@/assets/img/screenshot.png`)
-                                            "
-                                        />
-                                    </div>
-                                    <div class="desc">
-                                        <div class="name">
-                                            Name of the artwork collection
+                    <result
+                        :isLoading="completedListLoading"
+                        :isEmpty="!completedList.length"
+                    >
+                        <div class="list">
+                            <a-row :gutter="24">
+                                <a-col
+                                    :lg="8"
+                                    :md="8"
+                                    :sm="12"
+                                    :xs="12"
+                                    v-for="nft in completedList"
+                                    :key="nft.artId"
+                                >
+                                    <div class="card-item">
+                                        <div class="card-img">
+                                            <a-image
+                                                :preview="false"
+                                                :src="'@/assets/img/nft.png'"
+                                                :fallback="
+                                                    require(`@/assets/img/screenshot.png`)
+                                                "
+                                            />
                                         </div>
-                                        <div class="views">938 Views</div>
+                                        <div class="desc">
+                                            <div class="name">
+                                                {{ nft.name }}
+                                            </div>
+                                            <div class="views">
+                                                {{ nft.viewsCount }} Views
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </a-col>
-                        </a-row>
-                    </div>
+                                </a-col>
+                                <Observer @intersect="loadMore" />
+                            </a-row>
+                        </div>
+                    </result>
                 </a-tab-pane>
                 <a-tab-pane key="InProgress" tab="In Progress" force-render>
                     <div class="list container">
-                        <in-creation-list></in-creation-list>
+                        <in-creation-list
+                            :list="inProgressList"
+                            :isLoading="inProgressListLoading"
+                        ></in-creation-list>
                     </div>
                 </a-tab-pane>
             </a-tabs>
@@ -65,17 +76,109 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+    import eventBus from '@/utils/eventBus'
     import InCreationList from '@/components/InCreationList/index.vue'
+    import {
+        queryMyArtCompleted,
+        queryMyArtInProgress,
+        queryMyArtStat
+    } from '@/api'
+    import { converterNum } from '@/utils'
+    import Result from '@/components/Result.vue'
+    import Observer from '@/components/common/Observer'
+
     export default {
         name: 'index',
-        components: { InCreationList },
+        components: { Result, Observer, InCreationList },
         data() {
             return {
-                activeKey: 'Completed'
+                converterNum,
+                stat: {},
+                completedList: [],
+                inProgressList: [],
+                completedListLoading: false,
+                inProgressListLoading: false,
+                activeKey: 'Completed',
+                accountChangeEvent: null
             }
         },
+        created() {
+            this.getMyArtStat()
+            this.getMyArtList()
+            this.accountChangeEvent = eventBus.onEvent('accountChanged', () => {
+                this.getMyArtStat()
+                this.getMyArtList()
+            })
+        },
+        beforeRouteLeave(to, from, next) {
+            eventBus.offEvent('accountChanged', this.accountChangeEvent)
+            next()
+        },
+        computed: {
+            ...mapGetters({
+                defaultAccount: 'web3/defaultAccount'
+            })
+        },
         methods: {
-            tabChange(key) {}
+            loadMore() {},
+            async getMyArtList() {
+                if (this.activeKey === 'InProgress') {
+                    await this.getMyArtInProgress()
+                }
+                if (this.activeKey === 'Completed') {
+                    await this.getMyArtCompleted()
+                }
+            },
+            async getMyArtStat() {
+                if (!this.defaultAccount) {
+                    this.stat = {}
+                    return
+                }
+                const res = await queryMyArtStat({
+                    address: this.defaultAccount
+                })
+                if (res.code === 1) {
+                    this.stat = res.data || {}
+                }
+            },
+            async getMyArtInProgress() {
+                if (!this.defaultAccount) {
+                    this.inProgressList = []
+                    return
+                }
+                if (this.inProgressListLoading) {
+                    return
+                }
+                this.inProgressListLoading = true
+                const res = await queryMyArtInProgress({
+                    address: this.defaultAccount
+                })
+                this.inProgressListLoading = false
+                if (res.code === 1) {
+                    this.inProgressList = res.data
+                }
+            },
+            async getMyArtCompleted() {
+                if (!this.defaultAccount) {
+                    this.completedList = []
+                    return
+                }
+                if (this.completedListLoading) {
+                    return
+                }
+                this.completedListLoading = true
+                const res = await queryMyArtCompleted({
+                    address: this.defaultAccount
+                })
+                this.completedListLoading = false
+                if (res.code === 1) {
+                    this.completedList = res.data
+                }
+            },
+            tabChange() {
+                this.getMyArtList()
+            }
         }
     }
 </script>

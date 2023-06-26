@@ -1,8 +1,8 @@
 export const inCreationListColumns = [
     {
         title: 'Title',
-        dataIndex: 'title',
-        key: 'title'
+        dataIndex: 'name',
+        key: 'name'
     },
     {
         title: 'Retweets',

@@ -37,7 +37,9 @@
                 <div class="title">
                     <i class="icon icon-img"></i>
                     <span class="label">The final artwork</span>
-                    <span class="btn" @click="generateImage">Generate</span>
+                    <span class="btn" @click="generateImage" v-if="!isComplete">
+                        Generate
+                    </span>
                     <span class="btn" @click="loadImg">查图</span>
                 </div>
                 <div class="content">
@@ -65,7 +67,9 @@
                 <div class="title">
                     <i class="icon icon-mint"></i>
                     <span class="label">Mint & Claim</span>
-                    <span class="btn" @click="mint">Mint & Claim</span>
+                    <span class="btn" @click="onClickMint" v-if="!isComplete">
+                        Mint & Claim
+                    </span>
                 </div>
                 <div class="content">
                     <div class="detail">
@@ -78,6 +82,7 @@
                 </div>
             </div>
         </a-spin>
+        <mint-confirm v-model:isShow="isShowMintConfirm" />
     </div>
 </template>
 
@@ -89,33 +94,26 @@
         getGrecaptchaToken,
         queryCanMint
     } from '@/api'
+    import { defaultNetworkId } from '@/config/web3'
+    import MintConfirm from './mintConfirm.vue'
     export default {
+        components: { MintConfirm },
         data() {
             return {
-                // name: '',
-                // description: '',
-                imgs: [
-                    'https://test.a1pha.win/art/Nahida/4.png',
-                    'https://test.a1pha.win/art/Nahida/3.png',
-                    'https://test.a1pha.win/art/Nahida/1.png',
-                    'https://test.a1pha.win/art/Nahida/2.png'
-                ],
-                loading: false
+                imgs: [],
+                loading: false,
+                isShowMintConfirm: false,
+                isComplete: false
             }
         },
         computed: {
             ...mapState('art', ['artId', 'artInfo']),
-            ...mapState('web3', ['defaultAccount', 'displayStep']),
-            canSubmit() {
-                return (
-                    this.details !== '' && this.tweet !== '' && this.isVerifyed
-                )
-            },
+            ...mapState('web3', ['defaultAccount', 'contracts']),
             name() {
-                return this.artInfo.DETAILS.name
+                return this.artInfo.DETAILS?.name || ''
             },
             description() {
-                return this.artInfo.DETAILS.description
+                return this.artInfo.DETAILS?.description || ''
             }
         },
         methods: {
@@ -132,13 +130,44 @@
                 })
             },
 
-            mint() {
+            onClickMint() {
                 queryCanMint({ artId: this.artId }).then((res) => {
                     if (res.code === 1) {
                         if (res.data?.status) {
-                            // 满足条件
+                            let { artName, ownerList, v, r, s } = res.data
+                            try {
+                                console.log('contracts', this.contracts)
+                                this.contracts
+                                    .CyberHarborMembership(defaultNetworkId)
+                                    .methods.generateAndMint(
+                                        artName,
+                                        ownerList,
+                                        v,
+                                        r,
+                                        s
+                                    )
+                                    .send({ from: this.defaultAccount })
+                                    .then((res) => {
+                                        this.isShowMintConfirm = true
+                                        this.isComplete = true
+                                        console.log('mint res', res)
+                                    })
+                                    .catch((err) => {
+                                        console.log(err)
+                                        this.$message.error('fail')
+                                    })
+                            } catch (error) {
+                                console.log('err', error)
+                                if (error.code !== 4001) {
+                                    // 用户取消操作不提示
+                                    this.$message.error('fail')
+                                }
+                            }
                         } else {
                             // 不满足mint条件
+                            this.$message.error(
+                                res.data.message || 'not satisfy the conditions'
+                            )
                         }
                     }
                 })

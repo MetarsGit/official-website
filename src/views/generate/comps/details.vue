@@ -17,6 +17,7 @@
                         v-model="details"
                         type="text"
                         placeholder="Please input additional details about the subject, be specific. (no more than 20 words)"
+                        :disabled="isComplete"
                     />
                     <div class="detail">
                         <div class="note">
@@ -31,7 +32,11 @@
                             photorealistic , ultra photoreal , ultra detailed,
                             intricate details.
                         </div>
-                        <span class="btn" @click="updateProgress(1)">
+                        <span
+                            class="btn"
+                            @click="updateProgress(1)"
+                            v-if="!isComplete"
+                        >
                             Continue
                         </span>
                     </div>
@@ -51,17 +56,15 @@
                 <div class="content" v-show="show[1]">
                     <input
                         class="input"
-                        v-model="tweet"
+                        v-model="twitterUrl"
                         type="text"
                         placeholder="Tweet URL"
-                        :disabled="isVerifyed"
+                        :disabled="isVerifyed || isComplete"
                     />
-                    <div class="detail">
-                        <span class="share">
-                            Generate a tweet for me and I’ll share!
-                        </span>
+                    <div class="detail" v-if="!isComplete">
+                        <share-confirm />
                         <span
-                            v-if="!isVerifyed && !isComplete"
+                            v-if="!isVerifyed"
                             class="btn"
                             @click="verifyTweet"
                         >
@@ -84,10 +87,7 @@
                 <div class="content" v-show="show[2]">
                     <div class="detail">
                         <div class="note">
-                            I will create a virutal art with prompts “a little
-                            girl with light brown short wavy curly hair and blue
-                            eyes floating in space” on METARS with my wallet
-                            address 994xyz
+                            {{ signedMessage }}
                         </div>
                     </div>
                 </div>
@@ -106,13 +106,17 @@
 </template>
 
 <script>
-    import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+    import { mapState, mapGetters, mapActions } from 'vuex'
     import { submitArtDetails, getGrecaptchaToken } from '@/api'
+    import shareConfirm from './shareConfirm.vue'
     export default {
+        components: {
+            shareConfirm
+        },
         data() {
             return {
                 details: '',
-                tweet: '',
+                twitterUrl: '',
                 signedMessage: '',
                 isVerifyed: false,
                 show: [true, false, false],
@@ -126,19 +130,24 @@
             ...mapGetters('art', ['verifyText', 'displayStep', 'isComplete']),
             canSubmit() {
                 return (
-                    this.details !== '' && this.tweet !== '' && this.isVerifyed
+                    this.details !== '' &&
+                    this.twitterUrl !== '' &&
+                    this.isVerifyed
                 )
             }
         },
         watch: {
             isComplete: {
                 immediate: true,
-                handler: function (newVal, oldVal) {
+                handler: function (newVal) {
                     if (newVal) {
                         console.log(this.displayStep)
                         this.details = this.displayStep.details
-                        this.tweet = this.displayStep.twitterUrl
+                        this.twitterUrl = this.displayStep.twitterUrl
                         this.signedMessage = this.displayStep.signedMessage
+
+                        this.currProgress = this.show?.length - 1
+                        this.show = [true, true, true]
                     }
                 }
             }
@@ -146,7 +155,7 @@
         methods: {
             ...mapActions('art', ['verifyTwitter', 'sign', 'fetchArtDetail']),
 
-            // 更新创作进度
+            // 展开下一项 进行填写
             updateProgress(index) {
                 if (index === 1 && this.details === '') {
                     this.$message.warn('please input details')
@@ -163,13 +172,12 @@
             },
 
             verifyTweet() {
-                if (!this.tweet) {
+                if (!this.twitterUrl) {
                     this.$message.warn('please input tweet')
                     return
                 }
-                // api verify
                 this.loading = true
-                this.verifyTwitter(this.tweet)
+                this.verifyTwitter(this.twitterUrl)
                     .then((res) => {
                         if (res.code === 1) {
                             this.updateProgress(2)
@@ -193,7 +201,7 @@
                     details: this.details,
                     recaptchaToken,
                     signature,
-                    twitterUrl: this.tweet,
+                    twitterUrl: this.twitterUrl,
                     verifyText: this.verifyText
                 }
 
@@ -202,10 +210,15 @@
                 submitArtDetails(param)
                     .then((res) => {
                         if (res.code === 1) {
-                            console.log(res)
                             this.$message.success('submit success')
                             this.fetchArtDetail()
+                        } else {
+                            this.$message.error('fail.')
                         }
+                        console.log(res)
+                    })
+                    .catch((err) => {
+                        console.log(err)
                     })
                     .finally(() => {
                         this.loading = false

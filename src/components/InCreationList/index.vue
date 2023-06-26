@@ -2,7 +2,7 @@
     <a-table
         :columns="columns"
         :data-source="list"
-        :loading="loading"
+        :loading="isLoading"
         :pagination="pagination"
         @change="handleTableChange"
         class="inCreation-list"
@@ -11,7 +11,7 @@
             <template v-if="column.dataIndex === 'creators'">
                 <div class="creators">
                     <div
-                        v-for="addr in record.creators"
+                        v-for="addr in record.creatorList"
                         :key="addr"
                         class="addr"
                     >
@@ -21,7 +21,7 @@
             </template>
             <template v-if="column.dataIndex === 'retweets'">
                 <span>
-                    {{ converterNum(record.retweets) }}
+                    {{ converterNum(record.totalRetweetsCount) }}
                 </span>
             </template>
             <template v-if="column.dataIndex === 'progress'">
@@ -48,7 +48,7 @@
             </template>
             <template v-if="column.dataIndex === 'readyMint'">
                 <div>
-                    <span v-if="record.readyMint">Yes</span>
+                    <span v-if="record.ready">Yes</span>
                     <span v-else>No</span>
                 </div>
             </template>
@@ -64,16 +64,16 @@
     const list = []
     for (let i = 0; i < 100; i++) {
         list.push({
-            title: 'Name of the artwork',
-            retweets: 132,
-            creators: [
+            name: 'Name of the artwork',
+            totalRetweetsCount: 132,
+            creatorList: [
                 '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24',
                 '0x38c96f00d835942Dd72e5CEC3c88bd7Dc2825EA1',
                 '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24',
                 '0x38c96f00d835942Dd72e5CEC3c88bd7Dc2825EA1'
             ],
-            progress: 100,
-            readyMint: true
+            progress: 80,
+            ready: true
         })
     }
 
@@ -81,20 +81,14 @@
         name: 'index',
         components: { SvgIcon },
         props: {
-            // list: {
-            //     type: Array,
-            //     default: [
-            //         {
-            //             title: 'Name of the artwork',
-            //             retweets: '132',
-            //             creators: [
-            //                 '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24'
-            //             ],
-            //             progress: 80,
-            //             readyMint: true
-            //         }
-            //     ]
-            // }
+            isLoading: {
+                type: Boolean,
+                default: false
+            },
+            list: {
+                type: Array,
+                default: () => []
+            }
         },
         data() {
             return {
@@ -105,8 +99,8 @@
                     pageSize: 10,
                     total: 0
                 },
-                list: list,
-                loading: false,
+                // list: list,
+                // loading: false,
                 columns: inCreationListColumns
             }
         },

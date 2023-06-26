@@ -15,13 +15,14 @@
                 exciting world of crypto art!
             </div>
             <!-- <span class="btn-start" @click="login">Login</span> -->
-            <span class="btn-start" @click="start">Start</span>
+            <span class="btn-start" @click="start" v-if="!loading">Start</span>
+            <span class="btn-start btn-disable" v-else>Loading</span>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapGetters, mapState } from 'vuex'
+    import { mapGetters, mapState, mapActions, mapMutations } from 'vuex'
     import { getGrecaptchaToken, submitArtStart } from '@/api/index'
     import { getAccessToken } from '@/utils/accessToken'
     export default {
@@ -30,7 +31,14 @@
                 defaultAccount: 'web3/defaultAccount'
             })
         },
+        data() {
+            return {
+                loading: false
+            }
+        },
         methods: {
+            ...mapActions('art', ['fetchArtDetail']),
+            ...mapMutations('art', ['setArtId']),
             async start() {
                 let creatorAddress = this.defaultAccount
                 console.log('w', creatorAddress)
@@ -38,20 +46,38 @@
                 if (!creatorAddress) {
                     return
                 }
-  
+                this.loading = true
                 let recaptchaToken = await getGrecaptchaToken('start')
                 let param = {
                     creatorAddress,
                     recaptchaToken
                 }
                 console.log('recaptchaToken', recaptchaToken)
-                submitArtStart(param).then((res) => {
-                    console.log(res)
-                })
+
+                submitArtStart(param)
+                    .then((res) => {
+                        if (res?.code === 1) {
+                            this.setArtId(res?.data?.id)
+                            this.fetchArtDetail(true)
+                            this.$router.replace({
+                                query: {
+                                    id: res?.data?.id
+                                }
+                            })
+                        } else {
+                            this.$message.error('fail.')
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                    .finally(() => {
+                        this.loading = false
+                    })
             },
 
-            login(){
-                this.$store.dispatch('user/sign')
+            login() {
+                this.$store.dispatch('user/login')
             }
         }
     }
@@ -94,6 +120,11 @@
                 border-radius: 60px;
                 text-align: center;
                 cursor: pointer;
+            }
+            .btn-disable {
+                background: #f2f4f7;
+                color: #9ba2b0;
+                cursor: default;
             }
         }
     }

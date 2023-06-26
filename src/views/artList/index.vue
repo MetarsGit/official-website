@@ -6,20 +6,25 @@
                 <div class="search-wrapper">
                     <a-row :gutter="12">
                         <a-col :lg="18">
-                            <debounce-input
+                            <a-input
+                                v-model:value="searchKey"
                                 placeholder="Search by name or creator address"
-                                @inputChange="inputChange"
-                                @keyup.enter="searchAll"
-                                @blur=""
+                                @pressEnter="initArtList"
                             >
-                                <template v-slot:suffix>
+                                <template #suffix>
+                                    <svg-icon
+                                        v-if="searchKey"
+                                        icon-class="close"
+                                        class-name="close-icon"
+                                        @click="searchKey = ''"
+                                    ></svg-icon>
                                     <svg-icon
                                         icon-class="search"
                                         class-name="search-icon"
-                                        @click="searchAll"
+                                        @click="initArtList"
                                     ></svg-icon>
                                 </template>
-                            </debounce-input>
+                            </a-input>
                         </a-col>
                         <a-col :lg="6">
                             <a-select
@@ -40,45 +45,50 @@
                     </a-row>
                 </div>
                 <!--            <div class="search-desc">“Girls” artwork</div>-->
-                <div class="search-addr">
-                    <div class="addr">
-                        0xa0aa93ac72d19588485E8E5a2348398fC32143B4
-                    </div>
-                    <div>
-                        Created 19 virtual artworks and recevied a total of
-                        239,238,119 views
-                    </div>
-                </div>
-                <div class="list">
-                    <a-row :gutter="24">
-                        <a-col
-                            :lg="8"
-                            :md="8"
-                            :sm="12"
-                            :xs="12"
-                            v-for="nft in 20"
-                            :key="nft"
-                        >
-                            <div class="card-item" @click="viewCard(nft)">
-                                <div class="card-img">
-                                    <a-image
-                                        :preview="false"
-                                        :src="'@/assets/img/nft.png'"
-                                        :fallback="
-                                            require(`@/assets/img/screenshot.png`)
-                                        "
-                                    />
-                                </div>
-                                <div class="desc">
-                                    <div class="name">
-                                        Name of the artwork collection
+                <!--                <div class="search-addr">-->
+                <!--                    <div class="addr">-->
+                <!--                        0xa0aa93ac72d19588485E8E5a2348398fC32143B4-->
+                <!--                    </div>-->
+                <!--                    <div>-->
+                <!--                        Created 19 virtual artworks and recevied a total of-->
+                <!--                        239,238,119 views-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <result :isLoading="loading" :isEmpty="!artList.length">
+                    <div class="list">
+                        <a-row :gutter="24">
+                            <a-col
+                                :lg="8"
+                                :md="8"
+                                :sm="12"
+                                :xs="12"
+                                v-for="nft in artList"
+                                :key="nft.artId"
+                            >
+                                <div class="card-item" @click="viewCard(nft)">
+                                    <div class="card-img">
+                                        <a-image
+                                            :preview="false"
+                                            :src="'@/assets/img/nft.png'"
+                                            :fallback="
+                                                require(`@/assets/img/screenshot.png`)
+                                            "
+                                        />
                                     </div>
-                                    <div class="views">938 Views</div>
+                                    <div class="desc">
+                                        <div class="name">
+                                            {{ nft.name }}
+                                        </div>
+                                        <div class="views">
+                                            {{ nft.viewsCount }} Views
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a-col>
-                    </a-row>
-                </div>
+                            </a-col>
+                            <Observer @intersect="loadMore" />
+                        </a-row>
+                    </div>
+                </result>
             </div>
         </div>
         <a-modal
@@ -152,65 +162,87 @@
 </template>
 
 <script>
-    import DebounceInput from '@/components/common/DebounceInput'
-    import { queryArtSortAll } from '@/api'
+    import { queryArtAll } from '@/api'
+    import Observer from '@/components/common/Observer.vue'
+    import Result from '@/components/Result.vue'
     const selectConfig = [
         {
             title: 'Recently Created',
-            key: 'RecentlyCreated'
+            key: 'RECENTLY'
         },
         {
             title: 'Most Viewed',
-            key: 'MostViewed'
+            key: 'VIEWED'
         },
         {
             title: 'Oldest',
-            key: 'Oldest'
+            key: 'OLDEST'
         }
     ]
 
     export default {
         name: 'index',
-        components: { DebounceInput },
+        components: { Result, Observer },
         data() {
             return {
                 loading: false,
-                searchData: [],
+                artList: [],
+                page: 0,
+                pageSize: 12,
+                totalElements: 0,
                 searchKey: '',
-                selectConfig: selectConfig,
+                selectConfig,
                 selectKey: selectConfig[0].key,
                 showDetail: false
             }
         },
+        computed: {
+            totalPages() {
+                return Math.ceil(this.totalElements / this.pageSize)
+            }
+        },
+        created() {
+            this.initArtList()
+        },
         methods: {
-            viewCard() {
-                this.showDetail = true
+            async initArtList() {
+                this.page = 0
+                this.totalElements = 0
+                this.artList = []
+                this.loading = true
+                await this.getArtList()
+                this.loading = false
+            },
+            async getArtList() {
+                if (this.totalPages < this.page) {
+                    return
+                }
+                const res = await queryArtAll({
+                    page: this.page,
+                    size: this.pageSize,
+                    searchKey: this.searchKey,
+                    status: this.selectKey
+                })
+                console.log(res)
+                if (res.data) {
+                    this.totalElements = res.data.totalElements
+                    const list = res.data || []
+                    this.artList = this.artList.concat(list)
+                }
+            },
+            loadMore() {
+                if (this.totalPages <= this.page + 1) {
+                    return
+                }
+                this.page = this.page + 1
+                this.getArtList()
             },
             selectChange(option) {
                 this.selectKey = option.key
-                this.searchArtList()
+                this.initArtList()
             },
-            searchArtList() {},
-            inputChange(value) {
-                this.searchKey = value
-                this.searchAll()
-            },
-            async searchAll() {
-                if (this.searchKey.length < 3) {
-                    return
-                }
-                this.loading = true
-                const res = await queryArtSortAll({
-                    collectionName: this.searchKey
-                })
-                console.log(res)
-                if (!res.data) {
-                    return
-                }
-                this.searchData = res.data
-                setTimeout(() => {
-                    this.loading = false
-                })
+            viewCard() {
+                this.showDetail = true
             }
         }
     }
@@ -255,9 +287,14 @@
                 height: 48px;
                 padding: 6px 20px;
                 border-radius: 38px;
+                .close-icon {
+                    margin-right: 24px;
+                    font-size: 14px;
+                    cursor: pointer;
+                }
                 .search-icon {
                     cursor: pointer;
-                    font-size: 18px;
+                    font-size: 16px;
                     color: @primary-color;
                 }
             }
