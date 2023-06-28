@@ -7,7 +7,9 @@ function showError(_tip) {
 }
 
 const whiteListCodes = {
-    106: 'Please Login'
+    106: 'Please Login',
+    111: 'The artwork is generating',
+    // 112: 'The current work has been completed, please jump to the artwork details page.'
 }
 
 const service = Axios.create({

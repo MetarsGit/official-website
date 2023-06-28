@@ -1,65 +1,75 @@
 <template>
     <div class="comp-details comp-step">
-        <a-spin :spinning="loading">
-            <div class="section">
-                <div class="title">
-                    <i class="icon icon-name"></i>
-                    <span class="label">Name of artwork</span>
-                </div>
-                <div class="content">
-                    <div class="center-wrap">
-                        <input
-                            class="input input-short"
-                            v-model="name"
-                            disabled
-                            type="text"
-                        />
-                    </div>
-                </div>
+        <div class="section">
+            <div class="title">
+                <i class="icon icon-name"></i>
+                <span class="label">Name of artwork</span>
             </div>
-
-            <div class="section">
-                <div class="title">
-                    <i class="icon icon-text"></i>
-                    <span class="label">Description of the artwork</span>
-                </div>
-                <div class="content">
+            <div class="content">
+                <div class="center-wrap">
                     <input
-                        class="input"
-                        v-model="description"
-                        type="text"
+                        class="input input-short"
+                        v-model="name"
                         disabled
+                        type="text"
                     />
                 </div>
             </div>
+        </div>
 
+        <div class="section">
+            <div class="title">
+                <i class="icon icon-text"></i>
+                <span class="label">Description of the artwork</span>
+            </div>
+            <div class="content">
+                <input
+                    class="input"
+                    v-model="description"
+                    type="text"
+                    disabled
+                />
+            </div>
+        </div>
+        <a-spin :spinning="loading">
             <div class="section">
                 <div class="title">
                     <i class="icon icon-img"></i>
                     <span class="label">The final artwork</span>
-                    <span class="btn" @click="generateImage" v-if="!isComplete">
+                    <span
+                        class="btn"
+                        @click="generateImage"
+                        v-if="!isGenerated"
+                    >
                         Generate
                     </span>
-                    <span class="btn" @click="loadImg">查图</span>
                 </div>
                 <div class="content">
-                    <div class="detail" v-if="!imgs.length">
+                    <div class="detail" v-if="!isGenerated">
                         <div class="note">
                             The creators of a virtual artwork received a total
-                            of 193 retweets, as their creation is gaining
-                            popularity and attention these days. Would you like
-                            to generate and finalize the virtual artwork using
-                            above description?
+                            of {{ totalRetweetsCount }} retweets, as their
+                            creation is gaining popularity and attention these
+                            days. Would you like to generate and finalize the
+                            virtual artwork using above description?
                         </div>
                     </div>
-                    <div class="img-list" v-else>
-                        <img
-                            class="img-item"
-                            :src="item"
-                            v-for="item in imgs"
-                            :key="item"
-                        />
-                    </div>
+
+                    <a-spin :spinning="!imgs.length" v-else>
+                        <div
+                            :class="{
+                                'img-list': true,
+                                'img-list-bg': !imgs.length
+                            }"
+                        >
+                            <img
+                                class="img-item"
+                                v-for="item in imgs"
+                                :src="item"
+                                :key="item"
+                            />
+                        </div>
+                    </a-spin>
                 </div>
             </div>
 
@@ -67,7 +77,7 @@
                 <div class="title">
                     <i class="icon icon-mint"></i>
                     <span class="label">Mint & Claim</span>
-                    <span class="btn" @click="onClickMint" v-if="!isComplete">
+                    <span class="btn" @click="onClickMint" v-if="!isMinted">
                         Mint & Claim
                     </span>
                 </div>
@@ -103,7 +113,9 @@
                 imgs: [],
                 loading: false,
                 isShowMintConfirm: false,
-                isComplete: false
+                isGenerated: false,
+                loadingImg: false,
+                isMinted: false
             }
         },
         computed: {
@@ -114,29 +126,49 @@
             },
             description() {
                 return this.artInfo.DETAILS?.description || ''
+            },
+            totalRetweetsCount() {
+                return this.artInfo.totalRetweetsCount
             }
+        },
+        created() {
+            this.loadImg(false)
         },
         methods: {
             ...mapActions('art', ['sign', 'fetchArtDetail']),
 
+            // 生成图片
             async generateImage() {
+                this.loading = true
                 let recaptchaToken = await getGrecaptchaToken('generate')
                 let param = {
                     artId: this.artId,
                     recaptchaToken
                 }
-                generateImage(param).then((res) => {
-                    console.log(res)
-                })
+                generateImage(param)
+                    .then((res) => {
+                        if (res.code === 1) {
+                            this.isGenerated = true
+                            this.$message.success('generate success!')
+                            this.loadImg()
+                        } else if (res.code === 106) {
+                            this.$message.error('please login and try again!')
+                            this.$store.dispatch('user/login')
+                        }
+                    })
+                    .finally(() => {
+                        this.loading = false
+                    })
             },
 
+            // 点击mint 1)查看是否满足mint条件; 2)mint
             onClickMint() {
-                queryCanMint({ artId: this.artId }).then((res) => {
-                    if (res.code === 1) {
-                        if (res.data?.status) {
-                            let { artName, ownerList, v, r, s } = res.data
-                            try {
-                                console.log('contracts', this.contracts)
+                this.loading = true
+                queryCanMint({ artId: this.artId })
+                    .then((res) => {
+                        if (res.code === 1) {
+                            if (res.data?.status) {
+                                let { artName, ownerList, v, r, s } = res.data
                                 this.contracts
                                     .CyberHarborMembership(defaultNetworkId)
                                     .methods.generateAndMint(
@@ -149,34 +181,47 @@
                                     .send({ from: this.defaultAccount })
                                     .then((res) => {
                                         this.isShowMintConfirm = true
-                                        this.isComplete = true
+                                        this.isMinted = true
                                         console.log('mint res', res)
                                     })
                                     .catch((err) => {
                                         console.log(err)
                                         this.$message.error('fail')
                                     })
-                            } catch (error) {
-                                console.log('err', error)
-                                if (error.code !== 4001) {
-                                    // 用户取消操作不提示
-                                    this.$message.error('fail')
-                                }
+                                    .finally(() => {
+                                        this.loading = false
+                                    })
+                            } else {
+                                // 不满足mint条件
+                                this.$message.error(
+                                    res.data.message ||
+                                        'not satisfy the conditions'
+                                )
                             }
                         } else {
-                            // 不满足mint条件
-                            this.$message.error(
-                                res.data.message || 'not satisfy the conditions'
-                            )
+                            this.loading = false
                         }
-                    }
-                })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        this.loading = false
+                    })
             },
 
-            loadImg() {
+            // once:true 之请求一次  默认轮询
+            loadImg(loop = true) {
+                this.loadingImg = true
                 findNftImages({ artId: this.artId }).then((res) => {
                     if (res.code === 1) {
                         this.imgs = res.data?.pictures || []
+                        this.loadingImg = false
+                        this.isGenerated = true
+                    } else if (res.code === 111) {
+                        if (loop) {
+                            setTimeout(() => {
+                                this.loadImg()
+                            }, 5000)
+                        }
                     }
                 })
             }
@@ -187,6 +232,13 @@
 <style lang="less" scoped>
     .comp-details {
         .img-list {
+            background-image: url(../../../assets/img/screenshot.png);
+            background-repeat: repeat;
+            background-size: 25%;
+            &-bg {
+                padding-top: 12.5%;
+                padding-bottom: 12.5%;
+            }
             .img-item {
                 display: inline-block;
                 width: 25%;

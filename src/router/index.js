@@ -64,7 +64,6 @@ export const asyncRoutes = [
     },
     {
         path: '/generate',
-        // name: 'Generate',
         component: Layout,
         children: [
             {

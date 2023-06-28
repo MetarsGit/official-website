@@ -1,30 +1,29 @@
 <template>
-    <div class="comp-start">
-        <img class="img" src="../img/start-img.png" />
-        <div class="detail">
-            <p class="title">GM</p>
-            <div class="desc">
-                Welcome to METARS, the NFT creation platform that makes it easy
-                for you to create and share your unique virtual art on the
-                blockchain. Whether you are an artist, collector, or enthusiast,
-                METARS offers you an opportunity to create stunning graph NFTs
-                without any technical knowledge or prior experience. We are
-                thrilled to have you join our community and can't wait to see
-                the amazing creations you come up with. So come on in, let your
-                imagination run wild, and let METARS be your gateway to the
-                exciting world of crypto art!
+    <a-spin :spinning="loading">
+        <div class="comp-start">
+            <img class="img" src="../img/start-img.png" />
+            <div class="detail">
+                <p class="title">GM</p>
+                <div class="desc">
+                    Welcome to METARS, the NFT creation platform that makes it
+                    easy for you to create and share your unique virtual art on
+                    the blockchain. Whether you are an artist, collector, or
+                    enthusiast, METARS offers you an opportunity to create
+                    stunning graph NFTs without any technical knowledge or prior
+                    experience. We are thrilled to have you join our community
+                    and can't wait to see the amazing creations you come up
+                    with. So come on in, let your imagination run wild, and let
+                    METARS be your gateway to the exciting world of crypto art!
+                </div>
+                <span class="btn-start" @click="start">Start</span>
             </div>
-            <!-- <span class="btn-start" @click="login">Login</span> -->
-            <span class="btn-start" @click="start" v-if="!loading">Start</span>
-            <span class="btn-start btn-disable" v-else>Loading</span>
         </div>
-    </div>
+    </a-spin>
 </template>
 
 <script>
-    import { mapGetters, mapState, mapActions, mapMutations } from 'vuex'
+    import { mapGetters, mapActions, mapMutations } from 'vuex'
     import { getGrecaptchaToken, submitArtStart } from '@/api/index'
-    import { getAccessToken } from '@/utils/accessToken'
     export default {
         computed: {
             ...mapGetters({
@@ -41,9 +40,8 @@
             ...mapMutations('art', ['setArtId']),
             async start() {
                 let creatorAddress = this.defaultAccount
-                console.log('w', creatorAddress)
-                console.log('t', getAccessToken())
                 if (!creatorAddress) {
+                    this.$message.warn('Please connect the wallet')
                     return
                 }
                 this.loading = true
@@ -52,32 +50,24 @@
                     creatorAddress,
                     recaptchaToken
                 }
-                console.log('recaptchaToken', recaptchaToken)
-
-                submitArtStart(param)
-                    .then((res) => {
-                        if (res?.code === 1) {
-                            this.setArtId(res?.data?.id)
-                            this.fetchArtDetail(true)
-                            this.$router.replace({
-                                query: {
-                                    id: res?.data?.id
-                                }
-                            })
-                        } else {
-                            this.$message.error('fail.')
+                const res = await submitArtStart(param).catch(() => {
+                    this.loading = false
+                })
+                if (res?.code === 1) {
+                    this.setArtId(res?.data?.id)
+                    // url改变会自动请求详情
+                    this.$router.replace({
+                        query: {
+                            id: res?.data?.id
                         }
                     })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                    .finally(() => {
+                } else if (res.code === 106) {
+                    await this.$store.dispatch('user/login').catch(() => {
                         this.loading = false
                     })
-            },
-
-            login() {
-                this.$store.dispatch('user/login')
+                    await this.start()
+                }
+                this.loading = false
             }
         }
     }
@@ -88,7 +78,6 @@
         display: flex;
         padding-top: 98px;
         .img {
-            // flex-shrink: 480px;
             flex: 0 0 480px;
             width: 480px;
             height: 480px;

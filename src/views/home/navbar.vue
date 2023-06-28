@@ -62,7 +62,7 @@
                 this.navSlideDown = !this.navSlideDown
             },
             launchApp() {
-                this.$router.push('/generate')
+                this.$router.push('/artList')
             }
         }
     }

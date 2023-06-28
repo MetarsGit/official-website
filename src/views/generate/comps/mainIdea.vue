@@ -14,9 +14,10 @@
                     <div class="center-wrap">
                         <input
                             class="input input-short"
-                            v-model="name"
+                            v-model.trim="name"
                             type="text"
                             :disabled="isComplete"
+                            placeholder="Please input name of the art. (no more than 10 words)"
                         />
                         <span
                             class="btn"
@@ -42,7 +43,7 @@
                 <div class="content" v-show="show[1]">
                     <input
                         class="input"
-                        v-model="mainIdea"
+                        v-model.trim="mainIdea"
                         type="text"
                         placeholder="Please describe what the main subject of the art, be specific. (no more than 30 words)"
                         :disabled="isComplete"
@@ -126,12 +127,10 @@
             </div>
 
             <div class="section" v-if="!isComplete">
-                <span
-                    :class="['btn', 'btn-submit', !canSubmit && 'btn-disable']"
-                    @click="submit"
-                >
+                <span v-if="canSubmit" class="btn btn-submit" @click="submit">
                     Submit
                 </span>
+                <span v-else class="btn btn-submit btn-disable">Submit</span>
             </div>
         </a-spin>
     </div>
@@ -141,6 +140,7 @@
     import { mapState, mapGetters, mapActions } from 'vuex'
     import { submitArtMainIdea, getGrecaptchaToken } from '@/api'
     import shareConfirm from './shareConfirm.vue'
+    import { ART_NAME_PATTERN, MAIN_IDEA_PATTERN } from '../const'
     export default {
         components: {
             shareConfirm
@@ -175,7 +175,6 @@
                 immediate: true,
                 handler: function (newVal) {
                     if (newVal) {
-                        console.log(this.displayStep)
                         this.name = this.displayStep.name
                         this.mainIdea = this.displayStep.mainIdea
                         this.twitterUrl = this.displayStep.twitterUrl
@@ -192,12 +191,16 @@
 
             // 展开下一项 进行填写
             updateProgress(index) {
-                if (index === 1 && this.name === '') {
-                    this.$message.warn('please input name')
+                if (index === 1 && !ART_NAME_PATTERN.test(this.name)) {
+                    this.$message.warn(
+                        'Please use letters, numbers, underscores, commas, periods and no more then 10 words.'
+                    )
                     return
                 }
-                if (index === 2 && this.mainIdea === '') {
-                    this.$message.warn('please input main idea')
+                if (index === 2 && !MAIN_IDEA_PATTERN.test(this.mainIdea)) {
+                    this.$message.warn(
+                        'Please use letters, numbers, underscores, commas, periods and no more then 30 words.'
+                    )
                     return
                 }
                 this.currProgress = index
@@ -212,7 +215,7 @@
 
             verifyTweet() {
                 if (!this.twitterUrl) {
-                    this.$message.warn('please input tweet')
+                    this.$message.warn('Please input Tweet URL')
                     return
                 }
                 this.loading = true
@@ -222,8 +225,6 @@
                             this.updateProgress(3)
                             this.isVerifyed = true
                             this.$message.success(res.data)
-                        } else {
-                            this.$message.error(res.data)
                         }
                     })
                     .finally(() => {
@@ -247,20 +248,24 @@
                     verifyText: this.verifyText
                 }
 
-                console.log('mainidea param', param)
-
                 submitArtMainIdea(param)
                     .then((res) => {
                         if (res.code === 1) {
                             this.$message.success('submit success')
                             this.fetchArtDetail()
-                        } else {
-                            this.$message.error('fail.')
+                        } else if (res.code === 106) {
+                            this.loading = true
+                            this.$store
+                                .dispatch('user/login')
+                                .then((res) => {
+                                    if (res.code === 1) {
+                                        this.submit()
+                                    }
+                                })
+                                .finally(() => {
+                                    this.loading = false
+                                })
                         }
-                        console.log(res)
-                    })
-                    .catch((err) => {
-                        console.log(err)
                     })
                     .finally(() => {
                         this.loading = false

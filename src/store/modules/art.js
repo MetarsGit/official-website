@@ -1,8 +1,9 @@
-import { findArtInProgress, verifyTwitter, getGrecaptchaToken } from '@/api'
-import { DETAILS, ENVIRONMENT, MAIN_IDEA, PUBLISH, START, STYLE, shareUrlPrefix, STEP_SORT } from '@/views/generate/const'
+import { findArtInProgress, verifyTwitter, getGrecaptchaToken, findArtComplete } from '@/api'
+import { shareUrlPrefix, STEP_SORT } from '@/views/generate/const'
+import { message } from 'ant-design-vue'
 
 const state = () => ({
-    artId: 0,
+    artId: '',
     currentStatus: '',
     displayStatus: '',
     artInfo: {
@@ -10,12 +11,11 @@ const state = () => ({
         STYLE: {},
         ENVIRONMENT: {},
         DETAILS: {},
-    }
+    },
 })
 const getters = {
     displayStep(state) {
         let idxDis = STEP_SORT.indexOf(state.displayStatus)
-        console.log(STEP_SORT[idxDis + 1])
         return state.artInfo?.[STEP_SORT[idxDis + 1]] || {}
     },
     verifyText(state) {
@@ -24,7 +24,6 @@ const getters = {
     isComplete(state) {
         let idxCurr = STEP_SORT.indexOf(state.currentStatus)
         let idxDis = STEP_SORT.indexOf(state.displayStatus)
-        console.log(idxCurr, idxDis)
         return idxCurr > idxDis
     }
 }
@@ -32,7 +31,11 @@ const getters = {
 const actions = {
     async sign({ rootState }, prompt = '') {
         const { defaultAccount } = rootState.web3
-        const msg = `I will create a virutal art with prompts '${prompt}' on METARS with my wallet address ${defaultAccount.slice(-6)}`
+        if (!defaultAccount) {
+            message.warn('Please connect the wallet')
+            return
+        }
+        const msg = `I will create a virutal art with prompts '${prompt}' on METARS with my wallet address ${defaultAccount?.slice(-6) || ''}`
         const signature = await window.web3?.eth?.personal?.sign(
             msg,
             defaultAccount
@@ -40,6 +43,7 @@ const actions = {
         return signature
     },
 
+    //拉取进行中的作品详情
     fetchArtDetail({ state, commit, dispatch }, syncStatus = false) {
         let { artId } = state
         if (!artId) return
@@ -51,26 +55,25 @@ const actions = {
                 if (syncStatus) {
                     dispatch('synchronizeStatus')
                 }
-            } else if (res.code === 112) { // 作品已创作完成
-                // 跳转详情页
-            } else {
-                // 报错
+            } else if (res.code === 112) { // 作品已创作完成 跳转作品详情
+                // 获取mint后的详情
+                return findArtComplete({ artId }).then((res) => {
+                    if (res.code === 1) {
+                        return res.data
+                    }
+                })
             }
-        }).catch((err) => {
-            // 报错
-            console.log(err)
         })
     },
 
-    async verifyTwitter({ state }, tweet) {
+    async verifyTwitter({ state, getters }, tweet) {
         let artId = state.artId
         let recaptchaToken = await getGrecaptchaToken('verify')
         let param = {
             artId,
             recaptchaToken,
             twitterUrl: tweet,
-            verifyText: `${shareUrlPrefix}?id=${artId}`
-
+            verifyText: getters.verifyText
         }
         return verifyTwitter(param)
     },
@@ -79,9 +82,6 @@ const actions = {
     synchronizeStatus({ state, commit }) {
         commit('setDisplayStatus', state.currentStatus)
     },
-
-
-
 }
 
 const mutations = {
@@ -94,6 +94,17 @@ const mutations = {
     },
     setDisplayStatus(state, status) {
         state.displayStatus = status
+    },
+    resetArtInfo(state) {
+        state.artId = ''
+        state.currentStatus = ''
+        state.displayStatus = ''
+        state.artInfo = {
+            MAIN_IDEA: {},
+            STYLE: {},
+            ENVIRONMENT: {},
+            DETAILS: {},
+        }
     }
 }
 

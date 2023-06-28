@@ -14,10 +14,10 @@
             <div class="header">Generate a tweet for me</div>
             <div class="body" id="shareContent">
                 I'm looking to create a virtual art project on
-                https://artifuse.ai/artwork?id={{ artId }} with my wallet abcdef
-                and I'd love for you to join me. Let's collaborate and create
-                something amazing together. Retweet and let's get started!
-                #virtualart #collaboration #ArtiFuse
+                {{ verifyText }} with my wallet {{ account }} and I'd love for
+                you to join me. Let's collaborate and create something amazing
+                together. Retweet and let's get started! #virtualart
+                #collaboration #ArtiFuse
             </div>
             <div class="footer">
                 <span class="btn" @click="copyClick">Copy and share</span>
@@ -28,10 +28,15 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapGetters } from 'vuex'
     export default {
         computed: {
-            ...mapState('art', ['artId'])
+            ...mapState('art', ['artId']),
+            ...mapGetters('web3', ['defaultAccount']),
+            ...mapGetters('art', ['verifyText']),
+            account() {
+                return this.defaultAccount?.slice(-6) || ''
+            }
         },
         data() {
             return {

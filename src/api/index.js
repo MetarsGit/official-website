@@ -5,12 +5,8 @@ import Axios from './axios'
  * @param params
  * @returns {Promise<unknown>}
  */
-export function queryArtAll(params) {
-    return Axios.get(`/api/collaborativeartwork/sort/all`, params)
-}
-
-export function queryArtSortAddress(params) {
-    return Axios.get(`/api/collaborativeartwork/sort/${params.address}`, params)
+export function queryArtList(params) {
+    return Axios.get(`/api/collaborativeartwork/search`, params)
 }
 
 /**
@@ -74,6 +70,9 @@ export async function getGrecaptchaToken(action) {
 export function submitArtStart(params) {
     return Axios.post('/api/art/start', params)
 }
+export function submitView(params) {
+    return Axios.post(`/api/art/view/${params.artId}`, params)
+}
 export function submitArtMainIdea(params) {
     return Axios.post('/api/art/mainIdea', params)
 }
@@ -92,18 +91,22 @@ export function generateImage(params) {
 }
 // 查询是否满足mint条件
 export function queryCanMint(params) {
-    return Axios.get(`/api/art/queryCanMint/${params.artId}`, params)
+    return Axios.get(`/api/art/queryCanMint/${params.artId}`)
 }
 // 查询正在创作中的作品
 export function findArtInProgress(params) {
-    return Axios.get(`/api/art/findArtInProgress/${params.artId}`, params)
+    return Axios.get(`/api/art/findArtInProgress/${params.artId}`)
 }
 
 export function findNftImages(params) {
-    return Axios.get(`/api/art/findNftImages/${params.artId}`, params)
+    return Axios.get(`/api/art/findNftImages/${params.artId}`)
 }
 
 // 验证Twitter
 export function verifyTwitter(params) {
     return Axios.post(`/api/twitter/verify`, params)
+}
+// 获取作品详情
+export function findArtComplete(params) {
+    return Axios.get(`/api/nft/detailed/${params.artId}`)
 }

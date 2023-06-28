@@ -235,6 +235,7 @@
         </div>
 
         <home-footer />
+        <!-- <announcement /> -->
     </div>
 </template>
 
@@ -242,10 +243,11 @@
     import Navbar from './navbar.vue'
     import HomeFooter from './footer.vue'
     import Generative from './generative.vue'
+    import Announcement from './Announcement.vue'
     import { tokenList, roadmap } from './const'
     export default {
         name: 'index',
-        components: { Navbar, HomeFooter, Generative },
+        components: { Navbar, HomeFooter, Generative, Announcement },
         data() {
             return {
                 collectiveIndex: 0,

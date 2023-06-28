@@ -69,7 +69,7 @@
                                     <div class="card-img">
                                         <a-image
                                             :preview="false"
-                                            :src="'@/assets/img/nft.png'"
+                                            :src="nft.imageUrlList[0] || ''"
                                             :fallback="
                                                 require(`@/assets/img/screenshot.png`)
                                             "
@@ -80,7 +80,8 @@
                                             {{ nft.name }}
                                         </div>
                                         <div class="views">
-                                            {{ nft.viewsCount }} Views
+                                            {{ converterNum(nft.viewsCount) }}
+                                            Views
                                         </div>
                                     </div>
                                 </div>
@@ -91,80 +92,21 @@
                 </result>
             </div>
         </div>
-        <a-modal
-            v-model:visible="showDetail"
-            width="100%"
-            :footer="null"
-            wrap-class-name="art-modal"
-        >
-            <template #title>
-                <span>
-                    <img src="../../assets/logo.png" alt="" width="160" />
-                </span>
-            </template>
-            <div class="art-detail container">
-                <div class="header">Name of the artwork collection</div>
-                <a-row :gutter="126">
-                    <a-col :lg="6" :md="8" :sm="24" :xs="24">
-                        <div class="addr-container">
-                            <div class="title">In collaboration with</div>
-                            <a-row>
-                                <a-col
-                                    :lg="24"
-                                    :md="24"
-                                    :sm="12"
-                                    :xs="12"
-                                    class="addr"
-                                    v-for="i in 4"
-                                    :key="i"
-                                >
-                                    0xabcd...abcd
-                                </a-col>
-                            </a-row>
-                        </div>
-                    </a-col>
-                    <a-col :lg="12" :md="12" :sm="24" :xs="24">
-                        <div class="img-container">
-                            <div class="card-wrapper">
-                                <a-row>
-                                    <a-col
-                                        v-for="i in 4"
-                                        :key="i"
-                                        :lg="12"
-                                        :md="12"
-                                        :sm="12"
-                                        :xs="12"
-                                    >
-                                        <img
-                                            src="../../assets/img/nft.png"
-                                            alt=""
-                                            class="card"
-                                        />
-                                    </a-col>
-                                </a-row>
-                            </div>
-                        </div>
-                    </a-col>
-                    <a-col :lg="6" :md="24" :sm="24" :xs="24">
-                        <a-row class="views-container">
-                            <a-col class="title" :lg="24">Views</a-col>
-                            <a-col class="amount" :lg="24">123,128,329</a-col>
-                        </a-row>
-                    </a-col>
-                </a-row>
-                <div class="footer">
-                    Minted at 2023-02-23 by tx
-                    <span style="color: #6a57e3">0x2b2ce...</span>
-                </div>
-            </div>
-        </a-modal>
+        <art-modal
+            :is-show="showDetail"
+            :detail="artDetail"
+            @close="showDetail = false"
+        ></art-modal>
     </div>
 </template>
 
 <script>
-    import { queryArtAll } from '@/api'
+    import { queryArtList, submitView } from '@/api'
+    import { converterNum, shortString } from '@/utils'
     import Observer from '@/components/common/Observer.vue'
     import Result from '@/components/Result.vue'
+    import artModal from '@/components/artModal.vue'
+
     const selectConfig = [
         {
             title: 'Recently Created',
@@ -182,9 +124,11 @@
 
     export default {
         name: 'index',
-        components: { Result, Observer },
+        components: { artModal, Result, Observer },
         data() {
             return {
+                shortString,
+                converterNum,
                 loading: false,
                 artList: [],
                 page: 0,
@@ -193,7 +137,8 @@
                 searchKey: '',
                 selectConfig,
                 selectKey: selectConfig[0].key,
-                showDetail: false
+                showDetail: false,
+                artDetail: {}
             }
         },
         computed: {
@@ -217,16 +162,15 @@
                 if (this.totalPages < this.page) {
                     return
                 }
-                const res = await queryArtAll({
+                const res = await queryArtList({
                     page: this.page,
                     size: this.pageSize,
-                    searchKey: this.searchKey,
+                    searchWord: this.searchKey,
                     status: this.selectKey
                 })
-                console.log(res)
                 if (res.data) {
                     this.totalElements = res.data.totalElements
-                    const list = res.data || []
+                    const list = res.data.content || []
                     this.artList = this.artList.concat(list)
                 }
             },
@@ -237,12 +181,22 @@
                 this.page = this.page + 1
                 this.getArtList()
             },
-            selectChange(option) {
-                this.selectKey = option.key
+            selectChange() {
                 this.initArtList()
             },
-            viewCard() {
+            async viewCard(nft) {
                 this.showDetail = true
+                this.artDetail = nft
+                submitView({
+                    artId: nft.artId
+                }).then((res) => {
+                    if (res.code === 1) {
+                        const art = this.artList.find((item) => {
+                            return item.artId === nft.artId
+                        })
+                        art.viewsCount = art.viewsCount + 1
+                    }
+                })
             }
         }
     }

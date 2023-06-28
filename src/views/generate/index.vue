@@ -10,20 +10,26 @@
                     <p class="title">Virtual Art Creation</p>
                     <ul class="progress-bar">
                         <li
-                            :class="[
-                                'bar-item',
-                                displayStatus === item.status &&
-                                    'bar-item-active'
-                            ]"
+                            :class="{
+                                'bar-item': true,
+                                'bar-item-complete': item.isComplete,
+                                'bar-item-active': displayStatus === item.status
+                            }"
                             v-for="item in stepList"
-                            @click="setDisplayStatus(item.status)"
                             :key="item.status"
+                            @click="changeDisplayStep(item)"
                         >
-                            <!-- <i
-                                class="icon icon-finish"
-                                v-if="displayStatus"
-                            ></i>
-                            <i class="icon icon-current"></i> -->
+                            <check-circle-filled
+                                v-if="item.isComplete"
+                                :style="{
+                                    fontSize: '28px',
+                                    marginRight: '16px',
+                                    color:
+                                        displayStatus === item.status
+                                            ? '#ffffff'
+                                            : '#0b2866'
+                                }"
+                            />
                             {{ item.label }}
                         </li>
                     </ul>
@@ -35,6 +41,11 @@
                 </div>
             </a-spin>
         </div>
+        <art-modal
+            :is-show="isShowDetail"
+            :detail="artDetail"
+            @close="hideDetail"
+        ></art-modal>
     </div>
 </template>
 
@@ -46,8 +57,11 @@
     import Environment from './comps/environment.vue'
     import DetailsPrompt from './comps/details.vue'
     import Publish from './comps/publish.vue'
-    import { stepList } from './const'
+    import artModal from '../../components/artModal.vue'
+    import { CheckCircleFilled } from '@ant-design/icons-vue'
+    import { stepList, STEP_SORT } from './const'
     import './style.less'
+
     export default {
         name: 'Generate',
         components: {
@@ -56,33 +70,82 @@
             StylePrompt,
             Environment,
             DetailsPrompt,
-            Publish
+            Publish,
+            CheckCircleFilled,
+            artModal
         },
         computed: {
-            ...mapState('art', ['currentStatus', 'displayStatus'])
+            ...mapState('art', ['currentStatus', 'displayStatus']),
+            stepList() {
+                let currentStatusSort =
+                    STEP_SORT.indexOf(this.currentStatus) || 0
+                return stepList.map((item) => {
+                    item.isComplete = item.sort <= currentStatusSort
+                    return item
+                })
+            }
+        },
+        watch: {
+            // 切换路由时根据url id进行展示
+            '$route.query.id'(newVal) {
+                if (!newVal) {
+                    this.resetArtInfo()
+                } else {
+                    this.init()
+                }
+            }
         },
         data() {
             return {
-                stepList,
-                loading: false
+                loading: false,
+                isShowDetail: false,
+                artDetail: null
             }
         },
+
         created() {
             this.init()
         },
         methods: {
-            ...mapActions('art', ['fetchArtDetail', 'synchronizeStatus']),
-            ...mapMutations('art', ['setArtId', 'setDisplayStatus']),
+            ...mapActions('art', ['fetchArtDetail']),
+            ...mapMutations('art', [
+                'setArtId',
+                'setDisplayStatus',
+                'resetArtInfo'
+            ]),
 
             async init() {
                 let artId = this.$route.query.id
                 if (artId) {
                     this.loading = true
                     this.setArtId(artId)
-                    await this.fetchArtDetail()
-                    await this.synchronizeStatus()
+
+                    const artDetail = await this.fetchArtDetail(true)
+                    // 如果作品已mint 展示作品详情
+                    this.showDetail(artDetail)
+
                     this.loading = false
                 }
+            },
+
+            changeDisplayStep({ status, isComplete }) {
+                // 未完成 && 不是当前该填写的步骤 不能点击
+                if (!isComplete && status !== this.currentStatus) {
+                    return
+                }
+                this.setDisplayStatus(status)
+            },
+
+            showDetail(artDetail) {
+                if (!artDetail) return
+                this.artDetail = artDetail || {}
+                this.isShowDetail = true
+            },
+            hideDetail() {
+                this.isShowDetail = false
+                this.$router.replace({
+                    query: {}
+                })
             }
         }
     }
@@ -132,12 +195,14 @@
             .bar-item {
                 flex: 1;
                 position: relative;
-                text-align: center;
                 font-size: 16px;
                 line-height: 63px;
                 font-family: Inter-Semi Bold, Inter;
                 color: #0b2866;
                 background-color: #ecf1fc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 &::after {
                     position: absolute;
                     right: -22px;
@@ -156,11 +221,14 @@
                 }
                 &-active {
                     background: #0b2866;
-                    color: #fff;
+                    color: #ffffff;
                     z-index: 1;
                     &::after {
                         background: #0b2866;
                     }
+                }
+                &-complete {
+                    cursor: pointer;
                 }
             }
         }

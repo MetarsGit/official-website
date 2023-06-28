@@ -13,7 +13,7 @@
                 <div class="content" v-show="show[0]">
                     <input
                         class="input"
-                        v-model="style"
+                        v-model.trim="style"
                         type="text"
                         placeholder="Please input the style of the art, be specific. (no more than 15 words)"
                         :disabled="isComplete"
@@ -60,7 +60,7 @@
                 <div class="content" v-show="show[1]">
                     <input
                         class="input"
-                        v-model="twitterUrl"
+                        v-model.trim="twitterUrl"
                         type="text"
                         placeholder="Tweet URL"
                         :disabled="isVerifyed || isComplete"
@@ -98,12 +98,10 @@
             </div>
 
             <div class="section" v-if="!isComplete">
-                <span
-                    :class="['btn', 'btn-submit', !canSubmit && 'btn-disable']"
-                    @click="submit"
-                >
+                <span v-if="canSubmit" class="btn btn-submit" @click="submit">
                     Submit
                 </span>
+                <span v-else class="btn btn-submit btn-disable">Submit</span>
             </div>
         </a-spin>
     </div>
@@ -113,6 +111,7 @@
     import { mapState, mapGetters, mapActions } from 'vuex'
     import { submitArtStyle, getGrecaptchaToken } from '@/api'
     import shareConfirm from './shareConfirm.vue'
+    import { STYLE_PATTERN } from '../const'
     export default {
         components: {
             shareConfirm
@@ -161,8 +160,10 @@
 
             // 展开下一项 进行填写
             updateProgress(index) {
-                if (index === 1 && this.style === '') {
-                    this.$message.warn('please input style')
+                if (index === 1 && !STYLE_PATTERN.test(this.style)) {
+                    this.$message.warn(
+                        'Please use letters, numbers, underscores, commas, periods and no more then 15 words.'
+                    )
                     return
                 }
                 this.currProgress = index
@@ -177,7 +178,7 @@
 
             verifyTweet() {
                 if (!this.twitterUrl) {
-                    this.$message.warn('please input tweet')
+                    this.$message.warn('Please input Tweet URL')
                     return
                 }
                 // api verify
@@ -210,20 +211,19 @@
                     verifyText: this.verifyText
                 }
 
-                console.log('style param', param)
-
                 submitArtStyle(param)
                     .then((res) => {
                         if (res.code === 1) {
                             this.$message.success('submit success')
                             this.fetchArtDetail()
-                        } else {
-                            this.$message.error('fail.')
+                        } else if (res.code === 106) {
+                            this.loading = true
+                            this.$store.dispatch('user/login').then((res) => {
+                                if (res?.code === 1) {
+                                    this.submit()
+                                }
+                            })
                         }
-                        console.log(res)
-                    })
-                    .catch((err) => {
-                        console.log(err)
                     })
                     .finally(() => {
                         this.loading = false

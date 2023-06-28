@@ -1,6 +1,5 @@
 <template>
     <div class="comp-details comp-step">
-        isComplete: {{ isComplete }}
         <a-spin :spinning="loading">
             <div class="section">
                 <div class="title">
@@ -14,7 +13,7 @@
                 <div class="content" v-show="show[0]">
                     <input
                         class="input"
-                        v-model="details"
+                        v-model.trim="details"
                         type="text"
                         placeholder="Please input additional details about the subject, be specific. (no more than 20 words)"
                         :disabled="isComplete"
@@ -56,7 +55,7 @@
                 <div class="content" v-show="show[1]">
                     <input
                         class="input"
-                        v-model="twitterUrl"
+                        v-model.trim="twitterUrl"
                         type="text"
                         placeholder="Tweet URL"
                         :disabled="isVerifyed || isComplete"
@@ -109,6 +108,7 @@
     import { mapState, mapGetters, mapActions } from 'vuex'
     import { submitArtDetails, getGrecaptchaToken } from '@/api'
     import shareConfirm from './shareConfirm.vue'
+    import { DETAILS_PATTERN } from '../const'
     export default {
         components: {
             shareConfirm
@@ -141,7 +141,6 @@
                 immediate: true,
                 handler: function (newVal) {
                     if (newVal) {
-                        console.log(this.displayStep)
                         this.details = this.displayStep.details
                         this.twitterUrl = this.displayStep.twitterUrl
                         this.signedMessage = this.displayStep.signedMessage
@@ -157,8 +156,10 @@
 
             // 展开下一项 进行填写
             updateProgress(index) {
-                if (index === 1 && this.details === '') {
-                    this.$message.warn('please input details')
+                if (index === 1 && !DETAILS_PATTERN.test(this.details)) {
+                    this.$message.warn(
+                        'Please use letters, numbers, underscores, commas, periods and no more then 20 words.'
+                    )
                     return
                 }
                 this.currProgress = index
@@ -173,7 +174,7 @@
 
             verifyTweet() {
                 if (!this.twitterUrl) {
-                    this.$message.warn('please input tweet')
+                    this.$message.warn('Please input Tweet URL')
                     return
                 }
                 this.loading = true
@@ -205,20 +206,19 @@
                     verifyText: this.verifyText
                 }
 
-                console.log('details param', param)
-
                 submitArtDetails(param)
                     .then((res) => {
                         if (res.code === 1) {
                             this.$message.success('submit success')
                             this.fetchArtDetail()
-                        } else {
-                            this.$message.error('fail.')
+                        } else if (res.code === 106) {
+                            this.loading = true
+                            this.$store.dispatch('user/login').then((res) => {
+                                if (res.code === 1) {
+                                    this.submit()
+                                }
+                            })
                         }
-                        console.log(res)
-                    })
-                    .catch((err) => {
-                        console.log(err)
                     })
                     .finally(() => {
                         this.loading = false

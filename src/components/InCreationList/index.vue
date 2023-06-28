@@ -27,7 +27,7 @@
             <template v-if="column.dataIndex === 'progress'">
                 <a-progress
                     type="circle"
-                    :percent="record.progress"
+                    :percent="record.percent"
                     strokeColor="#14171F"
                     :strokeWidth="2"
                     :width="54"
@@ -61,22 +61,6 @@
     import { converterNum, shortString } from '@/utils'
     import SvgIcon from '../common/SvgIcon/index.vue'
 
-    const list = []
-    for (let i = 0; i < 100; i++) {
-        list.push({
-            name: 'Name of the artwork',
-            totalRetweetsCount: 132,
-            creatorList: [
-                '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24',
-                '0x38c96f00d835942Dd72e5CEC3c88bd7Dc2825EA1',
-                '0x2dF4535D2d03323827c6fD4307ecd75462cD1F24',
-                '0x38c96f00d835942Dd72e5CEC3c88bd7Dc2825EA1'
-            ],
-            progress: 80,
-            ready: true
-        })
-    }
-
     export default {
         name: 'index',
         components: { SvgIcon },
@@ -99,8 +83,6 @@
                     pageSize: 10,
                     total: 0
                 },
-                // list: list,
-                // loading: false,
                 columns: inCreationListColumns
             }
         },
