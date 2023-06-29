@@ -38,10 +38,11 @@
         methods: {
             ...mapActions('art', ['fetchArtDetail']),
             ...mapMutations('art', ['setArtId']),
+
             async start() {
                 let creatorAddress = this.defaultAccount
                 if (!creatorAddress) {
-                    this.$message.warn('Please connect the wallet')
+                    this.$message.warn('Please connect the wallet.')
                     return
                 }
                 this.loading = true
@@ -50,24 +51,29 @@
                     creatorAddress,
                     recaptchaToken
                 }
-                const res = await submitArtStart(param).catch(() => {
-                    this.loading = false
-                })
-                if (res?.code === 1) {
-                    this.setArtId(res?.data?.id)
-                    // url改变会自动请求详情
-                    this.$router.replace({
-                        query: {
-                            id: res?.data?.id
+
+                submitArtStart(param)
+                    .then((res) => {
+                        if (res?.code === 1) {
+                            this.setArtId(res?.data?.id)
+                            // url改变会自动请求详情
+                            this.$router.replace({
+                                query: {
+                                    id: res?.data?.id
+                                }
+                            })
+                        } else if (res.code === 106) {
+                            this.loading = true
+                            this.$store.dispatch('user/login').then((res) => {
+                                if (res.code === 1) {
+                                    this.start()
+                                }
+                            })
                         }
                     })
-                } else if (res.code === 106) {
-                    await this.$store.dispatch('user/login').catch(() => {
+                    .finally(() => {
                         this.loading = false
                     })
-                    await this.start()
-                }
-                this.loading = false
             }
         }
     }

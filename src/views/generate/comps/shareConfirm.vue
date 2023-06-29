@@ -46,6 +46,10 @@
         },
         methods: {
             show() {
+                if (!this.defaultAccount) {
+                    this.$message.warn('Please connect the wallet.')
+                    return
+                }
                 this.isShow = true
             },
             hide() {

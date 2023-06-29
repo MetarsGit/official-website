@@ -4,7 +4,7 @@ import Layout from '@/layout'
 export const asyncRoutes = [
     {
         path: '/',
-        redirect: '/home',
+        redirect: '/index',
         meta: {
             title: 'Home'
         },
@@ -29,7 +29,7 @@ export const asyncRoutes = [
                 name: 'ArtList',
                 component: () => import('@/views/artList'),
                 meta: {
-                    title: 'Collaborative Artworks',
+                    title: 'Collaborative Artworks'
                 }
             }
         ]
@@ -43,7 +43,7 @@ export const asyncRoutes = [
                 name: 'InCreation',
                 component: () => import('@/views/inCreation'),
                 meta: {
-                    title: 'In Creation',
+                    title: 'In Creation'
                 }
             }
         ]
@@ -57,7 +57,7 @@ export const asyncRoutes = [
                 name: 'MyArts',
                 component: () => import('@/views/myArts'),
                 meta: {
-                    title: 'My Artworks',
+                    title: 'My Artworks'
                 }
             }
         ]
@@ -71,11 +71,11 @@ export const asyncRoutes = [
                 name: 'Generate',
                 component: () => import('@/views/generate'),
                 meta: {
-                    title: 'Generate Now',
+                    title: 'Generate Now'
                 }
             }
         ]
-    },
+    }
 ]
 
 export const constantRoutes = []

@@ -201,6 +201,9 @@
                 border-bottom: none;
                 .ant-menu-item-selected {
                     color: inherit;
+                    &::after {
+                        border-bottom: none;
+                    }
                 }
                 .ant-menu-item {
                     font-family: Inter-Semi Bold, Inter;

@@ -104,7 +104,8 @@
         getGrecaptchaToken,
         queryCanMint
     } from '@/api'
-    import { defaultNetworkId } from '@/config/web3'
+    import { rpcConfig, defaultNetwork, defaultNetworkId } from '@/config/web3'
+    import { walletConnectToNetwork } from '@/utils/wallet'
     import MintConfirm from './mintConfirm.vue'
     export default {
         components: { MintConfirm },
@@ -120,7 +121,11 @@
         },
         computed: {
             ...mapState('art', ['artId', 'artInfo']),
-            ...mapState('web3', ['defaultAccount', 'contracts']),
+            ...mapState('web3', [
+                'defaultAccount',
+                'contracts',
+                'currentNetworkId'
+            ]),
             name() {
                 return this.artInfo.DETAILS?.name || ''
             },
@@ -161,54 +166,77 @@
                     })
             },
 
-            // 点击mint 1)查看是否满足mint条件; 2)mint
-            onClickMint() {
+            async onClickMint() {
+                if (!this.defaultAccount) {
+                    this.$message.warn('Please connect the wallet.')
+                    return
+                }
                 this.loading = true
-                queryCanMint({ artId: this.artId })
-                    .then((res) => {
-                        if (res.code === 1) {
-                            if (res.data?.status) {
-                                let { artName, ownerList, v, r, s } = res.data
-                                this.contracts
-                                    .CyberHarborMembership(defaultNetworkId)
-                                    .methods.generateAndMint(
-                                        artName,
-                                        ownerList,
-                                        v,
-                                        r,
-                                        s
-                                    )
-                                    .send({ from: this.defaultAccount })
-                                    .then((res) => {
-                                        this.isShowMintConfirm = true
-                                        this.isMinted = true
-                                        console.log('mint res', res)
-                                    })
-                                    .catch((err) => {
-                                        console.log(err)
-                                        this.$message.error('fail')
-                                    })
-                                    .finally(() => {
-                                        this.loading = false
-                                    })
-                            } else {
-                                // 不满足mint条件
-                                this.$message.error(
-                                    res.data.message ||
-                                        'not satisfy the conditions'
-                                )
-                            }
-                        } else {
+                const res = await queryCanMint({ artId: this.artId })
+                if (res.code === 1 && res.data?.status) {
+                    let { artName, ownerList, v, r, s } = res.data
+                    console.log('this.contracts', this.contracts)
+                    console.log('currentNetworkId', this.currentNetworkId)
+                    if (this.currentNetworkId != defaultNetworkId) {
+                        console.log('切换')
+                        let connected = await this.switchNetWork()
+                        console.log('网络', connected)
+                        if (!connected) {
                             this.loading = false
+                            return
                         }
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                        this.loading = false
-                    })
+                    }
+                    const mintRes = await this.contracts
+                        .CyberHarborMembership(defaultNetworkId)
+                        .methods.generateAndMint(artName, ownerList, v, r, s)
+                        .send({ from: this.defaultAccount })
+                        .catch((err) => {
+                            console.log(err)
+                            this.$message.error('fail')
+                        })
+                    console.log('mint res', mintRes)
+                    if (mintRes) {
+                        this.isShowMintConfirm = true
+                        this.isMinted = true
+                    }
+                } else {
+                    // 不满足mint条件
+                    this.$message.error(
+                        res.data.message || 'not satisfy the conditions'
+                    )
+                }
+                this.loading = false
             },
 
-            // once:true 之请求一次  默认轮询
+            async switchNetWork() {
+                let connected = false
+                const {
+                    expectedNetworkId,
+                    chainName,
+                    currencySymbol,
+                    currencyDecimals,
+                    rpcUrls,
+                    blockExplorerUrls
+                } = rpcConfig[defaultNetwork]
+                const config = {
+                    expectedNetworkId,
+                    chainId: window.web3.utils.numberToHex(expectedNetworkId),
+                    chainName,
+                    currencySymbol,
+                    currencyDecimals,
+                    rpcUrls,
+                    blockExplorerUrls
+                }
+                try {
+                    await walletConnectToNetwork(config)
+                    connected = true
+                } catch (e) {
+                    connected = false
+                }
+                return connected
+            },
+
+            // once:true 只请求一次  默认轮询
             loadImg(loop = true) {
                 this.loadingImg = true
                 findNftImages({ artId: this.artId }).then((res) => {
@@ -217,6 +245,7 @@
                         this.loadingImg = false
                         this.isGenerated = true
                     } else if (res.code === 111) {
+                        // 图片正在生成中
                         if (loop) {
                             setTimeout(() => {
                                 this.loadImg()

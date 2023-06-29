@@ -44,16 +44,19 @@
                         </a-col>
                     </a-row>
                 </div>
-                <!--            <div class="search-desc">“Girls” artwork</div>-->
-                <!--                <div class="search-addr">-->
-                <!--                    <div class="addr">-->
-                <!--                        0xa0aa93ac72d19588485E8E5a2348398fC32143B4-->
-                <!--                    </div>-->
-                <!--                    <div>-->
-                <!--                        Created 19 virtual artworks and recevied a total of-->
-                <!--                        239,238,119 views-->
-                <!--                    </div>-->
-                <!--                </div>-->
+                <div class="search-desc" v-if="searchType === 'keyword'">
+                    “{{ currentSearchKey }}” artwork
+                </div>
+                <div class="search-addr" v-if="searchType === 'address'">
+                    <div class="addr">
+                        {{ currentSearchKey }}
+                    </div>
+                    <div>
+                        Created {{ totalElements }} virtual artworks and
+                        recevied a total of
+                        {{ toThousandFilter(totalView) }} views
+                    </div>
+                </div>
                 <result :isLoading="loading" :isEmpty="!artList.length">
                     <div class="list">
                         <a-row :gutter="24">
@@ -65,8 +68,11 @@
                                 v-for="nft in artList"
                                 :key="nft.artId"
                             >
-                                <div class="card-item" @click="viewCard(nft)">
-                                    <div class="card-img">
+                                <div class="card-item">
+                                    <div
+                                        class="card-img"
+                                        @click="viewCard(nft)"
+                                    >
                                         <a-image
                                             :preview="false"
                                             :src="nft.imageUrlList[0] || ''"
@@ -80,7 +86,9 @@
                                             {{ nft.name }}
                                         </div>
                                         <div class="views">
-                                            {{ converterNum(nft.viewsCount) }}
+                                            {{
+                                                toThousandFilter(nft.viewsCount)
+                                            }}
                                             Views
                                         </div>
                                     </div>
@@ -102,7 +110,7 @@
 
 <script>
     import { queryArtList, submitView } from '@/api'
-    import { converterNum, shortString } from '@/utils'
+    import { shortString, toThousandFilter } from '@/utils'
     import Observer from '@/components/common/Observer.vue'
     import Result from '@/components/Result.vue'
     import artModal from '@/components/artModal.vue'
@@ -128,13 +136,16 @@
         data() {
             return {
                 shortString,
-                converterNum,
+                toThousandFilter,
                 loading: false,
                 artList: [],
                 page: 0,
                 pageSize: 12,
                 totalElements: 0,
+                totalView: 0,
                 searchKey: '',
+                currentSearchKey: '',
+                searchType: '',
                 selectConfig,
                 selectKey: selectConfig[0].key,
                 showDetail: false,
@@ -153,9 +164,19 @@
             async initArtList() {
                 this.page = 0
                 this.totalElements = 0
+                this.totalView = 0
+                this.searchType = ''
+                this.currentSearchKey = this.searchKey
                 this.artList = []
                 this.loading = true
                 await this.getArtList()
+                if (this.currentSearchKey) {
+                    if (this.currentSearchKey.match(/^0x[a-fA-f0-9]{40}$/)) {
+                        this.searchType = 'address'
+                    } else {
+                        this.searchType = 'keyword'
+                    }
+                }
                 this.loading = false
             },
             async getArtList() {
@@ -165,14 +186,23 @@
                 const res = await queryArtList({
                     page: this.page,
                     size: this.pageSize,
-                    searchWord: this.searchKey,
+                    searchWord: this.currentSearchKey,
                     status: this.selectKey
                 })
-                if (res.data) {
-                    this.totalElements = res.data.totalElements
-                    const list = res.data.content || []
-                    this.artList = this.artList.concat(list)
+                if (res.code !== 1) {
+                    return
                 }
+                const { totalElements, totalView, content = [] } = res.data
+                this.totalElements = totalElements
+                this.totalView = totalView
+                const list = content
+                list.forEach((item) => {
+                    item.imageUrlList = []
+                    for (let key in item.creatorImageMap) {
+                        item.imageUrlList.push(item.creatorImageMap[key])
+                    }
+                })
+                this.artList = this.artList.concat(list)
             },
             loadMore() {
                 if (this.totalPages <= this.page + 1) {

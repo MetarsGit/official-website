@@ -4,10 +4,6 @@
             <div class="slogan">Unleash the power of collective creativity</div>
         </div>
         <div class="list container">
-            <!--            <in-creation-list-->
-            <!--                :list="artList"-->
-            <!--                :isLoading="loading"-->
-            <!--            ></in-creation-list>-->
             <a-table
                 :columns="columns"
                 :data-source="artList"
@@ -17,6 +13,11 @@
                 class="inCreation-list"
             >
                 <template #bodyCell="{ column, record }">
+                    <template v-if="column.dataIndex === 'name'">
+                        <div @click="toGenerate(record)" class="name">
+                            {{ record.name }}
+                        </div>
+                    </template>
                     <template v-if="column.dataIndex === 'creators'">
                         <div class="creators">
                             <div
@@ -100,8 +101,15 @@
             this.getInCreationArtList()
         },
         methods: {
+            toGenerate(item) {
+                this.$router.push({
+                    name: 'Generate',
+                    query: {
+                        id: item.artId
+                    }
+                })
+            },
             handleTableChange(pag) {
-                // console.log('======>', pag, filters, sorter)
                 this.page = pag.current - 1
                 this.pagination.pageSize = pag.pageSize
                 this.getInCreationArtList()
@@ -115,7 +123,6 @@
                     page: this.page,
                     size: this.pagination.pageSize
                 })
-                console.log('res===>', res)
                 this.loading = false
                 if (res.code === 1) {
                     this.artList = res.data.content

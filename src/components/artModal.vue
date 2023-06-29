@@ -24,7 +24,7 @@
                                 :sm="12"
                                 :xs="12"
                                 class="addr"
-                                v-for="addr in detail.creatorList"
+                                v-for="(url, addr) in detail.creatorImageMap"
                                 :key="addr"
                             >
                                 {{ shortString(addr) }}
@@ -37,12 +37,14 @@
                         <div class="card-wrapper">
                             <a-row>
                                 <a-col
-                                    v-for="url in detail.imageUrlList"
-                                    :key="url"
-                                    :lg="imgSpan"
-                                    :md="imgSpan"
-                                    :sm="imgSpan"
-                                    :xs="imgSpan"
+                                    v-for="(
+                                        url, addr
+                                    ) in detail.creatorImageMap"
+                                    :key="addr"
+                                    :lg="12"
+                                    :md="12"
+                                    :sm="12"
+                                    :xs="12"
                                 >
                                     <a-image
                                         class="card"
@@ -67,14 +69,21 @@
                 </a-col>
             </a-row>
             <div class="footer">
-                Minted at 2023-02-23 by tx
-                <span style="color: #6a57e3">0x2b2ce...</span>
+                Minted at
+                {{ parseTime(detail.mintTime * 1000, 'yyyy-MM-dd') }}
+                by tx
+                <a style="color: #6a57e3" :href="txHref" target="_blank">
+                    {{ shortString(detail.trxHash, 7, 0) }}
+                </a>
             </div>
         </div>
     </a-modal>
 </template>
 <script>
-    import { shortString, converterNum } from '@/utils'
+    import { mapGetters } from 'vuex'
+    import { shortString, converterNum, parseTime } from '@/utils'
+    import { rpcConfig, defaultNetwork } from '@/config/web3'
+
     export default {
         name: 'artModal',
         props: {
@@ -88,8 +97,13 @@
             }
         },
         computed: {
-            imgSpan() {
-                return this.detail.imageUrlList.length === 1 ? 24 : 12
+            ...mapGetters({
+                defaultAccount: 'web3/defaultAccount'
+            }),
+            txHref() {
+                const explorerUrl =
+                    rpcConfig[defaultNetwork]['blockExplorerUrls'][0]
+                return `${explorerUrl}/tx/${this.detail.trxHash}`
             }
         },
         watch: {
@@ -99,6 +113,7 @@
         },
         data() {
             return {
+                parseTime,
                 converterNum,
                 shortString,
                 visible: false
@@ -114,12 +129,69 @@
 
 <style lang="less">
     .art-modal {
+        .ant-modal {
+            max-width: 100%;
+            top: 0;
+            padding-bottom: 0;
+            margin: 0;
+        }
         .ant-modal-content {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh);
             overflow-y: scroll;
         }
-        .card-wrapper {
-            .ant-image {
-                background-color: @background-color-light;
+        .ant-modal-header {
+            border-bottom: none;
+        }
+        .ant-modal-body {
+            flex: 1;
+        }
+        .ant-modal-close-x {
+            font-size: 22px;
+        }
+        .art-detail {
+            .header {
+                margin-bottom: 32px;
+                text-align: center;
+                font-size: 36px;
+            }
+            .footer {
+                text-align: center;
+            }
+            .addr-container {
+                text-align: right;
+                .title {
+                    margin-bottom: 8px;
+                    font-family: Inter-Semi Bold, Inter;
+                }
+                .addr {
+                    padding: 8px 0;
+                    color: #6a57e3;
+                }
+            }
+            .img-container {
+                .card-wrapper {
+                    margin-bottom: 32px;
+                    .ant-image {
+                        width: 100%;
+                        background-color: @background-color-light;
+                    }
+                    .card {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+            .views-container {
+                .title {
+                    margin-bottom: 4px;
+                    color: #9ba2b0;
+                }
+                .amount {
+                    margin-bottom: 24px;
+                    font-family: Inter-Semi Bold, Inter;
+                }
             }
         }
     }

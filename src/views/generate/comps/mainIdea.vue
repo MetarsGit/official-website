@@ -255,16 +255,11 @@
                             this.fetchArtDetail()
                         } else if (res.code === 106) {
                             this.loading = true
-                            this.$store
-                                .dispatch('user/login')
-                                .then((res) => {
-                                    if (res.code === 1) {
-                                        this.submit()
-                                    }
-                                })
-                                .finally(() => {
-                                    this.loading = false
-                                })
+                            this.$store.dispatch('user/login').then((res) => {
+                                if (res.code === 1) {
+                                    this.submit()
+                                }
+                            })
                         }
                     })
                     .finally(() => {

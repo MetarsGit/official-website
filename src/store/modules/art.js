@@ -32,7 +32,7 @@ const actions = {
     async sign({ rootState }, prompt = '') {
         const { defaultAccount } = rootState.web3
         if (!defaultAccount) {
-            message.warn('Please connect the wallet')
+            message.warn('Please connect the wallet.')
             return
         }
         const msg = `I will create a virutal art with prompts '${prompt}' on METARS with my wallet address ${defaultAccount?.slice(-6) || ''}`

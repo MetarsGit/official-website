@@ -10,8 +10,8 @@
                     v-for="nft in artList"
                     :key="nft.artId"
                 >
-                    <div class="card-item" @click="showArt(nft)">
-                        <div class="card-img">
+                    <div class="card-item">
+                        <div class="card-img" @click="showArt(nft)">
                             <a-image
                                 :preview="false"
                                 :src="nft.imageUrlList[0] || ''"
@@ -25,7 +25,7 @@
                                 {{ nft.name }}
                             </div>
                             <div class="views">
-                                {{ converterNum(nft.viewsCount) }}
+                                {{ toThousandFilter(nft.viewsCount) }}
                                 Views
                             </div>
                         </div>
@@ -45,7 +45,7 @@
 <script>
     import { mapGetters } from 'vuex'
     import eventBus from '@/utils/eventBus'
-    import { converterNum, shortString } from '@/utils'
+    import { shortString, toThousandFilter } from '@/utils'
     import Result from '@/components/Result.vue'
     import Observer from '@/components/common/Observer'
     import artModal from '@/components/artModal.vue'
@@ -56,7 +56,7 @@
         components: { Result, Observer, artModal },
         data() {
             return {
-                converterNum,
+                toThousandFilter,
                 shortString,
                 showDetail: false,
                 artDetail: {},
@@ -118,6 +118,12 @@
                 if (res.code === 1) {
                     this.totalElements = res.data.totalElements
                     const list = res.data.content || []
+                    list.forEach((item) => {
+                        item.imageUrlList = []
+                        for (let key in item.creatorImageMap) {
+                            item.imageUrlList.push(item.creatorImageMap[key])
+                        }
+                    })
                     this.artList = this.artList.concat(list)
                 }
             }
