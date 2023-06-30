@@ -89,7 +89,7 @@
                 <div class="content" v-show="show[2]">
                     <input
                         class="input"
-                        v-model="twitterUrl"
+                        v-model.trim="twitterUrl"
                         type="text"
                         placeholder="Tweet URL"
                         :disabled="isVerifyed || isComplete"

@@ -39,7 +39,7 @@
                             type="circle"
                             :percent="record.percent"
                             strokeColor="#14171F"
-                            :strokeWidth="2"
+                            :strokeWidth="3"
                             :width="54"
                         >
                             <template #format="percent">
@@ -64,11 +64,6 @@
                     </template>
                 </template>
             </a-table>
-            <div class="desc">
-                Everyday only the top 3 artworks that have the highest retweets
-                get the chance to be minted and claim the rewards. Once the
-                artwork is minted, it will be removed from this list.
-            </div>
         </div>
     </div>
 </template>
@@ -76,13 +71,10 @@
 <script>
     import { inCreationListColumns } from './config'
     import { converterNum, shortString } from '@/utils'
-    // import InCreationList from '@/components/InCreationList/index.vue'
     import { queryInCreationArt } from '@/api'
-    // import SvgIcon from '@/components/common/SvgIcon/index.vue'
 
     export default {
         name: 'index',
-        // components: { SvgIcon, InCreationList },
         data() {
             return {
                 converterNum,
@@ -92,6 +84,12 @@
                 artList: [],
                 page: 0,
                 pagination: {
+                    showQuickJumper: true,
+                    showSizeChanger: false,
+                    showLessItems: true,
+                    showTotal: () => {
+                        return 'Everyday only the top 3 artworks that have the highest retweets get the chance to be minted and claim the rewards. Once the artwork is minted, it will be removed from this list. '
+                    },
                     pageSize: 10,
                     total: 0
                 }
@@ -153,12 +151,12 @@
             display: flex;
             flex-direction: column;
             margin-top: -68px;
-            min-height: calc(100vh - 400px);
             .inCreation-list {
-                flex: 1;
-            }
-            .desc {
-                color: #515151;
+                :deep(.ant-pagination .ant-pagination-total-text) {
+                    flex: 1;
+                    margin-right: 56px;
+                    line-height: 26px;
+                }
             }
         }
     }

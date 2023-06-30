@@ -37,6 +37,7 @@
                         <div class="card-wrapper">
                             <a-row>
                                 <a-col
+                                    class="card"
                                     v-for="(
                                         url, addr
                                     ) in detail.creatorImageMap"
@@ -47,7 +48,6 @@
                                     :xs="12"
                                 >
                                     <a-image
-                                        class="card"
                                         :preview="false"
                                         :src="url"
                                         :fallback="
@@ -173,13 +173,31 @@
             .img-container {
                 .card-wrapper {
                     margin-bottom: 32px;
-                    .ant-image {
-                        width: 100%;
-                        background-color: @background-color-light;
-                    }
                     .card {
+                        position: relative;
                         width: 100%;
-                        height: auto;
+                        margin: 0;
+                        &:after {
+                            display: block;
+                            padding-bottom: 100%;
+                            background-color: @background-color-light;
+                            content: '';
+                        }
+                        .ant-image {
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            .ant-image-img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: contain;
+                                object-position: center;
+                            }
+                        }
                     }
                 }
             }

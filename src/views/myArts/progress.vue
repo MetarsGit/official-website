@@ -9,6 +9,11 @@
             class="inCreation-list"
         >
             <template #bodyCell="{ column, record }">
+                <template v-if="column.dataIndex === 'name'">
+                    <div @click="toGenerate(record)" class="name">
+                        {{ record.name }}
+                    </div>
+                </template>
                 <template v-if="column.dataIndex === 'creators'">
                     <div class="creators">
                         <div
@@ -30,7 +35,7 @@
                         type="circle"
                         :percent="record.percent"
                         strokeColor="#14171F"
-                        :strokeWidth="2"
+                        :strokeWidth="3"
                         :width="54"
                     >
                         <template #format="percent">
@@ -76,7 +81,10 @@
                 loading: false,
                 page: 0,
                 pagination: {
-                    pageSize: 12,
+                    showQuickJumper: true,
+                    showSizeChanger: false,
+                    showLessItems: true,
+                    pageSize: 10,
                     total: 0
                 },
                 totalElements: 0,
@@ -101,6 +109,14 @@
             }
         },
         methods: {
+            toGenerate(item) {
+                this.$router.push({
+                    name: 'Generate',
+                    query: {
+                        id: item.artId
+                    }
+                })
+            },
             async initList() {
                 this.page = 0
                 this.totalElements = 0

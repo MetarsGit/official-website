@@ -199,10 +199,18 @@
                         this.isShowMintConfirm = true
                         this.isMinted = true
                     }
+                } else if (res.code === 106) {
+                    // 未登录
+                    this.loading = true
+                    this.$store.dispatch('user/login').then((res) => {
+                        if (res?.code === 1) {
+                            this.onClickMint()
+                        }
+                    })
                 } else {
                     // 不满足mint条件
                     this.$message.error(
-                        res.data.message || 'not satisfy the conditions'
+                        res?.msg || 'not satisfy the conditions'
                     )
                 }
                 this.loading = false
