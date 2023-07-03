@@ -6,9 +6,10 @@
         :visible="isShow"
         width="509px"
         :footer="null"
-        :closable="false"
+        :closable="true"
         wrapClassName="share-modal"
         :maskClosable="true"
+        @cancel="hide"
     >
         <div class="modal-detail">
             <div class="header">Generate a tweet for me</div>
@@ -80,6 +81,9 @@
         }
     }
     .share-modal {
+        .ant-modal {
+            top: 25%;
+        }
         .ant-modal-content {
             border-radius: 16px;
         }

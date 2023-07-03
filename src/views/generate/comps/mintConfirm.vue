@@ -6,6 +6,7 @@
         :closable="false"
         wrapClassName="mint-modal"
         :maskClosable="true"
+        @cancel="hide"
     >
         <div class="modal-detail">
             <div class="header">Mint & Claim Success!</div>
@@ -35,6 +36,9 @@
 
 <style lang="less">
     .mint-modal {
+        .ant-modal {
+            top: 25%;
+        }
         .ant-modal-content {
             border-radius: 16px;
         }

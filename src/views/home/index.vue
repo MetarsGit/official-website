@@ -90,7 +90,7 @@
                                         </p>
                                         <p class="item-desc">
                                             Collaborating on virtual art at
-                                            ArtiFuse brings people together,
+                                            METARS brings people together,
                                             fosters growth, and creates a sense
                                             of community. Join forces with
                                             others to bring your unique ideas to
@@ -108,13 +108,13 @@
                                             Community-Driven
                                         </p>
                                         <p class="item-desc">
-                                            ArtiFuse is a community-driven
+                                            METARS is a community-driven
                                             platform that offers opportunities
                                             for creative expression,
                                             collaboration, skill development,
                                             and fun. By bringing users together
                                             and fostering a sense of community,
-                                            ArtiFuse provides a unique and
+                                            METARS provides a unique and
                                             rewarding experience.
                                         </p>
                                     </li>
@@ -128,7 +128,7 @@
                                             Token-based Ecosystem
                                         </p>
                                         <p class="item-desc">
-                                            At ArtiFuse, we reward users with
+                                            At METARS, we reward users with
                                             tokens for their contributions to
                                             our virtual art community. This
                                             creates a fun and engaging

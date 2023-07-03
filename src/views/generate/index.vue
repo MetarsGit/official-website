@@ -60,6 +60,8 @@
     import artModal from '../../components/artModal.vue'
     import { CheckCircleFilled } from '@ant-design/icons-vue'
     import { stepList, STEP_SORT } from './const'
+    import { rpcConfig, defaultNetwork, defaultNetworkId } from '@/config/web3'
+    import { walletConnectToNetwork } from '@/utils/wallet'
     import './style.less'
 
     export default {
@@ -76,6 +78,8 @@
         },
         computed: {
             ...mapState('art', ['currentStatus', 'displayStatus']),
+            ...mapState('web3', ['currentNetworkId']),
+
             stepList() {
                 let currentStatusSort =
                     STEP_SORT.indexOf(this.currentStatus) || 0
@@ -123,9 +127,47 @@
                     const artDetail = await this.fetchArtDetail(true)
                     // 如果作品已mint 展示作品详情
                     this.showDetail(artDetail)
-
                     this.loading = false
                 }
+
+                // 如果连接的不是默认网络，唤起切链
+                setTimeout(() => {
+                    this.switchNetWork()
+                }, 1000)
+            },
+
+            async switchNetWork() {
+                let connected = true
+                if (this.currentNetworkId != defaultNetworkId) {
+                    const {
+                        expectedNetworkId,
+                        chainName,
+                        currencySymbol,
+                        currencyDecimals,
+                        rpcUrls,
+                        blockExplorerUrls
+                    } = rpcConfig[defaultNetwork]
+                    const config = {
+                        expectedNetworkId,
+                        chainId:
+                            window.web3?.utils?.numberToHex?.(
+                                expectedNetworkId
+                            ),
+                        chainName,
+                        currencySymbol,
+                        currencyDecimals,
+                        rpcUrls,
+                        blockExplorerUrls
+                    }
+
+                    try {
+                        await walletConnectToNetwork(config)
+                        connected = true
+                    } catch (e) {
+                        connected = false
+                    }
+                }
+                return connected
             },
 
             changeDisplayStep({ status, isComplete }) {

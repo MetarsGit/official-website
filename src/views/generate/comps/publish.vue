@@ -80,6 +80,7 @@
                     <span class="btn" @click="onClickMint" v-if="!isMinted">
                         Mint & Claim
                     </span>
+                    <span class="btn btn-disable" v-else>Mint & Claim</span>
                 </div>
                 <div class="content">
                     <div class="detail">
@@ -138,6 +139,7 @@
         },
         created() {
             this.loadImg(false)
+            this.isMinted = this.artInfo?.isAlreadyMint
         },
         methods: {
             ...mapActions('art', ['sign', 'fetchArtDetail']),
