@@ -235,7 +235,7 @@
         </div>
 
         <home-footer />
-        <!-- <announcement /> -->
+        <announcement />
     </div>
 </template>
 

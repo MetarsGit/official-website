@@ -174,32 +174,48 @@
                     return
                 }
                 this.loading = true
-                const res = await queryCanMint({ artId: this.artId })
-                if (res.code === 1 && res.data?.status) {
-                    let { artName, ownerList, v, r, s } = res.data
-                    console.log('this.contracts', this.contracts)
-                    console.log('currentNetworkId', this.currentNetworkId)
-                    if (this.currentNetworkId != defaultNetworkId) {
-                        console.log('切换')
-                        let connected = await this.switchNetWork()
-                        console.log('网络', connected)
-                        if (!connected) {
-                            this.loading = false
-                            return
+                const res = await queryCanMint({
+                    artId: this.artId,
+                    mintAddress: this.defaultAccount
+                })
+                if (res.code === 1) {
+                    if (res.data?.status) {
+                        let { artName, ownerList, v, r, s } = res.data
+                        console.log('this.contracts', this.contracts)
+                        console.log('currentNetworkId', this.currentNetworkId)
+                        if (this.currentNetworkId != defaultNetworkId) {
+                            console.log('切换')
+                            let connected = await this.switchNetWork()
+                            console.log('网络', connected)
+                            if (!connected) {
+                                this.loading = false
+                                return
+                            }
                         }
-                    }
-                    const mintRes = await this.contracts
-                        .CyberHarborMembership(defaultNetworkId)
-                        .methods.generateAndMint(artName, ownerList, v, r, s)
-                        .send({ from: this.defaultAccount })
-                        .catch((err) => {
-                            console.log(err)
-                            this.$message.error('fail')
-                        })
-                    console.log('mint res', mintRes)
-                    if (mintRes) {
-                        this.isShowMintConfirm = true
-                        this.isMinted = true
+                        const mintRes = await this.contracts
+                            .CyberHarborMembership(defaultNetworkId)
+                            .methods.generateAndMint(
+                                artName,
+                                ownerList,
+                                v,
+                                r,
+                                s
+                            )
+                            .send({ from: this.defaultAccount })
+                            .catch((err) => {
+                                console.log(err)
+                                this.$message.error('fail')
+                            })
+                        console.log('mint res', mintRes)
+                        if (mintRes) {
+                            this.isShowMintConfirm = true
+                            this.isMinted = true
+                        }
+                    } else {
+                        // 不满足mint条件
+                        this.$message.error(
+                            res?.data?.message || 'not satisfy the conditions'
+                        )
                     }
                 } else if (res.code === 106) {
                     // 未登录
@@ -209,11 +225,6 @@
                             this.onClickMint()
                         }
                     })
-                } else {
-                    // 不满足mint条件
-                    this.$message.error(
-                        res?.msg || 'not satisfy the conditions'
-                    )
                 }
                 this.loading = false
             },

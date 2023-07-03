@@ -21,7 +21,7 @@
                 <li class="list-item">
                     <a
                         class="list-item-link"
-                        href="https://metars.gitbook.io/metars-white-paper/"
+                        href="https://metars-1.gitbook.io/metars-whitepaper/"
                         target="_blank"
                     >
                         Docs

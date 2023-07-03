@@ -109,6 +109,11 @@
 
         created() {
             this.init()
+
+            // 如果连接的不是默认网络，唤起切链
+            setTimeout(() => {
+                this.switchNetWork()
+            }, 1000)
         },
         methods: {
             ...mapActions('art', ['fetchArtDetail']),
@@ -129,11 +134,6 @@
                     this.showDetail(artDetail)
                     this.loading = false
                 }
-
-                // 如果连接的不是默认网络，唤起切链
-                setTimeout(() => {
-                    this.switchNetWork()
-                }, 1000)
             },
 
             async switchNetWork() {

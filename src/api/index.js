@@ -91,7 +91,7 @@ export function generateImage(params) {
 }
 // 查询是否满足mint条件
 export function queryCanMint(params) {
-    return Axios.get(`/api/art/queryCanMint/${params.artId}`)
+    return Axios.get(`/api/art/queryCanMint/${params.artId}/${params.mintAddress}`)
 }
 // 查询正在创作中的作品
 export function findArtInProgress(params) {
