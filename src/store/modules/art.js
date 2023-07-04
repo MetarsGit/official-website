@@ -7,6 +7,7 @@ const state = () => ({
     currentStatus: '',
     displayStatus: '',
     artInfo: {
+        isAlreadyMint: false,
         MAIN_IDEA: {},
         STYLE: {},
         ENVIRONMENT: {},
@@ -100,11 +101,15 @@ const mutations = {
         state.currentStatus = ''
         state.displayStatus = ''
         state.artInfo = {
+            isAlreadyMint: false,
             MAIN_IDEA: {},
             STYLE: {},
             ENVIRONMENT: {},
             DETAILS: {},
         }
+    },
+    setIsAlreadyMint(state, isMinted = false) {
+        state.artInfo.isAlreadyMint = isMinted
     }
 }
 

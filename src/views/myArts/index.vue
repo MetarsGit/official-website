@@ -15,7 +15,10 @@
                 <span>Total Views of My Artworks</span>
             </a-col>
             <a-col class="item" :lg="7">
-                <div>{{ stat.name || '--' }}</div>
+                <div class="name" v-if="artMostView.name" @click="viewArt">
+                    {{ artMostView.name }}
+                </div>
+                <div v-else>--</div>
                 <span>Most Viewed Artwork</span>
             </a-col>
         </a-row>
@@ -33,6 +36,11 @@
                 </a-tab-pane>
             </a-tabs>
         </div>
+        <art-modal
+            :is-show="showDetail"
+            :detail="artMostView"
+            @close="showDetail = false"
+        ></art-modal>
     </div>
 </template>
 
@@ -42,15 +50,18 @@
     import { converterNum } from '@/utils'
     import CompletedList from '@/views/myArts/completed.vue'
     import ProgressList from '@/views/myArts/progress.vue'
+    import artModal from '@/components/artModal.vue'
     import { queryMyArtStat } from '@/api'
 
     export default {
         name: 'index',
-        components: { CompletedList, ProgressList },
+        components: { artModal, CompletedList, ProgressList },
         data() {
             return {
                 converterNum,
                 stat: {},
+                artMostView: {},
+                showDetail: false,
                 activeKey: 'Completed',
                 accountChangeEvent: null
             }
@@ -71,6 +82,9 @@
             })
         },
         methods: {
+            viewArt() {
+                this.showDetail = true
+            },
             async getMyArtStat() {
                 if (!this.defaultAccount) {
                     this.stat = {}
@@ -80,7 +94,9 @@
                     address: this.defaultAccount
                 })
                 if (res.code === 1) {
-                    this.stat = res.data || {}
+                    this.stat.myArtCount = res.data.myArtCount || 0
+                    this.stat.totalViews = res.data.totalViews || 0
+                    this.artMostView = res.data.artCompletedResp || {}
                 }
             }
         }
@@ -116,8 +132,14 @@
                     margin-bottom: 16px;
                     line-height: 1.2;
                     font-family: Inter-Semi Bold, Inter;
-                    font-size: 48px;
+                    font-size: 40px;
                     color: #6a57e3;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    &.name {
+                        cursor: pointer;
+                    }
                 }
                 > span {
                     font-family: Montserrat-SemiBold, Montserrat;

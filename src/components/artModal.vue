@@ -4,6 +4,7 @@
         width="100%"
         :footer="null"
         wrap-class-name="art-modal"
+        :closable="false"
         @cancel="close"
     >
         <template #title>
@@ -12,10 +13,12 @@
             </span>
         </template>
         <div class="art-detail container">
-            <div class="header">{{ detail.name }}</div>
             <a-row :gutter="126">
                 <a-col :lg="6" :md="8" :sm="24" :xs="24">
                     <div class="addr-container">
+                        <div class="back" @click="close">
+                            <img src="../assets/img/icon/back.png" alt="" />
+                        </div>
                         <div class="title">In collaboration with</div>
                         <a-row>
                             <a-col
@@ -34,6 +37,9 @@
                 </a-col>
                 <a-col :lg="12" :md="12" :sm="24" :xs="24">
                     <div class="img-container">
+                        <div class="header">
+                            {{ detail.name }}
+                        </div>
                         <div class="card-wrapper">
                             <a-row>
                                 <a-col
@@ -152,8 +158,9 @@
         }
         .art-detail {
             .header {
-                margin-bottom: 32px;
+                margin-bottom: 30px;
                 text-align: center;
+                line-height: 50px;
                 font-size: 36px;
             }
             .footer {
@@ -161,6 +168,16 @@
             }
             .addr-container {
                 text-align: right;
+                .back {
+                    display: inline-flex;
+                    justify-content: flex-end;
+                    margin-bottom: 90px;
+                    margin-top: 8px;
+                    cursor: pointer;
+                    > img {
+                        width: 92px;
+                    }
+                }
                 .title {
                     margin-bottom: 8px;
                     font-family: Inter-Semi Bold, Inter;
@@ -202,6 +219,7 @@
                 }
             }
             .views-container {
+                margin-top: 75px;
                 .title {
                     margin-bottom: 4px;
                     color: #9ba2b0;

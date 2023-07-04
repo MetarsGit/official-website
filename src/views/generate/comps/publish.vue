@@ -98,7 +98,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex'
+    import { mapState, mapActions, mapMutations } from 'vuex'
     import {
         generateImage,
         findNftImages,
@@ -116,8 +116,7 @@
                 loading: false,
                 isShowMintConfirm: false,
                 isGenerated: false,
-                loadingImg: false,
-                isMinted: false
+                loadingImg: false
             }
         },
         computed: {
@@ -128,21 +127,24 @@
                 'currentNetworkId'
             ]),
             name() {
-                return this.artInfo.DETAILS?.name || ''
+                return this.artInfo?.DETAILS?.name || ''
             },
             description() {
-                return this.artInfo.DETAILS?.description || ''
+                return this.artInfo?.DETAILS?.description || ''
             },
             totalRetweetsCount() {
-                return this.artInfo.totalRetweetsCount
+                return this.artInfo?.totalRetweetsCount
+            },
+            isMinted() {
+                return this.artInfo?.isAlreadyMint || false
             }
         },
         created() {
             this.loadImg(false)
-            this.isMinted = this.artInfo?.isAlreadyMint
         },
         methods: {
             ...mapActions('art', ['sign', 'fetchArtDetail']),
+            ...mapMutations('art', ['setIsAlreadyMint']),
 
             // 生成图片
             async generateImage() {
@@ -181,12 +183,8 @@
                 if (res.code === 1) {
                     if (res.data?.status) {
                         let { artName, ownerList, v, r, s } = res.data
-                        console.log('this.contracts', this.contracts)
-                        console.log('currentNetworkId', this.currentNetworkId)
                         if (this.currentNetworkId != defaultNetworkId) {
-                            console.log('切换')
                             let connected = await this.switchNetWork()
-                            console.log('网络', connected)
                             if (!connected) {
                                 this.loading = false
                                 return
@@ -206,10 +204,10 @@
                                 console.log(err)
                                 this.$message.error('fail')
                             })
-                        console.log('mint res', mintRes)
                         if (mintRes) {
                             this.isShowMintConfirm = true
-                            this.isMinted = true
+                            this.setIsAlreadyMint(true)
+                            // this.isMinted = true
                         }
                     } else {
                         // 不满足mint条件
