@@ -37,7 +37,7 @@
                     <style-prompt v-if="displayStatus === 'MAIN_IDEA'" />
                     <environment v-if="displayStatus === 'STYLE'" />
                     <details-prompt v-if="displayStatus === 'ENVIRONMENT'" />
-                    <publish v-if="displayStatus === 'DETAILS'" />
+                    <publish v-show="displayStatus === 'DETAILS'" />
                 </div>
             </a-spin>
         </div>

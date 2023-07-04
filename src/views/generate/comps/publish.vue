@@ -148,11 +148,16 @@
 
             // 生成图片
             async generateImage() {
+                if (!this.defaultAccount) {
+                    this.$message.warn('Please connect the wallet.')
+                    return
+                }
                 this.loading = true
                 let recaptchaToken = await getGrecaptchaToken('generate')
                 let param = {
                     artId: this.artId,
-                    recaptchaToken
+                    recaptchaToken,
+                    address: this.defaultAccount
                 }
                 generateImage(param)
                     .then((res) => {
@@ -161,8 +166,12 @@
                             this.$message.success('generate success!')
                             this.loadImg()
                         } else if (res.code === 106) {
-                            this.$message.error('please login and try again!')
-                            this.$store.dispatch('user/login')
+                            // this.$message.error('please login and try again!')
+                            this.$store.dispatch('user/login').then((res) => {
+                                if (res.code === 1) {
+                                    this.generateImage()
+                                }
+                            })
                         }
                     })
                     .finally(() => {
@@ -207,7 +216,6 @@
                         if (mintRes) {
                             this.isShowMintConfirm = true
                             this.setIsAlreadyMint(true)
-                            // this.isMinted = true
                         }
                     } else {
                         // 不满足mint条件
