@@ -55,7 +55,7 @@
                         </div>
                     </div>
 
-                    <a-spin :spinning="!imgs.length" v-else>
+                    <a-spin :spinning="loadingImg" v-else>
                         <div
                             :class="{
                                 'img-list': true,
@@ -278,6 +278,8 @@
                                 this.loadImg()
                             }, 5000)
                         }
+                    } else {
+                        this.loadingImg = false
                     }
                 })
             }
