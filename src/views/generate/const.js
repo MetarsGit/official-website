@@ -52,7 +52,7 @@ let env = isProd ? 'prod' : 'dev'
 
 export const domainMap = {
     dev: 'https://test.a1pha.win/',
-    prod: 'https://artifuse.ai/'
+    prod: 'https://metars.io/'
 }
 export const shareUrlPrefix = `${domainMap[env]}generate`
 

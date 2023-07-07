@@ -15,6 +15,10 @@
                     with. So come on in, let your imagination run wild, and let
                     METARS be your gateway to the exciting world of crypto art!
                 </div>
+                <div class="desc">
+                    The top 5 works in the number of daily reposts can be
+                    Generated.
+                </div>
                 <span class="btn-start" @click="start">Start</span>
             </div>
         </div>
@@ -95,11 +99,11 @@
             .title {
                 font-size: 48px;
                 line-height: 50px;
+                margin-bottom: 28px;
             }
             .desc {
                 font-size: 20px;
                 line-height: 32px;
-                margin-top: 28px;
             }
             .btn-start {
                 float: right;

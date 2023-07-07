@@ -1,8 +1,15 @@
 <template>
-    <span class="share" @click="show">
+    <!-- <span class="share" @click="show"> -->
+    <a
+        class="share"
+        :href="`https://twitter.com/share?text=${text}&hashtags=${hashtags}`"
+        target="_blank"
+        @click="openShare"
+    >
         Generate a tweet for me and I’ll share!
-    </span>
-    <a-modal
+    </a>
+    <!-- </span> -->
+    <!-- <a-modal
         :visible="isShow"
         width="509px"
         :footer="null"
@@ -18,14 +25,14 @@
                 {{ verifyText }} with my wallet {{ account }} and I'd love for
                 you to join me. Let's collaborate and create something amazing
                 together. Retweet and let's get started! #virtualart
-                #collaboration #ArtiFuse
+                #collaboration #Metars
             </div>
             <div class="footer">
                 <span class="btn" @click="copyClick">Copy and share</span>
             </div>
             <input class="input" id="shareCopyText" v-model="copyText" />
         </div>
-    </a-modal>
+    </a-modal> -->
 </template>
 
 <script>
@@ -37,6 +44,14 @@
             ...mapGetters('art', ['verifyText']),
             account() {
                 return this.defaultAccount?.slice(-6) || ''
+            },
+            text() {
+                return encodeURIComponent(
+                    `I'm looking to create a virtual art project on ${this.verifyText} with my wallet ${this.account} and I'd love for you to join me. Let's collaborate and create something amazing together. Retweet and let's get started!`
+                )
+            },
+            hashtags() {
+                return ['virtualart', 'collaboration', 'Metars']
             }
         },
         data() {
@@ -66,6 +81,12 @@
                     this.$message.success('copy success')
                     this.hide()
                 }, 20)
+            },
+            openShare(e) {
+                if (!this.defaultAccount) {
+                    this.$message.warn('Please connect the wallet.')
+                    e.preventDefault()
+                }
             }
         }
     }
