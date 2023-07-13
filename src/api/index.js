@@ -53,7 +53,7 @@ export async function getGrecaptchaToken(action) {
     return new Promise((resolve, reject) => {
         grecaptcha.ready(() => {
             grecaptcha
-                .execute('6LfdowcbAAAAANHqnTEh2SOEE1PGcR3rTxEp_5r2', {
+                .execute('6Lc_Cx4nAAAAAK17a1fP24_oIM8xi3B2wHiPSxce', {
                     action
                 })
                 .then((token) => {
