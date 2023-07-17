@@ -88,7 +88,7 @@
                     showSizeChanger: false,
                     showLessItems: true,
                     showTotal: () => {
-                        return 'Everyday only the top 3 artworks that have the highest retweets get the chance to be minted and claim the rewards. Once the artwork is minted, it will be removed from this list. '
+                        return 'Everyday only the top 5 artworks that have the highest retweets get the chance to be minted and claim the rewards. Once the artwork is minted, it will be removed from this list. '
                     },
                     pageSize: 10,
                     total: 0
