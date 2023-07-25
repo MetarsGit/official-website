@@ -4,6 +4,15 @@
             <div class="title">
                 <i class="icon icon-name"></i>
                 <span class="label">Name of artwork</span>
+                <a-spin :spinning="likeLoading">
+                    <span class="like">
+                        <i class="icon icon-like" v-if="artInfo.isLike"></i>
+                        <i class="icon icon-unlike" @click="like" v-else></i>
+                        <span class="count" v-if="artInfo.likeCount">
+                            {{ artInfo.likeCount }}
+                        </span>
+                    </span>
+                </a-spin>
             </div>
             <div class="content">
                 <div class="center-wrap">
@@ -31,6 +40,15 @@
                 />
             </div>
         </div>
+
+        <div class="section">
+            <div class="title">
+                <i class="icon icon-link"></i>
+                <span class="label">Invite link</span>
+            </div>
+            <invitelink type="publish" />
+        </div>
+
         <a-spin :spinning="loading">
             <div class="section">
                 <div class="title">
@@ -47,11 +65,10 @@
                 <div class="content">
                     <div class="detail" v-if="!isGenerated">
                         <div class="note">
-                            The creators of a virtual artwork received a total
-                            of {{ totalRetweetsCount }} retweets, as their
-                            creation is gaining popularity and attention these
-                            days. Would you like to generate and finalize the
-                            virtual artwork using above description?
+                            The creator of the virtual artwork received a total
+                            of {{ artInfo.likeCount }} likes, would you like to
+                            generate and finalize a virtual artwork using the
+                            above description?
                         </div>
                     </div>
 
@@ -103,24 +120,29 @@
         generateImage,
         findNftImages,
         getGrecaptchaToken,
-        queryCanMint
+        queryCanMint,
+        likeArt
     } from '@/api'
     import { rpcConfig, defaultNetwork, defaultNetworkId } from '@/config/web3'
     import { walletConnectToNetwork } from '@/utils/wallet'
+    import eventBus from '@/utils/eventBus'
     import MintConfirm from './mintConfirm.vue'
+    import invitelink from './invitelink.vue'
     export default {
-        components: { MintConfirm },
+        components: { MintConfirm, invitelink },
         data() {
             return {
                 imgs: [],
                 loading: false,
                 isShowMintConfirm: false,
                 isGenerated: false,
-                loadingImg: false
+                loadingImg: false,
+                likeLoading: false,
+                accountChangeEvent: null
             }
         },
         computed: {
-            ...mapState('art', ['artId', 'artInfo']),
+            ...mapState('art', ['artId', 'artInfo', 'displayStatus']),
             ...mapState('web3', [
                 'defaultAccount',
                 'contracts',
@@ -132,19 +154,22 @@
             description() {
                 return this.artInfo?.DETAILS?.description || ''
             },
-            totalRetweetsCount() {
-                return this.artInfo?.totalRetweetsCount
-            },
             isMinted() {
                 return this.artInfo?.isAlreadyMint || false
             }
         },
         created() {
             this.loadImg(false)
+            this.accountChangeEvent = eventBus.onEvent('accountChanged', () => {
+                this.fetchArtDetail()
+            })
+        },
+        beforeRouteLeave() {
+            eventBus.offEvent('accountChanged', this.accountChangeEvent)
         },
         methods: {
             ...mapActions('art', ['sign', 'fetchArtDetail']),
-            ...mapMutations('art', ['setIsAlreadyMint']),
+            ...mapMutations('art', ['setIsAlreadyMint', 'setLikeStatus']),
 
             // 生成图片
             async generateImage() {
@@ -166,7 +191,6 @@
                             this.$message.success('generate success!')
                             this.loadImg()
                         } else if (res.code === 106) {
-                            // this.$message.error('please login and try again!')
                             this.$store.dispatch('user/login').then((res) => {
                                 if (res.code === 1) {
                                     this.generateImage()
@@ -179,12 +203,14 @@
                     })
             },
 
+            // 点击mint
             async onClickMint() {
                 if (!this.defaultAccount) {
                     this.$message.warn('Please connect the wallet.')
                     return
                 }
                 this.loading = true
+                // 查询是否具备mint条件
                 const res = await queryCanMint({
                     artId: this.artId,
                     mintAddress: this.defaultAccount
@@ -235,6 +261,7 @@
                 this.loading = false
             },
 
+            // 切换网络
             async switchNetWork() {
                 let connected = false
                 const {
@@ -282,6 +309,41 @@
                         this.loadingImg = false
                     }
                 })
+            },
+
+            // 点赞
+            like() {
+                if (!this.defaultAccount) {
+                    this.$message.warn('Please connect the wallet.')
+                    return
+                }
+                this.likeLoading = true
+                let param = {
+                    artId: this.artId,
+                    address: this.defaultAccount
+                }
+
+                likeArt(param)
+                    .then((res) => {
+                        if (res.code === 1) {
+                            this.$message.success('like success')
+                            return this.fetchArtDetail() // 更新点赞状态、点赞数
+                        } else if (res.code === 106) {
+                            this.likeLoading = true
+                            this.$store.dispatch('user/login').then((res) => {
+                                if (res?.code === 1) {
+                                    this.like()
+                                }
+                            })
+                        } else if (res.code === 113) {
+                            // 已经like过
+                            this.setLikeStatus(true)
+                            this.$message.warn(res.msg)
+                        }
+                    })
+                    .finally(() => {
+                        this.likeLoading = false
+                    })
             }
         }
     }

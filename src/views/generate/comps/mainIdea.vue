@@ -78,36 +78,18 @@
 
             <div class="section">
                 <div class="title">
-                    <i class="icon icon-tweet"></i>
-                    <span class="label">Share a tweet</span>
+                    <i class="icon icon-link"></i>
+                    <span class="label">Invite link</span>
                     <i
                         v-show="currProgress > 1"
                         :class="['icon-arrow', show[2] && 'icon-arrow-down']"
                         @click="show[2] = !show[2]"
                     ></i>
                 </div>
-                <div class="content" v-show="show[2]">
-                    <input
-                        class="input"
-                        v-model.trim="twitterUrl"
-                        type="text"
-                        placeholder="Tweet URL"
-                        :disabled="isVerifyed || isComplete"
-                    />
-                    <div class="detail" v-if="!isComplete">
-                        <share-confirm />
-                        <span
-                            v-if="!isVerifyed"
-                            class="btn"
-                            @click="verifyTweet"
-                        >
-                            Verify
-                        </span>
-                    </div>
-                </div>
+                <invitelink v-show="show[2]" />
             </div>
 
-            <div class="section" v-if="isComplete">
+            <!-- <div class="section" v-if="isComplete">
                 <div class="title">
                     <i class="icon icon-signed"></i>
                     <span class="label">Signed message</span>
@@ -124,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="section" v-if="!isComplete">
                 <span v-if="canSubmit" class="btn btn-submit" @click="submit">
@@ -140,19 +122,21 @@
     import { mapState, mapGetters, mapActions } from 'vuex'
     import { submitArtMainIdea, getGrecaptchaToken } from '@/api'
     import shareConfirm from './shareConfirm.vue'
+    import invitelink from './invitelink.vue'
     import { ART_NAME_PATTERN, MAIN_IDEA_PATTERN } from '../const'
     export default {
         components: {
-            shareConfirm
+            shareConfirm,
+            invitelink
         },
         data() {
             return {
                 name: '',
                 mainIdea: '',
-                twitterUrl: '',
-                signedMessage: '',
-                isVerifyed: false,
-                show: [true, false, false, false],
+                // twitterUrl: '',
+                // signedMessage: '',
+                // isVerifyed: false,
+                show: [true, false, false],
                 currProgress: 0,
                 loading: false
             }
@@ -163,10 +147,9 @@
             ...mapGetters('art', ['verifyText', 'displayStep', 'isComplete']),
             canSubmit() {
                 return (
-                    this.name !== '' &&
-                    this.mainIdea !== '' &&
-                    this.twitterUrl !== '' &&
-                    this.isVerifyed
+                    this.name !== '' && this.mainIdea !== '' // &&
+                    // this.twitterUrl !== '' &&
+                    // this.isVerifyed
                 )
             }
         },
@@ -177,11 +160,11 @@
                     if (newVal) {
                         this.name = this.displayStep.name
                         this.mainIdea = this.displayStep.mainIdea
-                        this.twitterUrl = this.displayStep.twitterUrl
-                        this.signedMessage = this.displayStep.signedMessage
+                        // this.twitterUrl = this.displayStep.twitterUrl
+                        // this.signedMessage = this.displayStep.signedMessage
 
                         this.currProgress = this.show?.length - 1
-                        this.show = [true, true, true, true]
+                        this.show = [true, true, true]
                     }
                 }
             }
@@ -213,24 +196,24 @@
                 )
             },
 
-            verifyTweet() {
-                if (!this.twitterUrl) {
-                    this.$message.warn('Please input Tweet URL')
-                    return
-                }
-                this.loading = true
-                this.verifyTwitter(this.twitterUrl)
-                    .then((res) => {
-                        if (res.code === 1) {
-                            this.updateProgress(3)
-                            this.isVerifyed = true
-                            this.$message.success(res.data)
-                        }
-                    })
-                    .finally(() => {
-                        this.loading = false
-                    })
-            },
+            // verifyTweet() {
+            //     if (!this.twitterUrl) {
+            //         this.$message.warn('Please input Tweet URL')
+            //         return
+            //     }
+            //     this.loading = true
+            //     this.verifyTwitter(this.twitterUrl)
+            //         .then((res) => {
+            //             if (res.code === 1) {
+            //                 this.updateProgress(3)
+            //                 this.isVerifyed = true
+            //                 this.$message.success(res.data)
+            //             }
+            //         })
+            //         .finally(() => {
+            //             this.loading = false
+            //         })
+            // },
 
             async submit() {
                 this.loading = true
@@ -243,9 +226,9 @@
                     mainIdea: this.mainIdea,
                     name: this.name,
                     recaptchaToken,
-                    signature,
-                    twitterUrl: this.twitterUrl,
-                    verifyText: this.verifyText
+                    signature
+                    // twitterUrl: this.twitterUrl,
+                    // verifyText: this.verifyText
                 }
 
                 submitArtMainIdea(param)

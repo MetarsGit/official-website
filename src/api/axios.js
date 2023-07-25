@@ -9,6 +9,7 @@ function showError(_tip) {
 const whiteListCodes = {
     106: 'Please Login',
     111: 'The artwork is generating',
+    113: 'You have already liked it, please do not repeat it.'
     // 112: 'The current work has been completed, please jump to the artwork details page.'
 }
 

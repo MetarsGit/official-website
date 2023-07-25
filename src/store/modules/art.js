@@ -8,6 +8,7 @@ const state = () => ({
     displayStatus: '',
     artInfo: {
         isAlreadyMint: false,
+        isLike: false,
         MAIN_IDEA: {},
         STYLE: {},
         ENVIRONMENT: {},
@@ -45,11 +46,11 @@ const actions = {
     },
 
     //拉取进行中的作品详情
-    fetchArtDetail({ state, commit, dispatch }, syncStatus = false) {
-        let { artId } = state
+    fetchArtDetail({ rootState, state, commit, dispatch }, syncStatus = false) {
+        const { artId } = state
+        const { defaultAccount } = rootState.web3
         if (!artId) return
-        return findArtInProgress({ artId }).then((res) => {
-            console.log(res)
+        return findArtInProgress({ artId, address: defaultAccount }).then((res) => {
             if (res.code === 1) {
                 commit('setArtDetail', res.data)
                 // 同步展示状态（进入下一步）
@@ -110,6 +111,10 @@ const mutations = {
     },
     setIsAlreadyMint(state, isMinted = false) {
         state.artInfo.isAlreadyMint = isMinted
+    },
+    setLikeStatus(state, status = false) {
+        state.artInfo.isLike = status
+
     }
 }
 

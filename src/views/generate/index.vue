@@ -61,7 +61,8 @@
     import { CheckCircleFilled } from '@ant-design/icons-vue'
     import { stepList, STEP_SORT } from './const'
     import { rpcConfig, defaultNetwork, defaultNetworkId } from '@/config/web3'
-    import { walletConnectToNetwork } from '@/utils/wallet'
+    import { walletConnectTry, walletConnectToNetwork } from '@/utils/wallet'
+    import storage from '@/utils/storage'
     import './style.less'
 
     export default {
@@ -129,11 +130,29 @@
                     this.loading = true
                     this.setArtId(artId)
 
+                    // 链接钱包 获取地址
+                    await this.connectWallet()
                     const artDetail = await this.fetchArtDetail(true)
                     // 如果作品已mint 展示作品详情
                     this.showDetail(artDetail)
                     this.loading = false
                 }
+            },
+
+            // 静默链接钱包 3秒超时
+            connectWallet() {
+                return new Promise((resolve) => {
+                    try {
+                        walletConnectTry().then(() => {
+                            resolve(true)
+                        })
+                    } catch (e) {
+                        return resolve(false)
+                    }
+                    setTimeout(() => {
+                        resolve(false)
+                    }, 3000)
+                })
             },
 
             async switchNetWork() {
@@ -161,6 +180,7 @@
                     }
 
                     try {
+                        storage.set('logged_out', false)
                         await walletConnectToNetwork(config)
                         connected = true
                     } catch (e) {

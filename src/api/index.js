@@ -53,7 +53,7 @@ export async function getGrecaptchaToken(action) {
     return new Promise((resolve, reject) => {
         grecaptcha.ready(() => {
             grecaptcha
-                .execute('6Lc_Cx4nAAAAAK17a1fP24_oIM8xi3B2wHiPSxce', {
+                .execute('6LdIFAsbAAAAAA5RZb4SK0cCzHdp9YbltsLZDRNi', {
                     action
                 })
                 .then((token) => {
@@ -95,11 +95,16 @@ export function queryCanMint(params) {
 }
 // 查询正在创作中的作品
 export function findArtInProgress(params) {
-    return Axios.get(`/api/art/findArtInProgress/${params.artId}`)
+    return Axios.get(`/api/art/findArtInProgress`, params)
 }
 
 export function findNftImages(params) {
     return Axios.get(`/api/art/findNftImages/${params.artId}`)
+}
+
+// 点赞作品
+export function likeArt(params) {
+    return Axios.post(`/api/art/like`, params)
 }
 
 // 验证Twitter

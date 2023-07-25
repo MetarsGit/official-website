@@ -16,7 +16,7 @@
                     METARS be your gateway to the exciting world of crypto art!
                 </div>
                 <div class="desc">
-                    The top 5 works in the number of daily reposts can be
+                    The top 5 works in the number of daily likes can be
                     Generated.
                 </div>
                 <span class="btn-start" @click="start">Start</span>

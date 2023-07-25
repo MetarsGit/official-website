@@ -26,6 +26,14 @@
                     transform: rotate(-180deg);
                 }
             }
+            .like {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                .count {
+                    margin-left: 16px;
+                }
+            }
             .icon {
                 width: 48px;
                 height: 48px;
@@ -36,8 +44,8 @@
                 &-text {
                     background-image: url('./img/icon-g-text.png');
                 }
-                &-tweet {
-                    background-image: url('./img/icon-g-tweet.png');
+                &-link {
+                    background-image: url('./img/icon-g-link.png');
                 }
                 &-signed {
                     background-image: url('./img/icon-g-message.png');
@@ -47,6 +55,13 @@
                 }
                 &-mint {
                     background-image: url('./img/icon-g-mint.png');
+                }
+                &-like {
+                    background-image: url('./img/icon-g-like.png');
+                }
+                &-unlike {
+                    background-image: url('./img/icon-g-unlike.png');
+                    cursor: pointer;
                 }
             }
         }
@@ -70,6 +85,9 @@
                 }
                 &::placeholder {
                     color: #9ba2b0;
+                }
+                &:read-only {
+                    background-color: #fafafa;
                 }
             }
             .detail {
