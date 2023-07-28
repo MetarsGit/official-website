@@ -6,7 +6,15 @@
                 <span class="label">Name of artwork</span>
                 <a-spin :spinning="likeLoading">
                     <span class="like">
+                        <!-- 已点赞 -->
                         <i class="icon icon-like" v-if="artInfo.isLike"></i>
+                        <!-- 未点赞，已生成图片 -->
+                        <i
+                            class="icon icon-cantlike"
+                            @click="showTip"
+                            v-else-if="isGenerated"
+                        ></i>
+                        <!-- 未点赞，未生成图片 -->
                         <i class="icon icon-unlike" @click="like" v-else></i>
                         <span class="count" v-if="artInfo.likeCount">
                             {{ artInfo.likeCount }}
@@ -164,7 +172,7 @@
                 this.fetchArtDetail()
             })
         },
-        beforeRouteLeave() {
+        beforeUnmount() {
             eventBus.offEvent('accountChanged', this.accountChangeEvent)
         },
         methods: {
@@ -344,6 +352,11 @@
                     .finally(() => {
                         this.likeLoading = false
                     })
+            },
+
+            // 已生成图片后不可再点赞
+            showTip() {
+                this.$message.warn(`Artwork already generate, can't like it.`)
             }
         }
     }

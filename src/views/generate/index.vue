@@ -61,7 +61,7 @@
     import { CheckCircleFilled } from '@ant-design/icons-vue'
     import { stepList, STEP_SORT } from './const'
     import { rpcConfig, defaultNetwork, defaultNetworkId } from '@/config/web3'
-    import { walletConnectTry, walletConnectToNetwork } from '@/utils/wallet'
+    import { walletConnectToNetwork } from '@/utils/wallet'
     import storage from '@/utils/storage'
     import './style.less'
 
@@ -79,7 +79,7 @@
         },
         computed: {
             ...mapState('art', ['currentStatus', 'displayStatus']),
-            ...mapState('web3', ['currentNetworkId']),
+            ...mapState('web3', ['currentNetworkId', 'defaultAccount']),
 
             stepList() {
                 let currentStatusSort =
@@ -142,13 +142,14 @@
             // 静默链接钱包 3秒超时
             connectWallet() {
                 return new Promise((resolve) => {
-                    try {
-                        walletConnectTry().then(() => {
-                            resolve(true)
-                        })
-                    } catch (e) {
-                        return resolve(false)
+                    if (this.defaultAccount) {
+                        resolve(true)
                     }
+                    this.$watch('defaultAccount', (newVal, oldVal) => {
+                        if (newVal && !oldVal) {
+                            resolve(true)
+                        }
+                    })
                     setTimeout(() => {
                         resolve(false)
                     }, 3000)

@@ -53,7 +53,7 @@ export async function getGrecaptchaToken(action) {
     return new Promise((resolve, reject) => {
         grecaptcha.ready(() => {
             grecaptcha
-                .execute('6LdIFAsbAAAAAA5RZb4SK0cCzHdp9YbltsLZDRNi', {
+                .execute(process.env.VUE_APP_RECAPTCHA_SITE_KEY, {
                     action
                 })
                 .then((token) => {
@@ -91,7 +91,9 @@ export function generateImage(params) {
 }
 // 查询是否满足mint条件
 export function queryCanMint(params) {
-    return Axios.get(`/api/art/queryCanMint/${params.artId}/${params.mintAddress}`)
+    return Axios.get(
+        `/api/art/queryCanMint/${params.artId}/${params.mintAddress}`
+    )
 }
 // 查询正在创作中的作品
 export function findArtInProgress(params) {
