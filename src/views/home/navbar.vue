@@ -80,8 +80,6 @@
             width: 160px;
             height: 40px;
         }
-        .navbar-cont {
-        }
 
         .navbar-toggle {
             display: none;
@@ -177,6 +175,10 @@
                         margin-right: 0;
                     }
                 }
+            }
+
+            .btn-launch {
+                display: none;
             }
         }
     }

@@ -127,5 +127,11 @@
                 text-align: center;
             }
         }
+        @media (max-width: 767px) {
+            .content {
+                max-width: calc(100vw - 16px);
+                margin: 8px auto;
+            }
+        }
     }
 </style>

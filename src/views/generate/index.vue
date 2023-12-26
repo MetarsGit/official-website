@@ -21,6 +21,7 @@
                         >
                             <check-circle-filled
                                 v-if="item.isComplete"
+                                class="icon-check"
                                 :style="{
                                     fontSize: '28px',
                                     marginRight: '16px',
@@ -239,6 +240,9 @@
         padding: 0 98px 98px 98px;
         border-radius: 30px;
         background: #fff;
+        @media (max-width: 992px) {
+            padding: 16px;
+        }
     }
 
     .steps {
@@ -292,6 +296,22 @@
                 }
                 &-complete {
                     cursor: pointer;
+                }
+            }
+
+            @media (max-width: 992px) {
+                .bar-item {
+                    font-size: 12px;
+                    line-height: 36px;
+                    .icon-check {
+                        display: none;
+                    }
+                    &::after {
+                        display: none;
+                    }
+                    &-complete {
+                        color: #bbb;
+                    }
                 }
             }
         }

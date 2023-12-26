@@ -106,31 +106,30 @@
 <script>
     import gsap from 'gsap'
     import { ScrollTrigger } from 'gsap/ScrollTrigger'
+    import debounce from '@/utils/debounce'
     gsap.registerPlugin(ScrollTrigger)
     export default {
         data() {
-            return {
-                t1: null,
-                t2: null
-            }
+            return {}
         },
         mounted() {
             setTimeout(() => {
                 this.setAnimation()
             }, 1000)
 
-            window.addEventListener('resize', this.setAnimation)
+            window.addEventListener('resize', this.onResize)
         },
 
         unmounted() {
-            window.removeEventListener('resize', this.setAnimation)
+            window.removeEventListener('resize', this.onResize)
         },
 
         methods: {
+            onResize: debounce(function () {
+                this.setAnimation()
+            }, 100),
             setAnimation() {
                 // init
-                this.t1?.invalidate()
-                this.t2?.invalidate()
                 ScrollTrigger.killAll()
 
                 const images = gsap.utils.toArray('.img-item')
@@ -157,7 +156,7 @@
                             }
                         )
                         .to(`#detail-${idx}`, {
-                            autoAlpha: 0.1,
+                            autoAlpha: 0.5,
                             ease: 'power3.in'
                         })
 
@@ -189,10 +188,10 @@
 
                 // 固定slider
                 // const details = gsap.utils.toArray(".detail-item");
-                let end = this.getPinEnd() - 200
+                let end = this.getPinEnd()
                 ScrollTrigger.create({
                     trigger: '#divider',
-                    start: 'top-=325 top',
+                    start: 'top top+=300',
                     end: () => `bottom ${end}`,
                     pin: '.slide',
                     scrub: true
@@ -207,7 +206,7 @@
                 // divider
                 ScrollTrigger.create({
                     trigger: '#divider',
-                    start: 'top-=325 top',
+                    start: 'top top+=300',
                     end: () => `bottom ${end}`,
                     pin: '.divider-slider',
                     scrub: true
@@ -226,7 +225,7 @@
                 if (width <= 750) {
                     marginBottom = 0.14648 * width
                     tileHeight = 0.35742 * width
-                    pinOffset = 300
+                    pinOffset = 310
                 }
                 return marginBottom + tileHeight + pinOffset
             }
@@ -329,6 +328,51 @@
                         &:first-child {
                             .item-title {
                                 margin-top: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .left {
+                .slide {
+                    width: 350px;
+                    height: 340px;
+                    .img-bottom {
+                        width: 420px;
+                        height: 110px;
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 992px) {
+            .left {
+                display: none;
+            }
+            .right {
+                .header {
+                    padding-top: 72px;
+                    margin-left: 0;
+                    font-size: 48px;
+                }
+                .content {
+                    padding-bottom: 80px;
+                    .divider {
+                        margin: 0 24px 0 0;
+                    }
+                    .detail {
+                        .detail-item {
+                            .item-title {
+                                font-size: 32px;
+                                margin-top: 16px;
+                                line-height: 48px;
+                            }
+                            .item-desc {
+                                font-size: 18px;
+                                margin-top: 8px;
                             }
                         }
                     }

@@ -1,26 +1,34 @@
 <template>
     <a-spin :spinning="loading">
         <div class="comp-start">
-            <img class="img" src="../img/start-img.png" />
-            <div class="detail">
-                <p class="title">GM</p>
-                <div class="desc">
-                    Welcome to METARS, the NFT creation platform that makes it
-                    easy for you to create and share your unique virtual art on
-                    the blockchain. Whether you are an artist, collector, or
-                    enthusiast, METARS offers you an opportunity to create
-                    stunning graph NFTs without any technical knowledge or prior
-                    experience. We are thrilled to have you join our community
-                    and can't wait to see the amazing creations you come up
-                    with. So come on in, let your imagination run wild, and let
-                    METARS be your gateway to the exciting world of crypto art!
-                </div>
-                <div class="desc">
-                    The top 5 works in the number of daily likes can be
-                    Generated.
-                </div>
-                <span class="btn-start" @click="start">Start</span>
-            </div>
+            <a-row align="start" justify="space-between">
+                <a-col :lg="11">
+                    <img class="img" src="../img/start-img.png" />
+                </a-col>
+                <a-col :lg="12">
+                    <div class="detail">
+                        <p class="title">GM</p>
+                        <div class="desc">
+                            Welcome to METARS, the NFT creation platform that
+                            makes it easy for you to create and share your
+                            unique virtual art on the blockchain. Whether you
+                            are an artist, collector, or enthusiast, METARS
+                            offers you an opportunity to create stunning graph
+                            NFTs without any technical knowledge or prior
+                            experience. We are thrilled to have you join our
+                            community and can't wait to see the amazing
+                            creations you come up with. So come on in, let your
+                            imagination run wild, and let METARS be your gateway
+                            to the exciting world of crypto art!
+                        </div>
+                        <div class="desc">
+                            The top 5 works in the number of daily likes can be
+                            Generated.
+                        </div>
+                        <span class="btn-start" @click="start">Start</span>
+                    </div>
+                </a-col>
+            </a-row>
         </div>
     </a-spin>
 </template>
@@ -85,12 +93,11 @@
 
 <style lang="less" scoped>
     .comp-start {
-        display: flex;
         padding-top: 98px;
         .img {
-            flex: 0 0 480px;
-            width: 480px;
-            height: 480px;
+            width: 100%;
+            max-width: 480px;
+            height: auto;
             border-radius: 16px;
             margin-right: 130px;
         }
@@ -124,6 +131,13 @@
                 background: #f2f4f7;
                 color: #9ba2b0;
                 cursor: default;
+            }
+        }
+
+        @media (max-width: 992px) {
+            padding-top: 0;
+            .img {
+                display: none;
             }
         }
     }

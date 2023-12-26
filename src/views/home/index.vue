@@ -13,6 +13,9 @@
                     provide you with a more seamless, engaging and personalized
                     user experience.
                 </p>
+                <span class="btn-launch" @click="launchApp">
+                    Launch Application
+                </span>
             </div>
         </div>
 
@@ -43,14 +46,14 @@
                     </a-col>
                 </a-row>
                 <a-row align="middle" justify="space-between">
-                    <a-col :lg="12">
+                    <a-col :lg="12" :order="device === 'mobile' ? 1 : 0">
                         <img
                             class="img"
                             src="../../assets/img/home/a2-img2.png"
                             alt=""
                         />
                     </a-col>
-                    <a-col :lg="12">
+                    <a-col :lg="12" :order="device === 'mobile' ? 0 : 1">
                         <div class="">
                             <span class="number">02</span>
                             <p class="desc">
@@ -240,6 +243,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import Navbar from './navbar.vue'
     import HomeFooter from './footer.vue'
     import Generative from './generative.vue'
@@ -255,6 +259,11 @@
                 roadmap
             }
         },
+        computed: {
+            ...mapGetters({
+                device: 'settings/device'
+            })
+        },
         methods: {
             collectivePrevious() {
                 if (this.collectiveIndex === 0) return
@@ -263,6 +272,9 @@
             collectiveNext() {
                 if (this.collectiveIndex === 2) return
                 this.collectiveIndex++
+            },
+            launchApp() {
+                this.$router.push('/artList')
             }
         }
     }
@@ -274,6 +286,10 @@
         background-position: right top;
         background-size: 50%;
         color: #14171f;
+        @media (max-width: 992px) {
+            background-position: right 80px;
+            background-size: 434px 460px;
+        }
         .a1 {
             margin-top: 110px;
             .p1 {
@@ -303,6 +319,36 @@
                 font-family: Inter-Regular, Inter;
                 font-weight: 400;
                 line-height: 38px;
+            }
+            .btn-launch {
+                display: none;
+            }
+
+            @media (max-width: 992px) {
+                margin-top: 40px;
+                .p1,
+                .p3 {
+                    font-size: 32px;
+                    line-height: 32px;
+                }
+                .p2 {
+                    font-size: 48px;
+                    line-height: 48px;
+                }
+                .p4 {
+                    margin-top: 24px;
+                    font-size: 18px;
+                }
+                .btn-launch {
+                    display: inline-flex;
+                    margin: 16px auto;
+                    padding: 8px 16px;
+                    text-align: center;
+                    background: #14171f;
+                    border-radius: 100px;
+                    color: #fff;
+                    font-weight: bold;
+                }
             }
         }
         .a2 {
@@ -358,6 +404,29 @@
                     height: auto;
                 }
             }
+            @media (max-width: 992px) {
+                margin-top: 72px;
+                .bg {
+                    height: 121px;
+                    background-size: 798px 121px;
+                }
+                .title {
+                    font-size: 48px;
+                    padding-top: 48px;
+                    .text1 {
+                        display: block;
+                    }
+                }
+                .content {
+                    .number {
+                        display: inline-block;
+                        font-size: 32px;
+                    }
+                    .desc {
+                        margin-top: 8px;
+                    }
+                }
+            }
         }
     }
 
@@ -365,15 +434,19 @@
         margin-top: 100px;
         background: #14171f;
         border-radius: 38px 38px 0px 0px;
+        @media (max-width: 992px) {
+            border-radius: 24px 24px 0px 0px;
+        }
     }
     .a4 {
         background: #d6e9eb;
         padding: 138px 0;
 
         .img {
-            width: 100%;
+            width: 95%;
             max-width: 600px;
             height: auto;
+            margin-top: 90px;
         }
         .header {
             font-size: 90px;
@@ -440,6 +513,25 @@
         .slide-fade-leave-to {
             display: none;
         }
+
+        @media (max-width: 992px) {
+            padding: 72px 0;
+            .img {
+                display: none;
+            }
+            .header {
+                .title,
+                .sub-title {
+                    white-space: normal;
+                    font-size: 48px;
+                }
+            }
+            .content {
+                .item-title {
+                    font-size: 32px;
+                }
+            }
+        }
     }
 
     .a5 {
@@ -472,9 +564,11 @@
             align-items: center;
             justify-content: center;
             .icon-logo-l {
+                flex: 0 0 81px;
                 width: 81px;
                 height: 81px;
-                background: url(../../assets/img/home/a5-ic-logo-l@2x.png);
+                background: url(../../assets/img/home/a5-ic-logo-l@2x.png)
+                    no-repeat;
                 background-size: 100%;
             }
             .p2 {
@@ -521,6 +615,7 @@
                         width: 24px;
                         height: 24px;
                         background-size: 100%;
+                        background-repeat: no-repeat;
                         margin-right: 10px;
                     }
                     .item-name {
@@ -541,6 +636,31 @@
                     .icon-point-bg(@n + 1);
                 }
                 .icon-point-bg(1);
+            }
+        }
+        @media (max-width: 992px) {
+            .title {
+                font-size: 48px;
+            }
+            .p1 {
+                line-height: 32px;
+            }
+            .bg {
+                margin-top: 40px;
+                .p2 {
+                    text-align: left;
+                    font-size: 18px;
+                }
+            }
+            .legend {
+                padding: 32px;
+                .list .item .item-value {
+                    width: 50px;
+                    text-align: right;
+                }
+                .list {
+                    margin-top: 16px;
+                }
             }
         }
     }
@@ -598,9 +718,9 @@
                     .icon {
                         width: 77px;
                         height: 44px;
-                        background: url(../../assets/img/home/a6-img@2x.png);
+                        background: url(../../assets/img/home/a6-img@2x.png)
+                            no-repeat;
                         background-size: 100%;
-                        // transform: ;
                     }
                     &:nth-child(2n) {
                         flex-direction: row-reverse;
@@ -608,19 +728,40 @@
                 }
             }
         }
+        @media (max-width: 992px) {
+            .title {
+                font-size: 48px;
+            }
+            .content {
+                margin-top: 48px;
+                &::before {
+                    left: 8vw;
+                    transform: scaleY(2) translateY(-25%);
+                }
+                .list {
+                    margin: 0;
+                    text-align: left;
+                    .item {
+                        &:nth-child(n) {
+                            flex-direction: row-reverse;
+                        }
+                        font-size: 16px;
+                        .icon {
+                            flex: 0 0 61px;
+                            width: 61px;
+                            height: 35px;
+                            background-size: 7.7vw 4.4vw;
+                            background-position: left center;
+                        }
+                        .text {
+                            width: 75vw;
+                        }
+                        .text-block {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
     }
-
-    // @media (max-width: 992px) {
-
-    //     .a1{
-    //         .p1, .p2, .p3 {
-    //             font-size: 32px!important;
-    //         }
-    //     }
-    //     .a2{
-    //         .title{
-    //             font-size: 32px!important;
-    //         }
-    //     }
-    // }
 </style>
