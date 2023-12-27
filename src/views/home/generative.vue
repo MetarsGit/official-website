@@ -366,12 +366,12 @@
                     .detail {
                         .detail-item {
                             .item-title {
-                                font-size: 32px;
+                                font-size: 28px;
                                 margin-top: 16px;
-                                line-height: 48px;
+                                line-height: 44px;
                             }
                             .item-desc {
-                                font-size: 18px;
+                                font-size: 16px;
                                 margin-top: 8px;
                             }
                         }

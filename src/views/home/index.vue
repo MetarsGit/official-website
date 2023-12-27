@@ -424,6 +424,8 @@
                     }
                     .desc {
                         margin-top: 8px;
+                        font-size: 16px;
+                        line-height: 36px;
                     }
                 }
             }
@@ -528,7 +530,11 @@
             }
             .content {
                 .item-title {
-                    font-size: 32px;
+                    font-size: 28px;
+                }
+                .item-desc {
+                    margin-top: 24px;
+                    font-size: 16px;
                 }
             }
         }
@@ -639,17 +645,20 @@
             }
         }
         @media (max-width: 992px) {
+            padding-top: 72px;
             .title {
                 font-size: 48px;
             }
             .p1 {
+                font-size: 16px;
                 line-height: 32px;
             }
             .bg {
                 margin-top: 40px;
                 .p2 {
                     text-align: left;
-                    font-size: 18px;
+                    font-size: 16px;
+                    line-height: 32px;
                 }
             }
             .legend {
@@ -729,6 +738,7 @@
             }
         }
         @media (max-width: 992px) {
+            padding-top: 72px;
             .title {
                 font-size: 48px;
             }

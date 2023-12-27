@@ -127,10 +127,38 @@
                 text-align: center;
             }
         }
-        @media (max-width: 767px) {
+        @media (max-width: 768px) {
             .content {
-                max-width: calc(100vw - 16px);
-                margin: 8px auto;
+                max-width: calc(100vw - 72px);
+                background-size: 100%;
+                background-position: center;
+                .header {
+                    .cancel {
+                        padding-top: 14px;
+                        padding-right: 14px;
+                        .icon {
+                            width: 14px;
+                            height: 14px;
+                        }
+                    }
+                    .title {
+                        margin-top: 0px;
+                        .icon {
+                            width: 16px;
+                            height: 12px;
+                            margin-right: 8px;
+                        }
+                        .text {
+                            font-size: 16px;
+                            line-height: 28px;
+                        }
+                    }
+                }
+                .body {
+                    margin: 8px 20px 20px;
+                    font-size: 14px;
+                    line-height: 24px;
+                }
             }
         }
     }
