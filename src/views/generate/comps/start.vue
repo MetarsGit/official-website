@@ -139,6 +139,21 @@
             .img {
                 display: none;
             }
+            .detail {
+                .title {
+                    font-size: 28px;
+                    margin-bottom: 8px;
+                }
+                .desc {
+                    font-size: 16px;
+                }
+                .btn-start {
+                    margin-top: 16px;
+                    width: 100px;
+                    height: 36px;
+                    line-height: 36px;
+                }
+            }
         }
     }
 </style>

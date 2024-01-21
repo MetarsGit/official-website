@@ -15,6 +15,9 @@
                 <li class="list-item" @click="scrollTarget('tokenomics')">
                     Tokenomics
                 </li>
+                <li class="list-item" @click="scrollTarget('partners')">
+                    Partners
+                </li>
                 <li class="list-item" @click="scrollTarget('roadmap')">
                     Roadmap
                 </li>

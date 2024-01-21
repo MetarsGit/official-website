@@ -231,4 +231,23 @@
             }
         }
     }
+
+    @media (max-width: 768px) {
+        .art-modal {
+            .art-detail {
+                .header {
+                    margin-bottom: 16px;
+                    margin-top: 32px;
+                    font-size: 28px;
+                    line-height: 36px;
+                }
+                .addr-container {
+                    text-align: left;
+                    .back {
+                        margin-bottom: 32px;
+                    }
+                }
+            }
+        }
+    }
 </style>

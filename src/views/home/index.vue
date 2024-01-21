@@ -224,6 +224,10 @@
             </div>
         </div>
 
+        <div id="partners">
+            <partner></partner>
+        </div>
+
         <div class="a6" id="roadmap">
             <p class="title">Roadmap</p>
             <div class="content container">
@@ -248,10 +252,11 @@
     import HomeFooter from './footer.vue'
     import Generative from './generative.vue'
     import Announcement from './Announcement.vue'
+    import Partner from './partner.vue'
     import { tokenList, roadmap } from './const'
     export default {
         name: 'index',
-        components: { Navbar, HomeFooter, Generative, Announcement },
+        components: { Navbar, HomeFooter, Generative, Announcement, Partner },
         data() {
             return {
                 collectiveIndex: 0,
@@ -692,7 +697,7 @@
                 left: 50%;
                 top: 50%;
                 content: '';
-                height: 55%;
+                height: 52%;
                 border-left: 1px dashed #9ba2b0;
                 transform: scaleY(2) translateY(-30%);
             }
@@ -704,7 +709,7 @@
                     display: flex;
                     align-items: self-start;
                     justify-content: space-between;
-                    margin-top: 8px;
+                    margin-top: 40px;
                     .text {
                         position: relative;
                         width: 390px;
@@ -712,12 +717,12 @@
                         &::before {
                             position: absolute;
                             left: -20px;
-                            top: 16px;
+                            top: 12px;
                             content: '';
                             display: inline-block;
-                            width: 6px;
-                            height: 6px;
-                            background: #fff;
+                            width: 10px;
+                            height: 10px;
+                            background: rgba(255, 255, 255, 0.5);
                             border-radius: 50%;
                         }
                         &-block {
@@ -733,6 +738,16 @@
                     }
                     &:nth-child(2n) {
                         flex-direction: row-reverse;
+                    }
+
+                    &:nth-child(1),
+                    &:nth-child(2),
+                    &:nth-child(3) {
+                        .text {
+                            &::before {
+                                background: #e22fff;
+                            }
+                        }
                     }
                 }
             }
@@ -752,6 +767,7 @@
                     margin: 0;
                     text-align: left;
                     .item {
+                        margin-top: 8px;
                         &:nth-child(n) {
                             flex-direction: row-reverse;
                         }

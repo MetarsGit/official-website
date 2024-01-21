@@ -23,6 +23,9 @@
                     <li class="list-item" @click="scrollTarget('tokenomics')">
                         Tokenomics
                     </li>
+                    <li class="list-item" @click="scrollTarget('partners')">
+                        Partners
+                    </li>
                     <li class="list-item" @click="scrollTarget('roadmap')">
                         Roadmap
                     </li>
@@ -126,6 +129,16 @@
             }
         }
     }
+    @media (max-width: 1600px) {
+        .navbar {
+            .list-inline {
+                .list-item {
+                    font-size: 15px;
+                    margin-right: 16px;
+                }
+            }
+        }
+    }
     @media (max-width: 992px) {
         .navbar {
             .navbar-cont {
@@ -160,7 +173,9 @@
             .navbar-collapse {
                 flex-basis: 100%;
                 display: none;
-                background: #f8f9fa;
+                background: #fff;
+                border-radius: 8px;
+                border: 1px solid #eee;
                 &.slideDown {
                     display: block;
                     position: absolute;
@@ -171,8 +186,9 @@
                     display: flex;
                     flex-direction: column;
                     .list-item {
-                        padding: 6px 8px;
+                        padding: 8px;
                         margin-right: 0;
+                        font-size: 14px;
                     }
                 }
             }

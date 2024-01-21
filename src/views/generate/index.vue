@@ -298,8 +298,12 @@
                     cursor: pointer;
                 }
             }
+        }
+    }
 
-            @media (max-width: 992px) {
+    @media (max-width: 992px) {
+        .steps {
+            .progress-bar {
                 .bar-item {
                     font-size: 12px;
                     line-height: 36px;
@@ -313,6 +317,25 @@
                         color: #bbb;
                     }
                 }
+            }
+        }
+    }
+    @media (max-width: 992px) {
+        .page-generate {
+            .banner {
+                font-size: 28px;
+                line-height: 36px;
+                padding: 32px 0;
+            }
+        }
+
+        .steps {
+            padding-top: 16px;
+            .title {
+                font-size: 28px;
+            }
+            .progress-bar {
+                margin-top: 8px;
             }
         }
     }

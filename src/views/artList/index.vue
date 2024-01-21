@@ -283,5 +283,14 @@
                 }
             }
         }
+        @media (max-width: 768px) {
+            .title {
+                font-size: 20px;
+                margin: 16px auto;
+            }
+            .list {
+                padding-top: 0;
+            }
+        }
     }
 </style>

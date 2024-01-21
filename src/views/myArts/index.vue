@@ -163,4 +163,35 @@
             }
         }
     }
+    @media (max-width: 992px) {
+        .myArts {
+            .banner {
+                height: auto;
+                .slogan {
+                    margin: 16px;
+                    font-size: 28px;
+                }
+            }
+            .statistics {
+                margin: 16px auto;
+                padding: 0 16px;
+                .item {
+                    > div {
+                        font-size: 28px;
+                        margin-bottom: 0;
+                    }
+                    > span {
+                        font-size: 12px;
+                    }
+                }
+            }
+            .list-wrapper {
+                margin: 24px auto;
+                .title {
+                    padding: 16px;
+                    font-size: 28px;
+                }
+            }
+        }
+    }
 </style>

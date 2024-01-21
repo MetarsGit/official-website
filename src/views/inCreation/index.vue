@@ -10,6 +10,7 @@
                 :loading="loading"
                 :pagination="pagination"
                 @change="handleTableChange"
+                :scroll="{ x: '100%' }"
                 class="inCreation-list"
             >
                 <template #bodyCell="{ column, record }">
@@ -273,6 +274,19 @@
                     margin-right: 56px;
                     line-height: 26px;
                 }
+            }
+        }
+        @media (max-width: 992px) {
+            .banner {
+                height: auto;
+                .slogan {
+                    margin: 16px auto;
+                    padding: 0 16px;
+                    font-size: 28px;
+                }
+            }
+            .list {
+                margin: 24px auto;
             }
         }
     }

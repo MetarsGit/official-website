@@ -59,7 +59,7 @@
             :trigger="null"
         >
             <div class="logo">
-                <img src="../assets/logo.png" alt="" />
+                <img src="../assets/logo.png" alt="" @click="goHome" />
             </div>
             <a-menu class="vab-menu" mode="inline">
                 <a-menu-item

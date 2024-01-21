@@ -6,6 +6,7 @@
             :loading="loading"
             :pagination="pagination"
             @change="handleTableChange"
+            :scroll="{ x: '100%' }"
             class="inCreation-list"
         >
             <template #bodyCell="{ column, record }">

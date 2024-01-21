@@ -1,9 +1,19 @@
 <template>
     <div class="vab-avatar" :class="tabActive">
-        <a-button type="primary" shape="round" v-if="showMetamaskWarning" @click="addMetamask">
+        <a-button
+            type="primary"
+            shape="round"
+            v-if="showMetamaskWarning"
+            @click="addMetamask"
+        >
             Add MetaMask
         </a-button>
-        <a-button type="primary" shape="round" v-else-if="!defaultAccount" @click="connect">
+        <a-button
+            type="primary"
+            shape="round"
+            v-else-if="!defaultAccount"
+            @click="connect"
+        >
             Connect Wallet
         </a-button>
         <a-dropdown v-else overlayClassName="avatar-dropdown">
@@ -51,7 +61,7 @@
                 defaultAccount: 'web3/defaultAccount'
             }),
             showMetamaskWarning() {
-                return !window.web3.currentProvider
+                return !window.web3?.currentProvider
             }
         },
         created() {
@@ -101,6 +111,15 @@
                 &:not(:last-child) {
                     border-bottom: 1px solid rgba(126, 144, 160, 0.6);
                 }
+            }
+        }
+    }
+    @media (max-width: 992px) {
+        .vab-avatar {
+            .ant-btn {
+                width: 120px;
+                height: 32px;
+                font-size: 12px;
             }
         }
     }
