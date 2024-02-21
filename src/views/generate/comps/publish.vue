@@ -233,6 +233,8 @@
                                 return
                             }
                         }
+                        const gasPrice = await window.web3.eth.getGasPrice()
+                        // console.log('gasPrice: ', gasPrice)
                         const mintRes = await this.contracts
                             .CyberHarborMembership(defaultNetworkId)
                             .methods.generateAndMint(
@@ -242,7 +244,10 @@
                                 r,
                                 s
                             )
-                            .send({ from: this.defaultAccount })
+                            .send({
+                                gasPrice,
+                                from: this.defaultAccount
+                            })
                             .catch((err) => {
                                 console.log(err)
                                 this.$message.error('fail')

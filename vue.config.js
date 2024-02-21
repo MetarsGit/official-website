@@ -60,11 +60,11 @@ const vueConfig = {
             //配置权限代理
             '/api': {
                 // target: 'https://dev.titandao.io/',
-                target: 'https://test.a1pha.win/',
+                target: 'https://test1.a1pha.win/',
                 changeOrigin: true,
                 headers: {
                     Connection: 'keep-alive'
-                },
+                }
                 // pathRewrite: {
                 //     '^/api': ''
                 // }
