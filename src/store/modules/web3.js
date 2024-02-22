@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import isEqual from 'lodash/isEqual'
 import eventBus from '@/utils/eventBus'
 import { setUpContracts } from '@/contracts'
 
@@ -58,7 +58,7 @@ const actions = {
     async pollAccountsAndNetwork({ state, commit, dispatch }) {
         let refreshUserDetails = false
         let accounts = await window.web3.eth.requestAccounts()
-        if (!_.isEqual(state.accounts, accounts)) {
+        if (!isEqual(state.accounts, accounts)) {
             commit('setAccounts', { accounts })
             refreshUserDetails = true
             eventBus.emitEvent('accountChanged') // account 改变

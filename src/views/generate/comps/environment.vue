@@ -178,6 +178,10 @@
             // },
 
             async submit() {
+                if (!this.defaultAccount) {
+                    this.$message.warn('Please connect the wallet.')
+                    return
+                }
                 this.loading = true
                 let recaptchaToken = await getGrecaptchaToken('environment')
                 let signature = await this.sign(this.environment)

@@ -76,7 +76,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
+        // width: 100%;
         height: 80px;
         transition: all 0.3s ease;
         .navbar-brand .logo {

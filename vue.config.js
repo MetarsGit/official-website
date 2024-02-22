@@ -12,13 +12,46 @@ function resolve(dir) {
     return path.join(__dirname, dir)
 }
 
+
+const IS_PROD = process.env.NODE_ENV === 'production'
 // vue.config.js
 const vueConfig = {
     publicPath,
 
-    configureWebpack: {
+    configureWebpack(config) {
+        // if (IS_PROD) {
+        config.optimization.splitChunks = {
+            cacheGroups: {
+
+                vendors: {
+                    name: 'chunk-vendors',
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'initial',
+                    priority: 2,
+                    reuseExistingChunk: true,
+                    enforce: true
+                },
+                antDesignVue: {
+                    name: 'chunk-ant-design-vue',
+                    test: /[\\/]node_modules[\\/]ant-design-vue[\\/]/,
+                    chunks: 'initial',
+                    priority: 3,
+                    reuseExistingChunk: true,
+                    enforce: true
+                },
+                web3: {
+                    name: 'chunk-web3',
+                    test: /web3\/dist/,
+                    chunks: 'initial',
+                    priority: 3,
+                    reuseExistingChunk: true,
+                    enforce: true
+                }
+            }
+        }
+        // }
         // if prod, add externals
-        externals: {}
+        externals: { }
     },
 
     chainWebpack: (config) => {
@@ -83,7 +116,7 @@ const vueConfig = {
     pluginOptions: {
         'style-resources-loader': {
             preProcessor: 'less',
-            patterns: [path.resolve(__dirname, 'src/assets/css/index.less')]
+            patterns: [path.resolve(__dirname, 'src/assets/css/antd.less')]
         }
     }
 }
