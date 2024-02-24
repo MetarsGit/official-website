@@ -90,9 +90,9 @@
         display: flex;
         align-items: center;
         .ant-btn {
-            width: 184px;
+            padding: 0 30px;
             height: 48px;
-            font-family: Inter-Semi Bold, Inter;
+            font-weight: 600;
             &.ant-btn-background-ghost {
                 border-width: 2px;
             }
@@ -117,9 +117,9 @@
     @media (max-width: 992px) {
         .vab-avatar {
             .ant-btn {
-                width: 120px;
-                height: 32px;
-                font-size: 12px;
+                padding: 0 16px;
+                height: 36px;
+                font-size: 14px;
             }
         }
     }

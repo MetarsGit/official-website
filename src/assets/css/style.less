@@ -7,11 +7,10 @@
         align-items: center;
         margin-top: 12px;
         .name {
-            font-family: Inter-Semi Bold, Inter;
+            font-weight: 600;
         }
         .views {
             font-size: 14px;
-            font-family: Inter-Light, Inter;
             font-weight: 300;
         }
     }
@@ -20,6 +19,14 @@
         margin: 0;
         width: 100%;
         cursor: pointer;
+        //border-radius: 16px;
+        //overflow: hidden;
+        //&:hover {
+        //    .ant-image {
+        //        transform: scale(1.1);
+        //        transition-duration: 0.4s;
+        //    }
+        //}
         &:after {
             display: block;
             padding-bottom: 100%;
@@ -59,7 +66,6 @@
         .addr {
             padding: 2px 0;
             line-height: 26px;
-            font-family: Inter-Regular, Inter;
             font-weight: 400;
             color: #6a57e3;
         }
@@ -76,4 +82,13 @@
             }
         }
     }
+}
+@media (max-width: 576px) {
+     .card-item {
+         .desc {
+             .name {
+                 font-size: 14px;
+             }
+         }
+     }
 }

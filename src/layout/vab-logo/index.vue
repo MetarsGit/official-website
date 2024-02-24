@@ -24,7 +24,7 @@
         methods: {
             goHome() {
                 this.$router.push({
-                    name: 'Home'
+                    name: 'Index'
                 })
             }
         }

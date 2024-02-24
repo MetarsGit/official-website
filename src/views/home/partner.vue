@@ -38,7 +38,7 @@
         background-color: #f9f9f9;
         .title {
             font-size: 90px;
-            font-family: Inter-Semi Bold, Inter;
+            font-weight: 600;
         }
         .list {
             margin-top: 48px;

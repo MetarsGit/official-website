@@ -49,14 +49,13 @@
             .header {
                 text-align: center;
                 font-size: 24px;
-                font-family: Inter-Semi Bold, Inter;
+                font-weight: 600;
                 font-weight: normal;
                 line-height: 38px;
             }
             .body {
                 margin-top: 25px;
                 font-size: 16px;
-                font-family: Inter-Regular, Inter;
                 font-weight: 400;
                 color: #14171f;
                 line-height: 26px;

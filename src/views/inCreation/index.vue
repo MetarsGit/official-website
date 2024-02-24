@@ -235,7 +235,7 @@
             background-size: 100% 100%;
             .slogan {
                 margin-top: -68px;
-                font-family: Inter-Semi Bold, Inter;
+                font-weight: 600;
                 font-size: 48px;
             }
         }

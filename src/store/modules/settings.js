@@ -40,7 +40,7 @@ const toggleBoolean = (key) => {
 const state = () => ({
     logo,
     title,
-    collapse: false,
+    collapse: true,
     themeName: theme.themeName || themeName,
     layout: theme.layout || layout,
     header: theme.header || header,

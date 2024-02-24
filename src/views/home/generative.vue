@@ -281,8 +281,7 @@
                 line-height: 108px;
                 color: #ffffff;
                 .p1 {
-                    font-family: Inter-Semi Bold, Inter;
-                    font-weight: normal;
+                    font-weight: 600;
                 }
                 .p2 {
                     margin-top: 16px;
@@ -313,7 +312,6 @@
                         .item-title {
                             margin-top: 90px;
                             font-size: 48px;
-                            font-family: Inter-Medium, Inter;
                             font-weight: 500;
                             line-height: 58px;
                             color: #ffffff;
@@ -321,7 +319,6 @@
                         .item-desc {
                             margin-top: 38px;
                             font-size: 22px;
-                            font-family: Inter-Regular, Inter;
                             line-height: 35px;
                             color: rgba(255, 255, 255, 0.6);
                         }

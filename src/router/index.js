@@ -6,11 +6,29 @@ export const asyncRoutes = [
         path: '/',
         redirect: '/index',
         meta: {
-            title: 'Home'
+            title: 'Index'
         },
         children: [
             {
                 path: 'index',
+                name: 'Index',
+                component: () => import('@/views/index'),
+                meta: {
+                    title: 'Index'
+                }
+            }
+        ],
+        hidden: true
+    },
+    {
+        path: '/',
+        redirect: '/home',
+        meta: {
+            title: 'Home'
+        },
+        children: [
+            {
+                path: 'home',
                 name: 'Home',
                 component: () => import('@/views/home'),
                 meta: {

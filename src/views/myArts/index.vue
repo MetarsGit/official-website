@@ -116,7 +116,7 @@
             .slogan {
                 margin-top: -68px;
                 font-size: 48px;
-                font-family: Inter-Semi Bold, Inter;
+                font-weight: 600;
             }
         }
         .statistics {
@@ -131,7 +131,7 @@
                 > div {
                     margin-bottom: 16px;
                     line-height: 1.2;
-                    font-family: Inter-Semi Bold, Inter;
+                    font-weight: 600;
                     font-size: 40px;
                     color: #6a57e3;
                     white-space: nowrap;
@@ -142,7 +142,7 @@
                     }
                 }
                 > span {
-                    font-family: Montserrat-SemiBold, Montserrat;
+                    font-weight: 600;
                     font-size: 18px;
                     color: #9ba2b0;
                 }
@@ -154,7 +154,7 @@
                 padding: 30px 0;
                 text-align: center;
                 line-height: 1.2;
-                font-family: Inter-Semi Bold, Inter;
+                font-weight: 600;
                 font-size: 48px;
                 border-bottom: 1px solid #d0d4dc;
             }

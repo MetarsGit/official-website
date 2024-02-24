@@ -248,7 +248,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import Navbar from './navbar.vue'
+    import Navbar from './navbar2.vue'
     import HomeFooter from './footer.vue'
     import Generative from './generative.vue'
     import Announcement from './Announcement.vue'
@@ -299,14 +299,12 @@
             margin-top: 110px;
             .p1 {
                 font-size: 60px;
-                font-family: Inter-Medium, Inter;
                 font-weight: 500;
                 line-height: 72px;
             }
             .p2 {
                 margin-top: 20px;
                 font-size: 110px;
-                font-family: Inter-Medium, Inter;
                 font-weight: 500;
                 line-height: 132px;
             }
@@ -321,7 +319,6 @@
                 max-width: 657px;
                 margin-top: 64px;
                 font-size: 24px;
-                font-family: Inter-Regular, Inter;
                 font-weight: 400;
                 line-height: 38px;
             }
@@ -352,7 +349,6 @@
                     background: #14171f;
                     border-radius: 100px;
                     color: #fff;
-                    font-weight: bold;
                 }
             }
         }
@@ -381,7 +377,7 @@
                 padding-top: 121px;
                 font-size: 90px;
                 .text1 {
-                    font-family: Inter-Semi Bold, Inter;
+                    font-weight: 600;
                     margin-right: 18px;
                 }
                 .text2 {
@@ -393,13 +389,12 @@
                 margin-top: 36px;
                 .number {
                     font-size: 48px;
-                    font-family: Inter-Semi Bold, Inter;
+                    font-weight: 600;
                     line-height: 58px;
                 }
                 .desc {
                     margin-top: 48px;
                     font-size: 24px;
-                    font-family: Inter-Regular, Inter;
                     font-weight: 400;
                     color: #14171f;
                     line-height: 38px;
@@ -458,7 +453,7 @@
         .header {
             font-size: 90px;
             .title {
-                font-family: Inter-Semi Bold, Inter;
+                font-weight: 600;
                 white-space: nowrap;
             }
             .sub-title {
@@ -472,8 +467,7 @@
             .item {
                 &-title {
                     font-size: 48px;
-                    font-family: Inter-Semi Bold, Inter;
-                    font-weight: bold;
+                    font-weight: 600;
                 }
                 &-desc {
                     margin-top: 32px;
@@ -555,12 +549,11 @@
 
         .title {
             font-size: 90px;
-            font-family: Inter-Semi Bold, Inter;
+            font-weight: 600;
         }
         .p1 {
             margin-top: 16px;
             font-size: 22px;
-            font-family: Inter-Regular, Inter;
             font-weight: 400;
         }
 
@@ -584,7 +577,7 @@
             }
             .p2 {
                 font-size: 22px;
-                font-family: Inter-Regular, Inter;
+                font-weight: 400;
                 margin-left: 16px;
             }
         }
@@ -597,7 +590,6 @@
             padding: 32px 80px;
             .label {
                 font-size: 16px;
-                font-family: Inter-Regular, Inter;
                 font-weight: 400;
                 display: flex;
                 align-items: center;
@@ -609,8 +601,7 @@
                     margin-right: 8px;
                 }
                 .em {
-                    font-weight: bold;
-                    font-family: Inter-Semi Bold, Inter;
+                    font-weight: 600;
                 }
             }
             .list {
@@ -634,8 +625,7 @@
                     }
                     .item-value {
                         width: 130px;
-                        font-family: Inter-Bold, Inter;
-                        font-weight: bold;
+                        font-weight: 600;
                     }
                 }
                 .icon-point-bg(@n) when (@n < 9) {
@@ -686,7 +676,7 @@
         .title {
             color: #fff;
             font-size: 90px;
-            font-family: Inter-Semi Bold, Inter;
+            font-weight: 600;
             text-align: center;
         }
         .content {

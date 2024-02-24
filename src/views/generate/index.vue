@@ -224,13 +224,13 @@
             ),
             url('./img/start-bg.png') 100% 320px no-repeat;
         background-position: center, center 0;
+        background-size: contain;
         padding-bottom: 100px;
         .banner {
             padding: 98px 0 100px;
             text-align: center;
             font-size: 48px;
-            font-family: Inter-Medium, Inter;
-            font-weight: 500;
+            font-weight: 600;
             color: #14171f;
             line-height: 56px;
         }
@@ -249,8 +249,7 @@
         padding-top: 68px;
         .title {
             font-size: 48px;
-            font-family: Inter-Semi Bold, Inter;
-            font-weight: bold;
+            font-weight: 600;
             text-align: center;
         }
         .progress-bar {
@@ -264,7 +263,7 @@
                 position: relative;
                 font-size: 16px;
                 line-height: 63px;
-                font-family: Inter-Semi Bold, Inter;
+                font-weight: 600;
                 color: #0b2866;
                 background-color: #ecf1fc;
                 display: flex;

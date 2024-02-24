@@ -165,7 +165,7 @@
             },
             goHome() {
                 this.$router.push({
-                    name: 'Home'
+                    name: 'Index'
                 })
             }
         }
@@ -206,7 +206,7 @@
                     }
                 }
                 .ant-menu-item {
-                    font-family: Inter-Semi Bold, Inter;
+                    font-weight: 600;
                     &.active {
                         color: @primary-color;
                         &::after {

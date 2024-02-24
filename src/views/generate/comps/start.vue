@@ -119,8 +119,7 @@
                 line-height: 56px;
                 margin-top: 58px;
                 font-size: 16px;
-                font-weight: bold;
-                font-family: Inter-Semi Bold, Inter;
+                font-weight: 600;
                 background: #14171f;
                 color: #fff;
                 border-radius: 60px;

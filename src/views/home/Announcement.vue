@@ -113,8 +113,7 @@
                     .text {
                         font-size: 24px;
                         line-height: 38px;
-                        font-family: Inter-Semi Bold, Inter;
-                        font-weight: bold;
+                        font-weight: 600;
                     }
                 }
             }
@@ -122,7 +121,6 @@
             .body {
                 margin: 24px 32px;
                 font-size: 16px;
-                font-family: Inter-Regular, Inter;
                 line-height: 26px;
                 text-align: center;
             }

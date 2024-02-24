@@ -75,7 +75,7 @@
 
 <script>
     export default {
-        name: 'footer',
+        name: 'm-footer',
 
         methods: {
             scrollTarget(id) {
@@ -111,8 +111,6 @@
                     cursor: pointer;
                     margin-right: 32px;
                     font-size: 16px;
-                    font-family: Inter-Regular, Inter;
-
                     color: @text-color;
                     &.active,
                     &:not(.active):hover {

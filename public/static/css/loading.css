@@ -1,31 +1,127 @@
 body {
-    /*background-color: #222;*/
-    /*background-color: rgba(17, 12, 39, 1);*/
+    /* background-color: #222 !important; */
+    /* background-color: rgba(17, 12, 39, 1); */
 }
 
 .first-loading-wrp {
     position: absolute;
     top: 50%;
     left: 50%;
+    display: flex;
+    align-items: center;
     text-align: center;
     transform: translate(-50%, -50%);
 }
 
-.first-loading-wrp img {
-    animation: loading-scale 2s infinite alternate;
-}
 /*
- * Animation keyframes
- * Use transition opacity instead of keyframes?
+ * first-loading-wrp Dots
+ * Can we use pseudo elements here instead :after?
  */
-@keyframes loading-scale {
-    0% {
-        transform: scale(0.3);
-    }
-    50% {
-        transform: scale(0.8);
-    }
+.first-loading-wrp span {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+    /* margin: 0 0.02em; */
+}
+
+.first-loading-wrp span:nth-of-type(2)::after {
+    animation-delay: 0.2s;
+}
+.first-loading-wrp span:nth-of-type(3)::after {
+    animation-delay: 0.4s;
+}
+.first-loading-wrp span:nth-of-type(4)::after {
+    animation-delay: 0.6s;
+}
+.first-loading-wrp span:nth-of-type(5)::after {
+    animation-delay: 0.8s;
+}
+.first-loading-wrp span:nth-of-type(6)::after {
+    animation-delay: 1s;
+}
+
+.loading-text {
+    display: flex;
+    align-items: center;
+}
+
+.loading-text span {
+    position: relative;
+    /* color: rgb(195, 220, 255); */
+    color: rgb(208, 208, 208);
+    animation: loading-text-parent 4s infinite;
+}
+
+.loading-text span::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgb(95, 95, 95);
+    content: attr(data-text);
+    opacity: 0;
+    animation: loading-text-child 4s infinite;
+}
+
+@keyframes loading-text-parent {
+    0%,
+    35%,
     100% {
-        transform: scale(0.3);
+        /* color: rgb(195, 220, 255); */
+        color: rgb(208, 208, 208);
+    }
+    60%,
+    70% {
+        /* color: rgb(32, 105, 208); */
+        color: rgb(95, 95, 95);
+    }
+}
+@keyframes loading-text-child {
+    0% {
+        opacity: 1;
+    }
+    25%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.loading-circle {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    margin-left: 8px;
+    border: 2px solid rgb(208, 208, 208);
+    border-radius: 50%;
+    animation: rotation 1.5s linear infinite;
+}
+
+.loading-circle:after,
+.loading-circle:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    content: '';
+    background: rgb(91, 159, 255);
+    border-radius: 50%;
+}
+
+.loading-circle:before {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: auto;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }

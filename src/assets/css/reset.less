@@ -11,22 +11,33 @@ html {
 }
 
 @font-face {
-    font-family: Inter-Semi Bold;
-    src: url('../font/Inter-SemiBold.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
+    font-family: Inter;
+    font-weight: 300;
+    src: url('/static/fonts/Inter-Light.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
 }
 
 @font-face {
-    font-family: Inter-Medium;
-    src: url('../font/Inter-Medium.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
+    font-family: Inter;
+    font-weight: 400;
+    src: url('/static/fonts/Inter-Regular.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
 }
 
 @font-face {
-    font-family: Inter-Regular;
-    src: url('../font/Inter-Regular.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
+    font-family: Inter;
+    font-weight: 500;
+    src: url('/static/fonts/Inter-Medium.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
 }
+
 @font-face {
-    font-family: Inter-Light;
-    src: url('../font/Inter-Light.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
+    font-family: Inter;
+    font-weight: 600;
+    src: url('/static/fonts/Inter-SemiBold.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
+}
+
+@font-face {
+    font-family: Inter;
+    font-weight: 700;
+    src: url('/static/fonts/Inter-ExtraBold.otf') format('truetype'); /* chrome firefox opera Safari Android IOS 4.2+ */
 }
 
 @font-face {
@@ -36,7 +47,8 @@ html {
 
 body {
     margin: 0;
-    font-family: Inter-Regular, Inter;
+    font-family: Inter,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif;
+    //font-family: Inter-Regular, Inter;
 }
 
 main {

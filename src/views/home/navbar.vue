@@ -99,8 +99,7 @@
                 cursor: pointer;
                 margin-right: 32px;
                 font-size: 16px;
-                font-family: Inter-Semi Bold, Inter;
-
+                font-weight: 600;
                 color: @text-color;
                 &.active,
                 &:not(.active):hover {

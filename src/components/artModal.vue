@@ -180,7 +180,7 @@
                 }
                 .title {
                     margin-bottom: 8px;
-                    font-family: Inter-Semi Bold, Inter;
+                    font-weight: 600;
                 }
                 .addr {
                     padding: 8px 0;
@@ -226,7 +226,7 @@
                 }
                 .amount {
                     margin-bottom: 24px;
-                    font-family: Inter-Semi Bold, Inter;
+                    font-weight: 600;
                 }
             }
         }

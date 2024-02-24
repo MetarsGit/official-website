@@ -5,15 +5,56 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+        <link
+            rel="preload"
+            href="<%= BASE_URL %>static/fonts/Inter-Light.otf"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="<%= BASE_URL %>static/fonts/Inter-Regular.otf"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="<%= BASE_URL %>static/fonts/Inter-Medium.otf"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="<%= BASE_URL %>static/fonts/Inter-SemiBold.otf"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="<%= BASE_URL %>static/fonts/Inter-ExtraBold.otf"
+            as="font"
+            type="font/woff2"
+            crossorigin="anonymous"
+        />
         <title><%= htmlWebpackPlugin.options.title %></title>
+        <link href="<%= BASE_URL %>static/css/loading.css" rel="stylesheet" />
     </head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KR1EYT3N11"></script>
+    <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-KR1EYT3N11"
+    ></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KR1EYT3N11');
+        window.dataLayer = window.dataLayer || []
+        function gtag() {
+            dataLayer.push(arguments)
+        }
+        gtag('js', new Date())
+        gtag('config', 'G-KR1EYT3N11')
     </script>
     <body>
         <noscript>
@@ -23,7 +64,19 @@
                 continue.
             </strong>
         </noscript>
-        <div id="app"></div>
+        <div id="app">
+            <div class="first-loading-wrp">
+                <div class="loading-text">
+                    <span data-text="M">M</span>
+                    <span data-text="E">E</span>
+                    <span data-text="T">T</span>
+                    <span data-text="A">A</span>
+                    <span data-text="R">R</span>
+                    <span data-text="S">S</span>
+                </div>
+                <div class="loading-circle"></div>
+            </div>
+        </div>
         <script src="https://www.recaptcha.net/recaptcha/api.js?render=<%= process.env.VUE_APP_RECAPTCHA_SITE_KEY %>"></script>
         <!-- built files will be auto injected -->
     </body>

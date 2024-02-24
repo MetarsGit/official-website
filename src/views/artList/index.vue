@@ -5,7 +5,7 @@
             <div class="list-wrapper">
                 <div class="search-wrapper">
                     <a-row :gutter="12">
-                        <a-col :lg="18">
+                        <a-col :lg="18" :md="14" :sm="24" :xs="24">
                             <a-input
                                 v-model:value="searchKey"
                                 placeholder="Search by name or creator address"
@@ -26,7 +26,7 @@
                                 </template>
                             </a-input>
                         </a-col>
-                        <a-col :lg="6">
+                        <a-col :lg="6" :md="10" :sm="24" :xs="24">
                             <a-select
                                 ref="select"
                                 v-model:value="selectKey"
@@ -238,7 +238,7 @@
         .title {
             margin: 32px;
             text-align: center;
-            font-family: Inter-Semi Bold, Inter;
+            font-weight: 600;
             font-size: 36px;
         }
         .search-desc {
@@ -283,7 +283,15 @@
                 }
             }
         }
-        @media (max-width: 768px) {
+    }
+    @media (max-width: 768px) {
+        .artList {
+            padding-top: 20px;
+            .search-wrapper {
+                .ant-row > .ant-col:first-child {
+                    margin-bottom: 10px;
+                }
+            }
             .title {
                 font-size: 20px;
                 margin: 16px auto;

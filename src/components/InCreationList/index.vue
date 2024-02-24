@@ -108,7 +108,6 @@
             .addr {
                 padding: 2px 0;
                 line-height: 26px;
-                font-family: Inter-Regular, Inter;
                 font-weight: 400;
                 color: #6a57e3;
             }
