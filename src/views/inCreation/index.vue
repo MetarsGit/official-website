@@ -1,7 +1,7 @@
 <template>
     <div class="inCreation">
         <div class="banner">
-            <div class="slogan">Unleash the power of collective creativity</div>
+            <h3 class="slogan">Unleash the power of collective creativity</h3>
         </div>
         <div class="list container">
             <a-table
@@ -235,7 +235,8 @@
             background-size: 100% 100%;
             .slogan {
                 margin-top: -68px;
-                font-weight: 600;
+                font-family: Amiri, sans-serif;
+                font-weight: 700;
                 font-size: 48px;
             }
         }

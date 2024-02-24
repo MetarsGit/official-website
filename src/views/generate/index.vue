@@ -1,8 +1,8 @@
 <template>
     <div class="page-generate">
-        <p class="banner">
+        <h3 class="banner">
             Make virtual art effortlessly by a few simple steps
-        </p>
+        </h3>
         <div class="comp-generate container">
             <a-spin :spinning="loading">
                 <start v-if="!displayStatus" />
@@ -230,7 +230,9 @@
             padding: 98px 0 100px;
             text-align: center;
             font-size: 48px;
-            font-weight: 600;
+            //font-weight: 600;
+            font-family: Amiri, sans-serif;
+            font-weight: 700;
             color: #14171f;
             line-height: 56px;
         }

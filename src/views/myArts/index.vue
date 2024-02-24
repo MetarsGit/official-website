@@ -1,9 +1,9 @@
 <template>
     <div class="myArts">
         <div class="banner">
-            <div class="slogan">
+            <h3 class="slogan">
                 Creations stemming from my lively imagination
-            </div>
+            </h3>
         </div>
         <a-row class="statistics container">
             <a-col class="item" :lg="8">
@@ -23,7 +23,7 @@
             </a-col>
         </a-row>
         <div class="list-wrapper container">
-            <div class="title">My Artworks</div>
+            <h4 class="title">My Artworks</h4>
             <a-tabs
                 v-model:activeKey="activeKey"
                 :destroyInactiveTabPane="true"
@@ -116,7 +116,9 @@
             .slogan {
                 margin-top: -68px;
                 font-size: 48px;
-                font-weight: 600;
+                font-family: Amiri, sans-serif;
+                font-weight: 700;
+                //font-weight: 600;
             }
         }
         .statistics {
@@ -154,8 +156,10 @@
                 padding: 30px 0;
                 text-align: center;
                 line-height: 1.2;
-                font-weight: 600;
-                font-size: 48px;
+                //font-weight: 600;
+                font-size: 36px;
+                font-family: Amiri, sans-serif;
+                font-weight: 700;
                 border-bottom: 1px solid #d0d4dc;
             }
             :deep(.ant-tabs-top > .ant-tabs-nav::before) {

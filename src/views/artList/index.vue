@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="artList container">
-            <div class="title">Explore collaborative artworks.</div>
+            <h3 class="title">Explore collaborative artworks.</h3>
             <div class="list-wrapper">
                 <div class="search-wrapper">
                     <a-row :gutter="12">
@@ -238,7 +238,8 @@
         .title {
             margin: 32px;
             text-align: center;
-            font-weight: 600;
+            font-family: Amiri, sans-serif;
+            font-weight: 700;
             font-size: 36px;
         }
         .search-desc {
