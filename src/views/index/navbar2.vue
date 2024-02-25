@@ -40,9 +40,6 @@
                         ></span>
                     </div>
                 </div>
-                <span class="nav-btn" @click="launchApp">
-                    Launch Application
-                </span>
             </div>
         </header>
 

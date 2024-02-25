@@ -24,7 +24,8 @@ import {
     BackTop,
     Tooltip,
     TabPane,
-    Tabs
+    Tabs,
+    Carousel
 } from 'ant-design-vue'
 
 import Notification from 'ant-design-vue/lib/notification'
@@ -58,4 +59,5 @@ app
     .use(Tooltip)
     .use(TabPane)
     .use(Tabs)
+    .use(Carousel)
     .mount('#app')

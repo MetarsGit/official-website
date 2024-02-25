@@ -11,7 +11,7 @@
         <partner />
 
         <home-footer />
-        <announcement />
+        <!-- <announcement /> -->
     </div>
 </template>
 
@@ -59,11 +59,19 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     .page-home {
         .section {
         }
         .title {
+            font-size: 60px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 30px;
+            }
         }
     }
 </style>

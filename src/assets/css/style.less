@@ -84,11 +84,48 @@
     }
 }
 @media (max-width: 576px) {
-     .card-item {
-         .desc {
-             .name {
-                 font-size: 14px;
-             }
-         }
-     }
+    .card-item {
+        .desc {
+            .name {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+.animate__animated {
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
+}
+.animate__animated.animate__delay {
+    animation-delay: 0.5s;
+}
+
+.animate__fadeInUp {
+    animation-name: fadeInUp;
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 100px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.animate__fadeInUpBig {
+    animation-name: fadeInUpBig;
+}
+@keyframes fadeInUpBig {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 2000px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
 }
