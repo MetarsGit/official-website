@@ -19,10 +19,10 @@ body {
  */
 .first-loading-wrp span {
     display: inline-block;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 1;
-    /* margin: 0 0.02em; */
+    letter-spacing: 4px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 32px;
+    font-weight: 800;
 }
 
 .first-loading-wrp span:nth-of-type(2)::after {

@@ -1,5 +1,5 @@
 <template>
-    <div class="section section-generate">
+    <div class="section section-generate" id="generative">
         <div class="container">
             <a-row align="middle" justify="space-between">
                 <a-col :lg="12" :md="12" :sm="24" :xs="24">
@@ -16,20 +16,16 @@
                             <a-carousel arrows class="carousel" :dots="false">
                                 <template #prevArrow>
                                     <div class="custom-slick-arrow left">
-                                        <!-- <img
-                            style="width: 100%"
-                            src="../../../assets/img/icon/left-circle.png"
-                            alt=""
-                        /> -->
+                                        <svg-icon
+                                            icon-class="long-arrow-left"
+                                        ></svg-icon>
                                     </div>
                                 </template>
                                 <template #nextArrow>
                                     <div class="custom-slick-arrow right">
-                                        <!-- <img
-                            style="width: 100%"
-                            src="../../../assets/img/icon/right-circle.png"
-                            alt=""
-                        /> -->
+                                        <svg-icon
+                                            icon-class="long-arrow-right"
+                                        ></svg-icon>
                                     </div>
                                 </template>
                                 <div
@@ -63,9 +59,10 @@
 
 <script>
     import Scroll from '@/components/common/Scroll.vue'
+    import SvgIcon from '@/components/common/SvgIcon/index.vue'
     import { generativeList } from '../const'
     export default {
-        components: { Scroll },
+        components: { Scroll, SvgIcon },
         data() {
             return {
                 generativeList
@@ -89,23 +86,24 @@
             .carousel {
                 margin-top: 18px;
                 .custom-slick-arrow {
-                    width: 31px;
-                    height: 21px;
+                    font-size: 30px;
                     top: auto;
                     bottom: -32px;
                     background-size: 100%;
                     transition: all 0.3s;
+                    color: #000;
+                    &::before {
+                        display: none;
+                    }
                 }
                 .left {
                     left: 0;
-                    background-image: url('../../../assets/img/index/ic-arrow-left.png');
                     &:hover {
                         transform: translateX(-10%);
                     }
                 }
                 .right {
                     left: 60px;
-                    background-image: url('../../../assets/img/index/ic-arrow-right.png');
                     &:hover {
                         transform: translateX(10%);
                     }
@@ -136,15 +134,16 @@
                 .carousel {
                     margin-top: 8px;
                     .custom-slick-arrow {
-                        width: 18px;
-                        height: 12px;
+                        font-size: 20px;
                         bottom: -20px;
                         left: 50%;
                     }
-                    .left {
+                    .left,
+                    .left:hover {
                         transform: translateX(-130%);
                     }
-                    .right {
+                    .right,
+                    .right:hover {
                         transform: translateX(30%);
                     }
                     .item {

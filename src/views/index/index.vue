@@ -17,7 +17,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import Navbar from './navbar2.vue'
+    import Navbar from './navbar3.vue'
     import HomeFooter from './footer.vue'
     import Announcement from './announcement.vue'
     import Home from './sections/home.vue'

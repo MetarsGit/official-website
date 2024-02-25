@@ -1,5 +1,5 @@
 <template>
-    <div class="section section-roadmap">
+    <div class="section section-roadmap" id="roadmap">
         <div class="container">
             <scroll inClass="animate__animated animate__fadeInUp">
                 <h3 class="title">Roadmap</h3>
@@ -104,7 +104,7 @@
 <style lang="less" scoped>
     .section-roadmap {
         padding: 120px 0 120px;
-        background: url('../../../assets/img/index/roadmap-bg.jpeg') center
+        background: url('../../../assets/img/index/roadmap-bg.png') center
             no-repeat;
         background-size: cover;
         .title {

@@ -59,7 +59,7 @@
         .list {
             display: grid;
             grid-gap: 42px 26px;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: repeat(5, 1fr);
             .logo-wrap {
                 background: #fff;
                 display: flex;
@@ -78,7 +78,7 @@
         @media (max-width: 992px) {
             padding-top: 72px;
             .list {
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: repeat(3, 1fr);
                 .logo {
                     max-width: 70%;
                     max-height: 70%;
@@ -87,7 +87,7 @@
         }
         @media (max-width: 764px) {
             .list {
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: repeat(3, 1fr);
                 grid-gap: 16px;
                 .logo-wrap {
                     height: 48px;

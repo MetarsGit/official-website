@@ -183,6 +183,7 @@
     }
     @media screen and (max-width: 768px) {
         .section-collective {
+            padding-bottom: 32px !important;
             .title {
                 margin-bottom: 14px;
             }

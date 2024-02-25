@@ -34,7 +34,7 @@
                 Math.random().toString().substr(2, 5)
         },
         mounted() {
-            const options = this.options || { threshold: 0.1 }
+            const options = this.options || { threshold: 0.3 }
             this.observer = new IntersectionObserver(([entry]) => {
                 if (entry && entry.isIntersecting) {
                     this.show = true

@@ -1,5 +1,5 @@
 <template>
-    <div class="section-home">
+    <div class="section-home" id="metars">
         <div class="container">
             <scroll inClass="animate__animated animate__fadeInUp">
                 <p class="p1">Unleash the power of</p>
@@ -20,8 +20,8 @@
             <scroll
                 inClass="animate__animated animate__fadeInUp animate__delay"
             >
-                <span class="btn-launch" @click="launchApp">
-                    Launch Application
+                <span class="btn-wrap" @click="launchApp">
+                    <span class="btn-launch">Launch Application</span>
                 </span>
             </scroll>
         </div>
@@ -47,8 +47,9 @@
     .section-home {
         display: flex;
         align-items: center;
-        height: calc(100vh - 80px);
-        max-height: 944px;
+        height: 100vh;
+        max-height: 1024px;
+        padding-top: 80px;
         background-color: #666;
         background-image: url('../../../assets/img/index/home-bg.png');
         background-position: center center;
@@ -75,7 +76,7 @@
             font-size: 18px;
             line-height: 2em;
         }
-        .btn-launch {
+        .btn-wrap {
             display: inline-block;
             margin-top: 48px;
             font-size: 20px;
@@ -83,15 +84,59 @@
             padding: 20px 84px;
             border: 1px solid #fff;
             cursor: pointer;
-            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            &::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 0;
+                background: rgba(255, 255, 255, 0.8);
+                transform-origin: center center;
+                transform: rotate(45deg);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .btn-launch {
+                position: relative;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                color: #fff;
+            }
+
             &:hover {
-                background: rgba(255, 255, 255, 0.05);
+                &::before {
+                    height: 350px;
+                    transform: translate(0, -50%) rotate(45deg);
+                }
+                .btn-launch {
+                    color: #000;
+                    font-weight: bold;
+                }
             }
         }
 
+        @media (max-width: 1440px) {
+            .p1 {
+                font-size: 56px;
+            }
+            .p2 {
+                font-size: 72px;
+            }
+            .p3 {
+                margin-top: 16px;
+                font-size: 16px;
+                line-height: 1.6em;
+            }
+            .btn-wrap {
+                font-size: 18px;
+                line-height: 1em;
+                padding: 16px 84px;
+            }
+        }
         @media (max-width: 768px) {
             height: auto;
-            padding: 56px 0;
+            padding: 96px 0 56px 0;
             .p1 {
                 font-size: 30px;
             }
@@ -103,7 +148,7 @@
                 font-size: 14px;
                 line-height: 1.5em;
             }
-            .btn-launch {
+            .btn-wrap {
                 margin-top: 32px;
                 font-size: 14px;
                 padding: 16px 36px;

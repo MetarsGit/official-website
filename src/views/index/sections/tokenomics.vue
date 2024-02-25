@@ -1,5 +1,5 @@
 <template>
-    <div class="section section-tokenomics">
+    <div class="section section-tokenomics" id="tokenomics">
         <div class="container">
             <scroll
                 inClass="animate__animated animate__fadeInUp animate__delay"
