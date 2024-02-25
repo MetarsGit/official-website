@@ -1,29 +1,37 @@
 <template>
-    <div class="comp-partner">
+    <div class="section section-partner">
         <div class="container">
-            <h3 class="title">Investors and Partners</h3>
-            <p class="desc">
-                United with our investors and partners, we're committed to
-                excellence, building powerful products and a robust community
-                through the evolution of AIGC.
-            </p>
-            <ul class="list">
-                <li v-for="item in partners" :key="item">
-                    <div class="logo-wrap">
-                        <img
-                            class="logo"
-                            :src="require('@/assets/img/partner/' + item)"
-                        />
-                    </div>
-                </li>
-            </ul>
+            <scroll inClass="animate__animated animate__fadeInUp">
+                <h3 class="title">Investors and Partners</h3>
+                <p class="secondary-title">
+                    United with our investors and partners, we're committed to
+                    excellence, building powerful products and a robust
+                    community through the evolution of AIGC.
+                </p>
+            </scroll>
+            <scroll
+                inClass="animate__animated animate__fadeInUp animate__delay"
+            >
+                <ul class="list">
+                    <li v-for="item in partners" :key="item" class="item">
+                        <div class="logo-wrap">
+                            <img
+                                class="logo"
+                                :src="require('@/assets/img/partner/' + item)"
+                            />
+                        </div>
+                    </li>
+                </ul>
+            </scroll>
         </div>
     </div>
 </template>
 
 <script>
     import { partners } from '../const'
+    import Scroll from '@/components/common/Scroll.vue'
     export default {
+        components: { Scroll },
         data() {
             return {
                 partners
@@ -33,21 +41,19 @@
 </script>
 
 <style lang="less" scoped>
-    .comp-partner {
-        padding-top: 67px;
-        padding-bottom: 97px;
+    .section-partner {
+        padding-top: 120px;
+        padding-bottom: 120px;
         background-position: center top;
         background-size: 100%;
         text-align: center;
         background-color: #ffffff;
         .title {
             margin-bottom: 20px;
-            font-size: 60px;
-            font-weight: 600;
         }
-        .desc {
+        .secondary-title {
             margin: 0 auto;
-            margin-bottom: 60px;
+            margin-bottom: 48px;
             width: 90%;
         }
         .list {
@@ -71,9 +77,6 @@
         }
         @media (max-width: 992px) {
             padding-top: 72px;
-            .title {
-                font-size: 48px;
-            }
             .list {
                 grid-template-columns: 1fr 1fr 1fr;
                 .logo {
@@ -84,7 +87,11 @@
         }
         @media (max-width: 764px) {
             .list {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-gap: 16px;
+                .logo-wrap {
+                    height: 48px;
+                }
                 .logo {
                     max-width: 80%;
                     max-height: 80%;

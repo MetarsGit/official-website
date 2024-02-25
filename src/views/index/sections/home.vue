@@ -56,6 +56,9 @@
         color: #fff;
         text-align: center;
         line-height: 1.2em;
+        h2 {
+            color: #ffffff;
+        }
         .p1 {
             font-size: 60px;
         }

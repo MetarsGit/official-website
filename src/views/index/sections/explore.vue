@@ -61,8 +61,8 @@
     @marginRight: 48px;
 
     .section-explore {
-        margin-top: 142px;
-        margin-bottom: 142px;
+        //margin-top: 142px;
+        //margin-bottom: 142px;
         .title {
             text-align: center;
         }
@@ -113,8 +113,8 @@
             @width: 150px;
             @height: 150px;
             @marginRight: 12px;
-            margin-top: 56px;
-            margin-bottom: 56px;
+            //margin-top: 56px;
+            //margin-bottom: 56px;
 
             .desc {
                 width: 100%;

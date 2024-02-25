@@ -31,7 +31,7 @@ export const tokenList = [
     {
         name: 'Marketing',
         value: '2%'
-    },
+    }
 ]
 
 export const roadmap = [
@@ -45,20 +45,26 @@ export const roadmap = [
     'Integrate with a marketplace where users can showcase and sell their NFTs to a wider audience, and where collectors can discover new works to collect.'
 ]
 
-
 export const partners = [
     'htx.png',
     'indodax.png',
     'edgeLab.png',
+    'ycg.png',
+    'h2o.png',
     'shredn.png',
+    'uv.png',
     'moonft.png',
+    'spacen.png',
+    'capital.png',
     'trustlab.png',
     'bonjour.png',
+    'kryptos.png',
     'blackhole.png',
     'bsl.png',
+    'acapital.png',
     'panda.png',
     'cryptominers.png',
-    'cryptospace.png',
+    'cryptospace.png'
 ]
 
 export const artList = [
@@ -123,6 +129,5 @@ export const generativeList = [
         of METARS generative AI, you have limitless
         possibilities and could discover innovative expression.
         Let’s try it out and see how it can transform your work!`
-    },
-
+    }
 ]

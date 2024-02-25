@@ -112,6 +112,7 @@
                     margin-right: 32px;
                     font-size: 16px;
                     color: @text-color;
+                    transition: all 0.3s;
                     &.active,
                     &:not(.active):hover {
                         text-shadow: 0 0 0.65px #111;
@@ -140,8 +141,12 @@
                     border: 1px solid #14171f;
                     border-radius: 50%;
                     margin-right: 36px;
+                    transition: all 0.3s;
                     &:last-child {
                         margin-right: 0;
+                    }
+                    &:hover {
+                        opacity: 0.6;
                     }
                     .img {
                         position: absolute;

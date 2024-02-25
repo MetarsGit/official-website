@@ -61,16 +61,35 @@
 
 <style lang="less">
     .page-home {
+        overflow: hidden;
         .section {
+            padding-top: 120px;
+            padding-bottom: 120px;
         }
         .title {
             font-size: 60px;
             font-weight: 600;
         }
+        .secondary-title {
+            font-size: 16px;
+        }
+        p.desc {
+            font-size: 16px;
+        }
 
         @media (max-width: 768px) {
+            .section {
+                padding-top: 48px;
+                padding-bottom: 48px;
+            }
             .title {
                 font-size: 30px;
+            }
+            .secondary-title {
+                font-size: 12px;
+            }
+            p.desc {
+                font-size: 12px;
             }
         }
     }

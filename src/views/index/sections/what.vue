@@ -74,9 +74,10 @@
 </script>
 
 <style lang="less" scoped>
-    .section-what {
+    .section.section-what {
         position: relative;
-        margin-top: 80px;
+        padding-top: 80px;
+        padding-bottom: 0;
         .bg {
             position: absolute;
             width: 100%;
@@ -117,7 +118,7 @@
             }
         }
         @media (max-width: 768px) {
-            margin-top: 32px;
+            padding-top: 32px;
             .bg {
                 position: absolute;
                 width: 100%;
