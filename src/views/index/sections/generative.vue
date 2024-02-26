@@ -91,7 +91,7 @@
                     bottom: -32px;
                     background-size: 100%;
                     transition: all 0.3s;
-                    color: #000;
+                    color: #cacaca;
                     &::before {
                         display: none;
                     }
@@ -100,12 +100,14 @@
                     left: 0;
                     &:hover {
                         transform: translateX(-10%);
+                        color: #000;
                     }
                 }
                 .right {
                     left: 60px;
                     &:hover {
                         transform: translateX(10%);
+                        color: #000;
                     }
                 }
                 .item {
@@ -122,7 +124,7 @@
         }
 
         @media (max-width: 768px) {
-            padding: 32px 0 48px 0;
+            padding: 32px 0 48px 0 !important;
             .img {
                 padding: 0 12px;
             }
@@ -135,7 +137,7 @@
                     margin-top: 8px;
                     .custom-slick-arrow {
                         font-size: 20px;
-                        bottom: -20px;
+                        bottom: -24px;
                         left: 50%;
                     }
                     .left,

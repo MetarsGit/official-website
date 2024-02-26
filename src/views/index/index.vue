@@ -11,7 +11,7 @@
         <partner />
 
         <home-footer />
-        <!-- <announcement /> -->
+        <announcement />
     </div>
 </template>
 
@@ -79,8 +79,8 @@
 
         @media (max-width: 768px) {
             .section {
-                padding-top: 48px;
-                padding-bottom: 48px;
+                padding-top: 24px;
+                padding-bottom: 24px;
             }
             .title {
                 font-size: 30px;

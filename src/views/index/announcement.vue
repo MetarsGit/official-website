@@ -10,7 +10,7 @@
                         @click="onHide"
                     />
                 </p>
-                <p class="title">
+                <h3 class="title">
                     <i class="icon"></i>
                     <img
                         src="../../assets/img/home/announce/ic-an.png"
@@ -18,7 +18,7 @@
                         @click="onHide"
                     />
                     <span class="text">Announcement</span>
-                </p>
+                </h3>
             </div>
             <div class="body">
                 The Metars platform is committed to complying with all relevant
@@ -120,8 +120,8 @@
 
             .body {
                 margin: 24px 32px;
-                font-size: 16px;
-                line-height: 26px;
+                font-size: 14px;
+                line-height: 1.6;
                 text-align: center;
             }
         }
@@ -154,7 +154,7 @@
                 }
                 .body {
                     margin: 8px 20px 20px;
-                    font-size: 14px;
+                    font-size: 12px;
                     line-height: 24px;
                 }
             }

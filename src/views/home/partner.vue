@@ -2,16 +2,16 @@
     <div class="comp-partner">
         <div class="container">
             <p class="title">Investment and partners</p>
-            <ul class="list">
-                <li class="item" v-for="item in partners" :key="item">
-                    <div class="logo-wrap">
-                        <img
-                            class="logo"
-                            :src="require('@/assets/img/partner/' + item)"
-                        />
-                    </div>
-                </li>
-            </ul>
+            <!--            <ul class="list">-->
+            <!--                <li class="item" v-for="item in partners" :key="item">-->
+            <!--                    <div class="logo-wrap">-->
+            <!--                        <img-->
+            <!--                            class="logo"-->
+            <!--                            :src="require('@/assets/img/partner/' + item)"-->
+            <!--                        />-->
+            <!--                    </div>-->
+            <!--                </li>-->
+            <!--            </ul>-->
         </div>
     </div>
 </template>

@@ -10,9 +10,7 @@
         </div>
         <div class="contact">
             <ul class="list-inline">
-                <li class="list-item" @click="scrollTarget('metars')">
-                    What is METARS
-                </li>
+                <li class="list-item" @click="scrollTarget('metars')">Home</li>
                 <li class="list-item" @click="scrollTarget('generative')">
                     Solutions
                 </li>

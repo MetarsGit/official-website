@@ -151,7 +151,8 @@
 
     .nav-list-wrap {
         display: flex;
-        gap: 16px;
+        gap: 48px;
+        font-family: Amiri;
         font-weight: 600;
     }
     .logo-wrap {
@@ -266,7 +267,7 @@
 
         .nav {
             &::before {
-                background: rgb(0, 0, 0);
+                background: rgba(0, 0, 0, 0.9);
                 transform: translateX(0%) translateY(0%);
                 border-radius: 0;
                 transition-delay: 0s;

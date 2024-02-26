@@ -84,7 +84,7 @@
         margin-top: 80px;
         padding-top: 0;
         padding-bottom: 0;
-        background: url(../../../assets/img/home/a2-word.png);
+        background-image: url(../../../assets/img/home/a2-word.png);
         background-size: 1200px 200px;
         background-position-x: 0;
         background-repeat: repeat-x;
@@ -120,12 +120,10 @@
             }
         }
         @media (max-width: 768px) {
-            margin-top: 32px;
+            margin-top: 16px;
             padding-top: 0;
-            background: url(../../../assets/img/index/what-bg-mobile.png);
+            background-image: url(../../../assets/img/index/what-bg-mobile.png);
             background-size: 355px 55px;
-            background-repeat: no-repeat;
-            animation: none;
             .title {
                 padding-top: 20px;
             }

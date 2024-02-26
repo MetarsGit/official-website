@@ -70,43 +70,43 @@
                             data: [
                                 {
                                     name: 'Backer Airdrop: 5%',
-                                    y: 41284,
+                                    y: 5,
                                     z: 120
                                 },
                                 {
                                     name: 'Creative rewards: 20%',
-                                    y: 505992,
-                                    z: 92
-                                },
-                                {
-                                    name: 'Ecosystem Fund: 20%',
-                                    y: 551695,
-                                    z: 119
+                                    y: 20,
+                                    z: 120
                                 },
                                 {
                                     name: 'AI Partnership Funding: 30%',
-                                    y: 312679,
-                                    z: 121
-                                },
-                                {
-                                    name: 'Marketing: 2%',
-                                    y: 78865,
-                                    z: 136
-                                },
-                                {
-                                    name: 'Foundation: 3%',
-                                    y: 301336,
-                                    z: 200
+                                    y: 30,
+                                    z: 140
                                 },
                                 {
                                     name: 'Community activity: 5%',
-                                    y: 41284,
-                                    z: 213
+                                    y: 5,
+                                    z: 128
+                                },
+                                {
+                                    name: 'Ecosystem Fund: 20%',
+                                    y: 20,
+                                    z: 180
+                                },
+                                {
+                                    name: 'Marketing: 2%',
+                                    y: 2,
+                                    z: 190
+                                },
+                                {
+                                    name: 'Foundation: 3%',
+                                    y: 3,
+                                    z: 200
                                 },
 
                                 {
                                     name: 'Team: 15%',
-                                    y: 357114,
+                                    y: 15,
                                     z: 235
                                 }
                             ],
@@ -241,11 +241,15 @@
     }
     @media screen and (max-width: 768px) {
         .section-tokenomics {
-            .highcharts-figure {
-                display: none;
+            .title {
+                margin-bottom: 12px;
             }
             .secondary-title {
-                margin-bottom: 48px;
+                margin-bottom: 24px;
+                width: 100%;
+            }
+            .highcharts-figure {
+                display: none;
             }
             .m-pie {
                 display: block;

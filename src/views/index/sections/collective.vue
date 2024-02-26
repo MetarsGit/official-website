@@ -74,7 +74,7 @@
                             </div>
                             <div class="slider-title">
                                 <img
-                                    src="@/assets/img/index/collective-icon2.png"
+                                    src="@/assets/img/index/collective-icon3.png"
                                     alt=""
                                 />
                                 <h5>Token-based Ecosystem</h5>
@@ -104,6 +104,8 @@
 <script>
     import SvgIcon from '@/components/common/SvgIcon/index.vue'
     import Scroll from '@/components/common/Scroll.vue'
+    import { mapGetters } from 'vuex'
+    let mySwiper = null
 
     export default {
         components: { Scroll, SvgIcon },
@@ -111,14 +113,29 @@
             return {}
         },
         mounted() {
-            new window.Swiper('.collective-swiper', {
+            const spaceBetween = this.device === 'mobile' ? 16 : 60
+            mySwiper = new window.Swiper('.collective-swiper', {
                 slidesPerView: 'auto',
-                spaceBetween: 60,
+                spaceBetween: spaceBetween,
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev'
                 }
             })
+        },
+        computed: {
+            ...mapGetters({
+                device: 'settings/device'
+            })
+        },
+        watch: {
+            device(newVal) {
+                if (newVal === 'mobile') {
+                    mySwiper.params.spaceBetween = 16
+                } else if (newVal === 'desktop') {
+                    mySwiper.params.spaceBetween = 60
+                }
+            }
         }
     }
 </script>
@@ -146,8 +163,6 @@
                     margin-right: 16px;
                     width: 62px;
                 }
-                h5 {
-                }
             }
         }
         .swiper-button {
@@ -163,8 +178,11 @@
                 display: inline-flex;
                 margin-top: 0;
                 font-size: 30px;
-                color: black;
+                color: #cacaca;
                 transition: all 0.3s;
+                &:hover {
+                    color: black;
+                }
                 &:after {
                     display: none;
                 }
@@ -183,12 +201,11 @@
     }
     @media screen and (max-width: 768px) {
         .section-collective {
-            padding-bottom: 32px !important;
             .title {
-                margin-bottom: 14px;
+                margin-bottom: 12px;
             }
             .collective-swiper-wrapper {
-                padding-bottom: 40px;
+                padding-bottom: 0;
             }
             .swiper-slide {
                 .slider-text {
@@ -205,6 +222,9 @@
                     }
                 }
             }
+            .swiper-button {
+                display: none;
+            }
         }
     }
     @media screen and (max-width: 576px) {
@@ -212,7 +232,7 @@
             padding-left: 15px;
             padding-right: 15px;
             .swiper-slide {
-                width: 100%;
+                width: 80%;
             }
             .collective-swiper,
             .collective-title {
@@ -223,7 +243,7 @@
     @media screen and (min-width: 576px) {
         .section-collective {
             .swiper-slide {
-                width: 100%;
+                width: 80%;
             }
             .collective-swiper,
             .collective-title {
@@ -234,7 +254,7 @@
     @media screen and (min-width: 768px) {
         .section-collective {
             .swiper-slide {
-                width: 95%;
+                width: 80%;
             }
             .collective-swiper,
             .collective-title {
@@ -245,7 +265,7 @@
     @media screen and (min-width: 992px) {
         .section-collective {
             .swiper-slide {
-                width: 90%;
+                width: 80%;
             }
             .collective-swiper,
             .collective-title {

@@ -97,6 +97,7 @@
                 // }
                 .list-item {
                     margin-right: @marginRight;
+                    cursor: pointer;
                     .item-img {
                         width: @width;
                         height: @height;

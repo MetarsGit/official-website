@@ -17,7 +17,7 @@
                         <div class="logo-wrap">
                             <img
                                 class="logo"
-                                :src="require('@/assets/img/partner/' + item)"
+                                :src="require('@/assets/img/partners/' + item)"
                             />
                         </div>
                     </li>
@@ -61,40 +61,92 @@
             grid-gap: 42px 26px;
             grid-template-columns: repeat(5, 1fr);
             .logo-wrap {
-                background: #fff;
+                position: relative;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 height: 108px;
+                background: #fff;
                 border: 1px solid #000000;
+                .logo {
+                    position: absolute;
+                    transform: scale(0.5);
+                    transition: 0.38s ease-in-out;
+                }
+                &:hover {
+                    .logo {
+                        transform: scale(0.55);
+                    }
+                }
             }
-            .logo {
-                display: inline-block;
-                max-width: 70%;
-                max-height: 60%;
-                object-fit: contain;
+        }
+        @media (max-width: 1280px) {
+            .list {
+                .logo-wrap {
+                    .logo {
+                        transform: scale(0.4);
+                    }
+                    &:hover {
+                        .logo {
+                            transform: scale(0.45);
+                        }
+                    }
+                }
             }
         }
         @media (max-width: 992px) {
             padding-top: 72px;
             .list {
                 grid-template-columns: repeat(3, 1fr);
-                .logo {
-                    max-width: 70%;
-                    max-height: 70%;
+                .logo-wrap {
+                    .logo {
+                        transform: scale(0.45);
+                    }
+                    &:hover {
+                        .logo {
+                            transform: scale(0.5);
+                        }
+                    }
                 }
             }
         }
         @media (max-width: 764px) {
+            .title {
+                margin-bottom: 12px;
+            }
+            .secondary-title {
+                margin-bottom: 24px;
+                width: 100%;
+            }
             .list {
                 grid-template-columns: repeat(3, 1fr);
                 grid-gap: 16px;
                 .logo-wrap {
-                    height: 48px;
+                    .logo {
+                        transform: scale(0.4);
+                    }
+                    &:hover {
+                        .logo {
+                            transform: scale(0.45);
+                        }
+                    }
                 }
-                .logo {
-                    max-width: 80%;
-                    max-height: 80%;
+            }
+        }
+        @media (max-width: 576px) {
+            .list {
+                grid-template-columns: repeat(3, 1fr);
+                grid-gap: 16px;
+                .logo-wrap {
+                    height: 46px;
+                    .logo {
+                        transform: scale(0.26);
+                    }
+                    &:hover {
+                        .logo {
+                            transform: scale(0.28);
+                        }
+                    }
                 }
             }
         }

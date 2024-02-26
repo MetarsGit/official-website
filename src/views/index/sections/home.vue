@@ -20,9 +20,13 @@
             <scroll
                 inClass="animate__animated animate__fadeInUp animate__delay"
             >
-                <span class="btn-wrap" @click="launchApp">
+                <div class="btn-wrap" @click="launchApp">
+                    <i class="line"></i>
+                    <i class="line line-long line-right"></i>
                     <span class="btn-launch">Launch Application</span>
-                </span>
+                    <i class="line line-bottom line-long"></i>
+                    <i class="line line-bottom line-right"></i>
+                </div>
             </scroll>
         </div>
     </div>
@@ -50,7 +54,7 @@
         height: 100vh;
         max-height: 1024px;
         padding-top: 80px;
-        background-color: #666;
+        background-color: #171c1c;
         background-image: url('../../../assets/img/index/home-bg.png');
         background-position: center center;
         background-size: cover;
@@ -81,37 +85,43 @@
             margin-top: 48px;
             font-size: 20px;
             line-height: 1em;
-            padding: 20px 84px;
-            border: 1px solid #fff;
+            padding: 20px 60px;
+            border-left: 1px solid #fff;
+            border-right: 1px solid #fff;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            &::before {
-                content: '';
+            color: #fff;
+            font-family: Amiri, Times, serif;
+            letter-spacing: 1px;
+            .line {
                 position: absolute;
-                top: 50%;
+                top: 0;
                 left: 0;
-                width: 100%;
-                height: 0;
-                background: rgba(255, 255, 255, 0.8);
-                transform-origin: center center;
-                transform: rotate(45deg);
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            .btn-launch {
-                position: relative;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                color: #fff;
+                height: 1px;
+                background: #fff;
+                width: 5%;
+                transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+                &-long {
+                    width: 85%;
+                }
+                &-right {
+                    left: auto;
+                    right: 0;
+                }
+                &-bottom {
+                    top: auto;
+                    bottom: 0;
+                }
             }
 
             &:hover {
-                &::before {
-                    height: 350px;
-                    transform: translate(0, -50%) rotate(45deg);
-                }
-                .btn-launch {
-                    color: #000;
-                    font-weight: bold;
+                .line {
+                    width: 20%;
+                    &-long {
+                        width: 85%;
+                    }
                 }
             }
         }
@@ -131,7 +141,7 @@
             .btn-wrap {
                 font-size: 18px;
                 line-height: 1em;
-                padding: 16px 84px;
+                padding: 18px 56px;
             }
         }
         @media (max-width: 768px) {

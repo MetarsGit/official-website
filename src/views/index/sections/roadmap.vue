@@ -77,8 +77,8 @@
                         <div class="roadmap-item">
                             <span>Phase8:</span>
                             <p class="desc">
-                                Phase 8:Integrate with a marketplace where users
-                                can showcase and sell their NFTs to a wider
+                                Integrate with a marketplace where users can
+                                showcase and sell their NFTs to a wider
                                 audience, and where collectors can discover new
                                 works to collect. (2025 Q2)
                             </p>
@@ -112,7 +112,6 @@
         }
         .secondary-title {
             margin-bottom: 48px;
-            //font-size: 20px;
         }
         .roadmap-wrapper {
             display: grid;
@@ -136,16 +135,22 @@
     }
     @media (max-width: 764px) {
         .section-roadmap {
+            .title {
+                margin-bottom: 12px;
+            }
             .secondary-title {
-                margin-bottom: 20px;
+                margin-bottom: 12px;
             }
             .roadmap-wrapper {
                 grid-template-columns: 1fr;
-                grid-gap: 20px;
+                grid-gap: 12px;
                 .roadmap-wrap {
-                    grid-gap: 20px;
+                    grid-gap: 12px;
                     .roadmap-item {
                         flex-direction: column;
+                        > span {
+                            font-size: 16px;
+                        }
                     }
                 }
             }
