@@ -9,6 +9,7 @@
                     alt="metars"
                 />
             </a>
+            <!--web端-->
             <ul class="nav-list-wrap">
                 <li
                     v-for="item in navList"
@@ -34,6 +35,7 @@
             </div>
         </header>
 
+        <!--移动端-->
         <div class="nav">
             <div class="nav__content">
                 <ul class="nav__list">
@@ -242,7 +244,6 @@
             font-size: 16px;
             line-height: 2.4;
             transition: opacity 0.2s ease;
-
             .link {
                 color: rgba(255, 255, 255, 0.8);
                 font-weight: 500;

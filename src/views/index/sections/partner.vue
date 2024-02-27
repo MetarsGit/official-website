@@ -1,5 +1,5 @@
 <template>
-    <div class="section section-partner">
+    <div class="section section-partner" id="partners">
         <div class="container">
             <scroll inClass="animate__animated animate__fadeInUp">
                 <h3 class="title">Investors and Partners</h3>
@@ -75,7 +75,7 @@
                 }
                 &:hover {
                     .logo {
-                        transform: scale(0.55);
+                        transform: scale(0.56);
                     }
                 }
             }

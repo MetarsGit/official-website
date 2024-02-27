@@ -18,7 +18,7 @@
                 <figure class="highcharts-figure">
                     <div id="container"></div>
                 </figure>
-                <img src="@/assets/img/index/pie.png" alt="" class="m-pie" />
+                <img src="@/assets/img/index/chart.png" alt="" class="m-pie" />
             </scroll>
         </div>
     </div>
@@ -39,7 +39,8 @@
             initChart() {
                 window.Highcharts.chart('container', {
                     chart: {
-                        type: 'variablepie'
+                        type: 'variablepie',
+                        marginBottom: 0
                     },
                     title: { text: '' },
                     exporting: {
@@ -231,6 +232,7 @@
         }
         .highcharts-figure {
             display: block;
+            margin-bottom: 0;
             #container {
                 height: 500px;
             }
@@ -241,6 +243,8 @@
     }
     @media screen and (max-width: 768px) {
         .section-tokenomics {
+            padding-top: 24px !important;
+            background: linear-gradient(to bottom, #f4f4f4 0%, #ffffff 30%);
             .title {
                 margin-bottom: 12px;
             }

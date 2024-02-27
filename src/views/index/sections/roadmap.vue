@@ -14,73 +14,70 @@
                 <div class="roadmap-wrapper">
                     <div class="roadmap-wrap">
                         <div class="roadmap-item">
-                            <span>Phase1:</span>
+                            <span>2023 Q1</span>
                             <p class="desc">
                                 Launch Metars platform, igniting a new era of
                                 creation! Artist and AI unite on this AIGC
                                 platform, weaving imagination into reality.
-                                (Completed)
                             </p>
                         </div>
                         <div class="roadmap-item">
-                            <span>Phase2:</span>
+                            <span>2023 Q3</span>
                             <p class="desc">
                                 Expand themes from contemporary art and
                                 religious to popular art. Evolve art from the
                                 abstract to life in the pulse of everyday.
-                                (Completed)
                             </p>
                         </div>
                         <div class="roadmap-item">
-                            <span>Phase3:</span>
+                            <span>2023 Q4</span>
                             <p class="desc">
                                 Token Generation Event launch. The Token MRS
                                 list on multiple CEX. Be prepare to expose your
-                                creation to a global audience. (Completed)
+                                creation to a global audience.
                             </p>
                         </div>
                         <div class="roadmap-item">
-                            <span>Phase4:</span>
+                            <span>2024 Q2</span>
                             <p class="desc">
                                 Offer customizable templates for users to create
                                 their NFTs, allowing users to easily create
                                 unique and personalized works of digital art.
-                                (2024 Q2)
                             </p>
                         </div>
                     </div>
                     <div class="roadmap-wrap">
                         <div class="roadmap-item">
-                            <span>Phase5:</span>
+                            <span>2024 Q3</span>
                             <p class="desc">
                                 Integrating the platform with popular social
                                 media platforms to enable users to easily share
-                                their NFTs with their followers. (2024 Q3)
+                                their NFTs with their followers.
                             </p>
                         </div>
                         <div class="roadmap-item">
-                            <span>Phase6:</span>
+                            <span>2025 Q1</span>
                             <p class="desc">
                                 Expanding to more blockchains, such as opBNB or
                                 Ethereum to make it easier for users to manage
-                                and trade their NFTs. (2025 Q1)
+                                and trade their NFTs.
                             </p>
                         </div>
                         <div class="roadmap-item">
-                            <span>Phase7:</span>
+                            <span>2025 Q1</span>
                             <p class="desc">
                                 Expanding to more blockchains, such as opBNB or
                                 Ethereum to make it easier for users to manage
-                                and trade their NFTs. (2025 Q1)
+                                and trade their NFTs.
                             </p>
                         </div>
                         <div class="roadmap-item">
-                            <span>Phase8:</span>
+                            <span>2025 Q2</span>
                             <p class="desc">
                                 Integrate with a marketplace where users can
                                 showcase and sell their NFTs to a wider
                                 audience, and where collectors can discover new
-                                works to collect. (2025 Q2)
+                                works to collect.
                             </p>
                         </div>
                     </div>

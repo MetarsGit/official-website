@@ -15,12 +15,13 @@
                         >
                             <div class="slider-text">
                                 <p class="desc">
-                                    Collaborating on virtual art at METARS
-                                    brings people together, fosters growth, and
-                                    creates a sense of community. Join forces
-                                    with others to bring your unique ideas to
-                                    life and see the amazing things you can
-                                    achieve together.
+                                    Embrace the transformative power of
+                                    collaborative virtual art at METARS. Unite
+                                    with like-minded individuals to ignite
+                                    creativity, foster growth, and create a
+                                    sense of community. Join forces with others
+                                    and see the amazing things you can achieve
+                                    together.
                                 </p>
                             </div>
                             <div class="slider-title">

@@ -92,8 +92,7 @@ const vueConfig = {
         proxy: {
             //配置权限代理
             '/api': {
-                // target: 'https://dev.titandao.io/',
-                target: 'https://test1.a1pha.win/',
+                target: 'https://test.metars.io/',
                 changeOrigin: true,
                 headers: {
                     Connection: 'keep-alive'

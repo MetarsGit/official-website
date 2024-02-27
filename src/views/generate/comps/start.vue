@@ -7,7 +7,7 @@
                 </a-col>
                 <a-col :lg="12">
                     <div class="detail">
-                        <p class="title">GM</p>
+                        <h3 class="title">GM</h3>
                         <div class="desc">
                             Welcome to METARS, the NFT creation platform that
                             makes it easy for you to create and share your
@@ -99,25 +99,22 @@
             max-width: 480px;
             height: auto;
             border-radius: 16px;
-            margin-right: 130px;
         }
         .detail {
             color: #14171f;
             .title {
-                font-size: 48px;
-                line-height: 50px;
-                margin-bottom: 28px;
+                margin-bottom: 16px;
             }
             .desc {
-                font-size: 20px;
-                line-height: 32px;
+                font-size: 16px;
+                line-height: 1.8;
             }
             .btn-start {
                 float: right;
                 width: 200px;
                 height: 56px;
                 line-height: 56px;
-                margin-top: 58px;
+                margin-top: 32px;
                 font-size: 16px;
                 font-weight: 600;
                 background: #14171f;
@@ -144,7 +141,7 @@
                     margin-bottom: 8px;
                 }
                 .desc {
-                    font-size: 16px;
+                    font-size: 14px;
                 }
                 .btn-start {
                     margin-top: 16px;

@@ -92,7 +92,7 @@
     .footer {
         display: flex;
         justify-content: space-between;
-        padding: 60px 50px;
+        padding: 60px 50px 120px;
         color: #ffffff;
         background: #000000;
         .nav {
@@ -162,7 +162,7 @@
     }
     @media (max-width: 992px) {
         .footer {
-            padding: 28px 40px 80px;
+            padding: 28px 40px 100px;
             .nav {
                 gap: 30px;
                 .logo {
